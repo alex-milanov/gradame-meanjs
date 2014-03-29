@@ -16,9 +16,10 @@
  - strategies/
 - public/ 
  - css/
+ - img/
  - js/
-   - controllers/
-   - services/
+    - controllers/
+    - services/
  - lib/
  - views/
 
