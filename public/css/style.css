@@ -1,0 +1,43 @@
+body {
+  font-family: "Roboto", "Verdana", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #fcfbf9 url("../img/bg.png") no-repeat bottom left fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 70px;
+}
+
+.navbar {
+	background: #FAF9F7;
+}
+
+.navbar-brand img {
+	width: 80px;
+	vertical-align: top;
+}
+
+a {
+  cursor: pointer;
+}
+
+a.avatar {
+  padding-top: 10px!important;
+  padding-bottom: 5px!important;
+}
+
+.avatar img {
+  width: 32px;
+}
+
+footer {
+	text-align: center;
+	padding: 50px 0px 30px 0px;
+}
+
+.angular-google-map-container { 
+  height: 400px;
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+}

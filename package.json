@@ -1,0 +1,22 @@
+{
+  "name": "grada.me",
+  "version": "0.0.1",
+  "description": "Real-life bug tracker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "latest",
+    "consolidate": "latest",
+    "swig": "latest",
+    "mongoose": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "passport-local-mongoose": "latest",
+    "jwt-simple": "latest",
+    "lodash": "latest",
+    "crypto": "latest"
+  },
+  "author": ""
+}

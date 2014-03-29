@@ -1,0 +1,15 @@
+{
+	"name": "grada.me",
+	"version": "0.0.1",
+	"dependencies": {
+		"bootstrap": "latest",
+		"font-awesome": "latest",
+		"jquery": "latest",
+		"angular": "latest",
+		"angular-ui-router" : "latest",
+		"angular-resource": "latest",
+		"angular-google-maps": "latest",
+		"lodash": "latest",
+		"q" : "~1.x"
+	}
+}
