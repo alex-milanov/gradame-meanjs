@@ -18,24 +18,22 @@
 </div>
 <br/>
 <div>
-    <div style="width: 30%; float: left; height: 500px; overflow: scroll">
+    <div style="width: 30%; float: left;">
 
-        {{ signals.length }} резултатa:
+        {{ signals.length }} резултата:
         <ul>
-                 <li data-ng-repeat="signal in signals">
-                    <img src="{{ signal.image }}" width="50" height="50" style="float: left; padding-right: 10px">
-                    <b>{{ signal.title }}</b>
-                    <br/>
-                    тип: {{ signal.type }}
-                    <br/>
-                    адрес: {{ signal.address }}
-                    <br/>
+             <li data-ng-repeat="signal in signals">
+                <img ng-show="signal.images[0]" src="/img/signals/{{ signal._id + '/' + signal.images[0] }}" width="50" height="50" style="float: left; padding-right: 10px">
+                <b>{{ signal.type }}</b>
+                <br/>
+                адрес: {{ signal.address }}
+                <br/>
 
-                    {{ signal.date_created }} сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
-                    status:     {{ signal.status }}
-                    <br/>
-                    <a href="{{ signal._id }}">повече</a>
-                </li>
+                {{ signal.date_created }} сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
+                status:     {{ signal.status }}
+                <br/>
+                <a href="{{ signal._id }}">повече</a>
+            </li>
             
         </ul>
     </div>
@@ -45,7 +43,7 @@
         options="map.options"
         pan="true"
         control="map.control"
-        style="width: 70%; float: right; background: #eee; height: 500px" id="map"
+        style="width: 70%; float: right;" id="map"
     ></google-map><br>
 
 

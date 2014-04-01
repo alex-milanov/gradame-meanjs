@@ -4,13 +4,21 @@
  
   <form ng-submit="save()">
     <p ng-show="error" class="text-danger">{{ error }}</p>
-	<input type="text" ng-model="signal.title" placeholder="Заглавие" class="form-control"><br>
-    <select ng-model="signal.type" class="form-control">
+    <textarea ng-model="signal.description" placeholder="Описание" class="form-control"></textarea><br>
+    
+	<select ng-model="signal.type" class="form-control">
     	<option value="">Избери Тип</option>
     	<option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
     </select><br>
-    <textarea ng-model="signal.description" placeholder="Описание" class="form-control"></textarea><br>
+
+	<input type="file" ng-model="signal.images" multiple  class="form-control"><br>
+    <ul>
+        <li ng-repeat="file in signal.images">{{file.name}}</li>
+    </ul>
+
     
+	<input type="text" ng-model="signal.address" placeholder="Адрес" class="form-control"><br>
+	
     <google-map 
     	center="map.center" 
     	zoom="map.zoom" 

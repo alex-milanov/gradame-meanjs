@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
  */
 var SignalSchema = new Schema({
 	type: String,
-    title: { type: String, default: '', trim: true },
+    //title: { type: String, default: '', trim: true },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     authorName: String,
     description: String,
@@ -26,9 +26,10 @@ var SignalSchema = new Schema({
 /**
  * Validations
  */
-SignalSchema.path('title').validate(function(title) {
+/* SignalSchema.path('title').validate(function(title) {
 	return title.length;
-}, 'Title cannot be blank');
+}, 'Title cannot be blank');*/
+
 
 /**
  * Statics

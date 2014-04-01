@@ -1,20 +1,12 @@
 'use strict';
 
-app.provider('Signal', function(){
-	this.$get = ['$resource', function($resource){
-		var Signal = $resource('/api/signals/:_id',{},{
-			update: {
-				method: 'PUT'
-			}
-		});
-		return Signal;
-	}];
-});
 
-app.controller('SignalsCtrl', function ($scope, $location, Signal) {
+app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 
+	
 	$scope.signal = new Signal();
 	$scope.signals = [];
+
 
 	$scope.signalTypes = [
 		"Улична дупка",
@@ -77,11 +69,15 @@ app.controller('SignalsCtrl', function ($scope, $location, Signal) {
 	
 	$scope.save = function(){
 		if($scope.signal._id){
-			Signal.update({_id:$scope.signal._id}, $scope.signal).$promise.then($scope.load)
+			Signal.update({_id:$scope.signal._id}, $scope.signal).$promise.then(function(){$location.path('signals');})
 			//$scope.signal.$save().then($scope.load);
 		} else {
 			var signal = $scope.signal;
-			$scope.signal.$save().then($scope.load);
+			Signal.post(signal).$promise.then(function(){
+				$location.path('signals');
+			});
+			
+
 		}
 		$scope.signal = new Signal();	
 	}

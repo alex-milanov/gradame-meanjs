@@ -1,8 +1,10 @@
 var app = angular.module('gradame', [
   'ui.router', 
   //'ui.router.compat',
+  'ur.file',
   'google-maps',
-  'ngResource']);
+  'ngResource'
+  ]);
   
   
 app.config(['$stateProvider', '$urlRouterProvider', 

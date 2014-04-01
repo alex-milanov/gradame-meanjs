@@ -27,6 +27,14 @@ a.avatar {
   padding-bottom: 5px!important;
 }
 
+ul {
+  padding: 0px;
+}
+
+ul > li {
+  list-style: none;
+}
+
 .avatar img {
   width: 32px;
 }

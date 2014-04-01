@@ -16,6 +16,7 @@
     "passport-local-mongoose": "latest",
     "jwt-simple": "latest",
     "lodash": "latest",
+    "q": "latest",
     "crypto": "latest"
   },
   "author": ""
