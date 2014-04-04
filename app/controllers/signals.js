@@ -41,6 +41,10 @@ exports.create = function(req, res) {
 
 				var signalPath = path.join(__dirname , "/../../public/img/signals/", signal['_id']+'');
 				var images = [];
+				if(!fs.existsSync(path.join(__dirname , "/../../public/img/signals"))){
+					fs.mkdirSync(path.join(__dirname , "/../../public/img/signals"));
+				}
+
 				if(!fs.existsSync(signalPath) || !fs.statSync(signalPath).isDirectory()){
 					fs.mkdirSync(signalPath);
 				}
