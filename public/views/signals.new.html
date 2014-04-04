@@ -2,7 +2,7 @@
  
   <h2>Подай сигнал</h2>
  
-  <form ng-submit="save()">
+  <form>
     <p ng-show="error" class="text-danger">{{ error }}</p>
     <textarea ng-model="signal.description" placeholder="Описание" class="form-control"></textarea><br>
     
@@ -17,18 +17,20 @@
     </ul>
 
     
-	<input type="text" ng-model="signal.address" placeholder="Адрес" class="form-control"><br>
-	
+	<input type="text" ng-model="signal.address" placeholder="Адрес" class="form-control" id="autocomplete"><br>
+	<p>{{ signal.location }}</p>
+
     <google-map 
     	center="map.center" 
     	zoom="map.zoom" 
         options="map.options"
+        draggable="true"
         pan="true"
         control="map.control"
     ></google-map><br>
 
 
-    <input type="submit" value="Сигнализирай" class="btn btn-default" />
+    <input type="button" ng-click="save()" value="Сигнализирай" class="btn btn-default" />
 	
   </form>
  

@@ -12,59 +12,21 @@ var mongoose = require('mongoose'),
 	utilities = require('../../config/utilities.js');
 
 
-function qListTree(_path, _levels, _toArray){
-    if(!_levels)
-            _levels = 1;
-    if(!_toArray)
-            _toArray = false;
-    
-    var tree;
-
-    tree = (_toArray) ? [] : {};
-
-    return Q.nfcall(fs.readdir,_path)
-            .then(function(files){
-                    var the_promises = [];
-
-                files.forEach(function(file) {
-
-                    var filePromise = Q.nfcall(fs.stat,path.join(_path,file))
-                            .then(function(stats){
-                                    if(stats.isDirectory() && _levels > 1){
-                                        return qListTree(path.join(_path,file), _levels-1).then(function(subTree){
-                                            if(_toArray){
-                                            	tree.push({
-                                            		name : file,
-                                            		list : subTree
-                                            	});
-                                            } else {
-                                            	tree[file] = subTree;
-                                            }
-                                        })
-                                    } else {
-                                    	if(_toArray){
-                                    		tree.push(file);
-                                        } else {
-                                    		tree[file] = file;
-                                    	}
-                                    }
-                            });
-                    
-                    the_promises.push(filePromise);
-                });
-
-                return Q.all(the_promises);
-            }).then(function(){
-                    return tree;
-            });
-}
-
 /**
  * Create a signal
  */
 // TODO: Implement Promises
 exports.create = function(req, res) {
+
+	var location = req.body.location;
+
+	if(location && location.length){
+		location = location.substr(1,location.length-2);
+		req.body.location = location.split(', ');
+	}
+
 	var signal = new Signal(req.body);
+	console.log(req.body);
 	
 	signal.save(function(err) {
 		if (err) {
@@ -78,6 +40,7 @@ exports.create = function(req, res) {
 			if(req.files){
 
 				var signalPath = path.join(__dirname , "/../../public/img/signals/", signal['_id']+'');
+				var images = [];
 				if(!fs.existsSync(signalPath) || !fs.statSync(signalPath).isDirectory()){
 					fs.mkdirSync(signalPath);
 				}
@@ -87,14 +50,27 @@ exports.create = function(req, res) {
 					var file = req.files[i];
 					var ext = file.name.substr(file.name.lastIndexOf('.'));
 					var newPath = signalPath+'/'+index+ext;
+					images.push(''+index+ext);
 					var fileData = fs.readFileSync(file.path);
 					fs.writeFileSync(newPath, fileData);
 					index++;
 				}
+
+				signal.images = images;
+
+				signal.save(function(){
+					if (err) {
+						res.jsonp({
+							errors: err.errors,
+							signal: signal
+						});
+					} else {
+						res.jsonp(signal);
+					}
+				});
+			} else {
+				res.jsonp(signal);
 			}
-
-
-			res.jsonp(signal);
 		}
 	});
 };
@@ -152,6 +128,9 @@ exports.list = function(req, res) {
 				status: 500
 			});
 		} else {
+
+			res.jsonp(signals);
+			/*
 			var signalPath = path.join(__dirname , "/../../public/img/signals/")
 				
 			var the_promises = [];
@@ -187,8 +166,9 @@ exports.list = function(req, res) {
 			}
 
 			Q.all(the_promises).then(function(newSignals){
-				res.jsonp(newSignals);
+				
 			})
+			*/
 
 		}
 	});

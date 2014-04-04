@@ -18,10 +18,12 @@ var SignalSchema = new Schema({
     location: { type: [Number], index: '2dsphere' },
     address: String,
     status: String,
-
+    images: { type: [String] },
 	date_created: { type: Date, default: Date.now }
 	
 });
+
+
 
 /**
  * Validations

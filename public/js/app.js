@@ -41,7 +41,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
 			.state('signals-new', {
 				url : '/signals/new',
 				templateUrl: '/views/signals.new.html',
-				controller: 'SignalsCtrl'
+				controller: 'SignalsNewCtrl'
 			})
 			.state("otherwise", { url : '/'});
 		

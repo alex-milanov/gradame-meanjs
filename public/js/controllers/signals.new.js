@@ -1,12 +1,10 @@
 'use strict';
 
 
-app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
+app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
 
+	$scope.signal = new Signal();
 	
-	//$scope.signal = new Signal();
-	$scope.signals = [];
-
 
 	$scope.signalTypes = [
 		"Улична дупка",
@@ -16,11 +14,9 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		"Вандализъм"
 	];
 
-
 	var autocomplete;
 	var map;
 	var marker;
-	var sigMarkers = [];
 
 	function updatePosition(position){
 		map.setCenter(position);
@@ -29,9 +25,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		marker.setAnimation(google.maps.Animation.DROP);
 
 		//$scope.signal.location = [position.A,position.k];
-		
-
-		displaySignals($scope.signals);
+		$scope.signal.location = position.toString();
 
 		/*
 		$scope.signal.location = {
@@ -41,37 +35,14 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		*/
 	}
 
-	function displaySignals(list){
-		for (var i = 0; i < sigMarkers.length; i++) {
-			sigMarkers[i].setMap(null);
-		}
-		sigMarkers = [];
-		for(var i in list){
-			if(list[i].location){
-				var markerOptions = {
-				    position: new google.maps.LatLng(list[i].location[0], list[i].location[1]),
-				    map: map,
-				    icon: new google.maps.MarkerImage("/img/markers/sign.png"),
-					animation: google.maps.Animation.DROP
-				};
+	navigator.geolocation.getCurrentPosition(function(position){
 
-				console.log(list[i].location);
-
-				var sigMarker = new google.maps.Marker(markerOptions);
-				sigMarker.setMap(map);
-				sigMarkers.push(sigMarker);
-			}
-		}
-	}
-    
-    navigator.geolocation.getCurrentPosition(function(position){ 	
-
-    	map = $scope.map.control.getGMap();
+		map = $scope.map.control.getGMap();
 
 		var markerOptions = {
 		    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
 		    map: map,
-			icon: new google.maps.MarkerImage("/img/markers/pin.png"),
+		    icon: new google.maps.MarkerImage("/img/markers/pin.png"),
 			animation: google.maps.Animation.DROP
 		};
 
@@ -80,7 +51,6 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 
 
 		updatePosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-
 
 		var acOptions = {
 		  types: ['geocode']
@@ -102,6 +72,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		  //marker.setPosition(place.geometry.location);
 		  
 		});
+
     });
 		
 
@@ -123,23 +94,27 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 
 
 
-	// api
-	$scope.load = function(){
-		 Signal.query().$promise.then(function(signals){
-			console.log(signals);
-			for(var i in signals){
-				var signal = signals[i];
-				
-				// modifiers here
 
-				signals[i] = signal;
-			}
+	$scope.save = function(){
+		if($scope.signal._id){
+			Signal.update({_id:$scope.signal._id}, $scope.signal).$promise.then(function(){$location.path('signals');})
+			//$scope.signal.$save().then($scope.load);
+		} else {
+			var signal = $scope.signal;
+			Signal.post(signal).$promise.then(function(){
+				//$location.path('signals');
+			});
 			
-			$scope.signals = signals;
-		});
-		
+
+		}
+		//$scope.signal = new Signal();	
 	}
-	$scope.load();
+	
+	$scope.reset = function(){	
+		$scope.signal = new Signal();
+	}
+	
+	
 	
 
 });

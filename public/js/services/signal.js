@@ -21,9 +21,11 @@ app.provider('Signal', function(){
 	                		formData.append(i, data[i]);
 	                }
 
-	                for(var i = 0; i < images.length; i++){
-	                	formData.append('image_'+i, images[i]);
-	                }
+	                if(images && images.length){
+			            for(var i = 0; i < images.length; i++){
+			            	formData.append('image_'+i, images[i]);
+			            }
+		        	}
 					
 					return formData;
 	            }

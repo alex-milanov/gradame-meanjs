@@ -4,12 +4,12 @@
 <div class="row">
     <form action="" class="form-inline" role="form">
     <div class="col-xs-6">
-        <input type="text" placeholder="Намери подадени сигнали по адрес" size="40" class="form-control input-sm"/> 
+        <input type="text" placeholder="Намери подадени сигнали по адрес" size="40" class="form-control input-sm" id="autocomplete"/> 
         <button class="btn btn-default btn-sm ">Покажи</button>
     </div>
     <div class="col-xs-6">
         <label>Филтрирай по:</label>
-        <select ng-model="signal.type" class="form-control input-sm">
+        <select class="form-control input-sm">
             <option value=""> Тип</option>
             <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
         </select><br>
@@ -41,10 +41,14 @@
         center="map.center" 
         zoom="map.zoom" 
         options="map.options"
+        draggable="true"
         pan="true"
         control="map.control"
-        style="width: 70%; float: right;" id="map"
-    ></google-map><br>
+        style="width: 70%; float: right;"
+    ></google-map>
+    <marker coords='map.center'>
+    </marker>
+    <br>
 
 
 </div>
