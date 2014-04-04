@@ -102,7 +102,7 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
 		} else {
 			var signal = $scope.signal;
 			Signal.post(signal).$promise.then(function(){
-				//$location.path('signals');
+				$location.path('signals');
 			});
 			
 
