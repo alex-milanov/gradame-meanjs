@@ -126,10 +126,32 @@ exports.delete = function(req, res) {
  * List of Signals
  */
 exports.list = function(req, res) {
-	Signal.find().sort('-created').populate('user', 'displayName').exec(function(err, signals) {
+
+	var queryJson = {};
+
+	if(req.query){
+		if(req.query.bounds){
+			var bounds = req.query.bounds;
+			
+			bounds = bounds.substr(1,bounds.length-2).split('), (');
+			console.log(bounds);
+
+			bounds[0] = bounds[0].substr(1,bounds[0].length-1).split(', ');
+			bounds[1] = bounds[1].substr(0,bounds[1].length-2).split(', ');
+
+			
+			queryJson['location'] = { $geoWithin : { $box : bounds} };
+			//console.log(bounds);
+
+		}
+	}
+
+
+	Signal.find(queryJson).sort('-created').populate('user', 'displayName').exec(function(err, signals) {
 		if (err) {
-			res.render('error', {
-				status: 500
+			res.jsonp('error', {
+				status: 500,
+				err: err
 			});
 		} else {
 
@@ -138,6 +160,8 @@ exports.list = function(req, res) {
 		}
 	});
 };
+
+
 
 
 exports.findNear = function(req, res) {

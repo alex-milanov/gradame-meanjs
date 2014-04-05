@@ -32,9 +32,6 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 
 		$scope.location = position.toString();
 		
-		$scope.findNear(function(){
-			displaySignals($scope.signals);
-		})
 		/*
 		$scope.signal.location = {
 			latitude : position.k,
@@ -57,7 +54,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 					animation: google.maps.Animation.DROP
 				};
 
-				console.log(list[i].location);
+				//console.log(list[i].location);
 
 				var sigMarker = new google.maps.Marker(markerOptions);
 				sigMarker.setMap(map);
@@ -91,19 +88,35 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		autocomplete.bindTo('bounds',map);
 
 		google.maps.event.addListener(autocomplete, 'place_changed', function() {
-		  var place = autocomplete.getPlace();
-		  /*
-		  if (place.geometry.viewport) {
-		    map.fitBounds(place.geometry.viewport);
-		  } else {
-		    map.setCenter(place.geometry.location);
-		    map.setZoom(15);
-		  }
-		  */
-		  updatePosition(place.geometry.location);
-		  //marker.setPosition(place.geometry.location);
+			var place = autocomplete.getPlace();
+		
+		  
+			updatePosition(place.geometry.location);
+			var bounds = map.getBounds().toString();
+	        $scope.load({bounds: bounds}); // do your job here
+		    //$scope.load({bounds: map.getBounds()}); // do your job here
+		  
 		  
 		});
+
+		google.maps.event.addListener(map, 'zoom_changed', function () {
+		    google.maps.event.addListenerOnce(map, 'bounds_changed', function (e) {
+		    	//console.log(map.getBounds().toString())
+
+		    	var bounds = map.getBounds().toString();
+		    	console.log(bounds);
+
+		        $scope.load({bounds: bounds}); // do your job here
+		    });
+		});
+
+		google.maps.event.addListener(map, 'dragend', function (e) {
+	    	//console.log(map.getBounds().toString())
+
+	    	var bounds = map.getBounds().toString();
+
+	        $scope.load({bounds: bounds}); // do your job here
+	    });
     });
 		
 
@@ -126,8 +139,12 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 
 
 	// general load
-	$scope.load = function(){
-		 Signal.query().$promise.then(function(signals){
+	$scope.load = function(params){
+		
+		if(!params)
+			var params = {};
+		
+		Signal.query(params).$promise.then(function(signals){
 			//console.log(signals);
 			for(var i in signals){
 				var signal = signals[i];
@@ -138,6 +155,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 			}
 			
 			$scope.signals = signals;
+			displaySignals(signals);
 		});
 		
 	}
