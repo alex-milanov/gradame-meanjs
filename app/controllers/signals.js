@@ -134,49 +134,43 @@ exports.list = function(req, res) {
 		} else {
 
 			res.jsonp(signals);
-			/*
-			var signalPath = path.join(__dirname , "/../../public/img/signals/")
-				
-			var the_promises = [];
-
-			for(var i in signals){
 			
-				
-				var deferred = Q.defer();
-				var sigPath = path.join(signalPath,signals[i]._id+'');
-				var signal = signals[i];
-						
-				if(fs.existsSync(sigPath)){
-						
-					var imgPromise = qListTree(sigPath, 1, true).then(function(images){
-						var sig = signal.toObject()
-						sig.images = images;
-						
-						//signals[i]["images"] = images;
-						return sig;
-						
-					},function(err){
-						console.log({err:err});
-					});
-
-        			the_promises.push(imgPromise);
-				} else {
-					deferred.resolve(signal);
-					
-        			the_promises.push(deferred.promise);
-
-				}
-			
-			}
-
-			Q.all(the_promises).then(function(newSignals){
-				
-			})
-			*/
-
 		}
 	});
 };
+
+
+exports.findNear = function(req, res) {
+
+	var location = req.query.location;
+
+	if(location && location.length){
+		location = location.substr(1,location.length-2);
+		req.query.location = location.split(', ');
+	}
+
+	if(!location.length){
+		console.log({err: 'Location is malformed',location: location});
+		res.jsonp('error', {
+			status: 500
+		});
+	} else {
+		// $maxDistance: 0.00019
+		Signal.find({location: { $nearSphere: req.query.location, $maxDistance: 0.00025} }, function(err, signals) {
+			if (err) {
+				res.jsonp('error', {
+					status: 500
+				});
+			} else {
+
+				res.jsonp(signals);
+				
+			}
+		});
+	}
+
+};
+
 
 /**
  * Signal middleware

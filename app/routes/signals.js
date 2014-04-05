@@ -6,6 +6,7 @@ module.exports = function(app) {
 
 	// Article Routes
 	app.get('/api/signals', signals.list);
+	app.get('/api/signals/near', signals.findNear);
 	//app.post('/signals', users.requiresLogin, signals.create);
 	app.post('/api/signals', signals.create);
 	app.get('/api/signals/:signalId', signals.read);
@@ -13,6 +14,7 @@ module.exports = function(app) {
 	app.put('/api/signals/:signalId', signals.update);
 	//app.del('/signals/:signalId', users.requiresLogin, signals.hasAuthorization, signals.delete);
 	app.del('/api/signals/:signalId', signals.delete);
+
 
 	// Finish by binding the article middleware
 	app.param('signalId', signals.signalByID);

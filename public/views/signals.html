@@ -5,7 +5,9 @@
     <form action="" class="form-inline" role="form">
     <div class="col-xs-6">
         <input type="text" placeholder="Намери подадени сигнали по адрес" size="40" class="form-control input-sm" id="autocomplete"/> 
-        <button class="btn btn-default btn-sm ">Покажи</button>
+        <!--
+        <button ng-click="findNear()" class="btn btn-default btn-sm ">Наблизо</button>
+        -->
     </div>
     <div class="col-xs-6">
         <label>Филтрирай по:</label>
@@ -29,10 +31,13 @@
                 адрес: {{ signal.address }}
                 <br/>
 
-                {{ signal.date_created }} сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
+                {{ signal.date_created }} 
+                <!--
+                сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
                 status:     {{ signal.status }}
                 <br/>
                 <a href="{{ signal._id }}">повече</a>
+                -->
             </li>
             
         </ul>

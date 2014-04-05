@@ -16,6 +16,8 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		"Вандализъм"
 	];
 
+	$scope.location = {};
+
 
 	var autocomplete;
 	var map;
@@ -28,11 +30,11 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		marker.setPosition(position);
 		marker.setAnimation(google.maps.Animation.DROP);
 
-		//$scope.signal.location = [position.A,position.k];
+		$scope.location = position.toString();
 		
-
-		displaySignals($scope.signals);
-
+		$scope.findNear(function(){
+			displaySignals($scope.signals);
+		})
 		/*
 		$scope.signal.location = {
 			latitude : position.k,
@@ -123,10 +125,10 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 
 
 
-	// api
+	// general load
 	$scope.load = function(){
 		 Signal.query().$promise.then(function(signals){
-			console.log(signals);
+			//console.log(signals);
 			for(var i in signals){
 				var signal = signals[i];
 				
@@ -139,7 +141,24 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		});
 		
 	}
-	$scope.load();
+
+	$scope.findNear = function(_callback){
+		Signal.findNear({location:$scope.location}).$promise.then(function(signals){
+			//console.log({near: data});
+			for(var i in signals){
+				var signal = signals[i];
+				
+				// modifiers here
+
+				signals[i] = signal;
+			}
+			
+			$scope.signals = signals;
+			_callback();
+		})
+	}
+
+	//$scope.load();
 	
 
 });

@@ -2,7 +2,11 @@
 
 app.provider('Signal', function(){
 	this.$get = ['$resource', function($resource){
-		var Signal = $resource('/api/signals/:_id',{},{
+		var Signal = $resource('/api/signals/:collectionRoute:_id/:memberRoute',{
+			_id: '@_id',
+    		collectionRoute: '@collectionRoute',
+    		memberRoute: '@memberRoute'
+		},{
 			post:{
 	            method:"POST",
 	            headers:{'Content-Type':undefined},
@@ -35,6 +39,13 @@ app.provider('Signal', function(){
 				method: 'PUT',
 	            isArray:false,
 	            headers:{'Content-Type':false} 
+			},
+			findNear: {
+				method: 'GET',
+				isArray:true,
+				params: {
+					collectionRoute: 'near'
+				}
 			}
 		});
 		return Signal;
