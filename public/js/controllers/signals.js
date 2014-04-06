@@ -44,6 +44,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 	var map;
 	var marker;
 	var sigMarkers = [];
+	var markerClusterer = null;
 
 	function updatePosition(position){
 		map.setCenter(position);
@@ -63,6 +64,11 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 	}
 
 	function displaySignals(list){
+
+		if(markerClusterer != null){
+			markerClusterer.clearMarkers();
+		}
+
 		for (var i = 0; i < sigMarkers.length; i++) {
 			sigMarkers[i].setMap(null);
 		}
@@ -83,6 +89,10 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 				sigMarkers.push(sigMarker);
 			}
 		}
+		markerClusterer = new MarkerClusterer(map, sigMarkers, {
+          maxZoom: 10,
+          gridSize: 10
+        });
 	}
     
     navigator.geolocation.getCurrentPosition(function(position){ 	
@@ -155,7 +165,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		} else {
 			params["bounds"] = $scope.filter.bounds;
 		}
-		
+
 		if($scope.filter.type != ""){
 			params["type"] = $scope.filter.type;
 		}
