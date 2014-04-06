@@ -144,6 +144,13 @@ exports.list = function(req, res) {
 			//console.log(bounds);
 
 		}
+		if(req.query.type){
+			queryJson['type'] = req.query.type;
+		}
+		if(req.query.status){
+			queryJson['status'] = req.query.status;
+		}
+
 	}
 
 

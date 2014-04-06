@@ -9,12 +9,16 @@
         <button ng-click="findNear()" class="btn btn-default btn-sm ">Наблизо</button>
         -->
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6" style="text-align: right;">
         <label>Филтрирай по:</label>
-        <select class="form-control input-sm">
-            <option value=""> Тип</option>
+        <select class="form-control input-sm" ng-model="filter.type">
+            <option value="">Тип: всички</option>
             <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
-        </select><br>
+        </select>
+        <select class="form-control input-sm" ng-model="filter.status">
+            <option value="">Статус: всички</option>
+            <option ng-repeat="signalStatus in signalStatuses" value="{{ $index }}" >{{ signalStatus }}</option>
+        </select>
     </div>
     </form>
 </div>
@@ -26,6 +30,7 @@
         <ul>
              <li data-ng-repeat="signal in signals">
                 <img ng-show="signal.images[0]" src="/img/signals/{{ signal._id + '/' + signal.images[0] }}" width="50" height="50" style="float: left; padding-right: 10px">
+
                 <b>{{ signal.type }}</b>
                 <br/>
                 адрес: {{ signal.address }}

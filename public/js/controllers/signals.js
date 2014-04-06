@@ -16,8 +16,29 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		"Вандализъм"
 	];
 
-	$scope.location = {};
+	$scope.signalStatuses = [
+		"отворен",
+		"решен"
+	];
 
+	$scope.filter = {
+		bounds: "",
+		location: "",
+		type: "",
+		status: ""
+	};
+
+	$scope.$watch('filter.type', function() {
+    	$scope.load();
+	});
+	$scope.$watch('filter.status', function() {
+    	$scope.load();
+	});
+	$scope.$watch('filter.bounds', function() {
+    	$scope.load();
+	});
+
+	//$scope.location
 
 	var autocomplete;
 	var map;
@@ -30,8 +51,9 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		marker.setPosition(position);
 		marker.setAnimation(google.maps.Animation.DROP);
 
-		$scope.location = position.toString();
+		$scope.filter.location = position.toString();
 		
+		$scope.filter.bounds = map.getBounds().toString();
 		/*
 		$scope.signal.location = {
 			latitude : position.k,
@@ -77,45 +99,28 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		marker = new google.maps.Marker(markerOptions);
 		marker.setMap(map);
 
-
 		updatePosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-
 
 		var acOptions = {
 		  types: ['geocode']
 		};
+
 		var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
 		autocomplete.bindTo('bounds',map);
 
 		google.maps.event.addListener(autocomplete, 'place_changed', function() {
 			var place = autocomplete.getPlace();
-		
-		  
 			updatePosition(place.geometry.location);
-			var bounds = map.getBounds().toString();
-	        $scope.load({bounds: bounds}); // do your job here
-		    //$scope.load({bounds: map.getBounds()}); // do your job here
-		  
-		  
 		});
 
 		google.maps.event.addListener(map, 'zoom_changed', function () {
 		    google.maps.event.addListenerOnce(map, 'bounds_changed', function (e) {
-		    	//console.log(map.getBounds().toString())
-
-		    	var bounds = map.getBounds().toString();
-		    	console.log(bounds);
-
-		        $scope.load({bounds: bounds}); // do your job here
+		    	$scope.filter.bounds = map.getBounds().toString();
 		    });
 		});
 
 		google.maps.event.addListener(map, 'dragend', function (e) {
-	    	//console.log(map.getBounds().toString())
-
-	    	var bounds = map.getBounds().toString();
-
-	        $scope.load({bounds: bounds}); // do your job here
+	    	$scope.filter.bounds = map.getBounds().toString();
 	    });
     });
 		
@@ -143,6 +148,21 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 		
 		if(!params)
 			var params = {};
+
+		// don't autoload
+		if(!$scope.filter.bounds || $scope.filter.bounds == ""){
+			return;
+		} else {
+			params["bounds"] = $scope.filter.bounds;
+		}
+		
+		if($scope.filter.type != ""){
+			params["type"] = $scope.filter.type;
+		}
+
+		if($scope.filter.status != ""){
+			params["status"] = $scope.filter.status;
+		}
 		
 		Signal.query(params).$promise.then(function(signals){
 			//console.log(signals);
@@ -161,7 +181,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, Signal) {
 	}
 
 	$scope.findNear = function(_callback){
-		Signal.findNear({location:$scope.location}).$promise.then(function(signals){
+		Signal.findNear({location:$scope.filter.location}).$promise.then(function(signals){
 			//console.log({near: data});
 			for(var i in signals){
 				var signal = signals[i];

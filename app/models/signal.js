@@ -17,7 +17,7 @@ var SignalSchema = new Schema({
     description: String,
     location: { type: [Number], index: '2dsphere' },
     address: String,
-    status: String,
+    status: { type: Number, default: 0},
     images: { type: [String] },
 	date_created: { type: Date, default: Date.now }
 	

@@ -14,6 +14,11 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
 		"Вандализъм"
 	];
 
+	$scope.signalStatuses = [
+		"отворен",
+		"решен"
+	];
+
 	var autocomplete;
 	var map;
 	var marker;
@@ -96,6 +101,11 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
 
 
 	$scope.save = function(){
+
+		if(!$scope.signal.status){
+			$scope.signal.status = 0;
+		}
+
 		if($scope.signal._id){
 			Signal.update({_id:$scope.signal._id}, $scope.signal).$promise.then(function(){$location.path('signals');})
 			//$scope.signal.$save().then($scope.load);
