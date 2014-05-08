@@ -40,45 +40,51 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
 		*/
 	}
 
-	navigator.geolocation.getCurrentPosition(function(position){
+	$scope.init = function(){
+		// after initial state load
+		$timeout(function() {
+			map = $scope.map.control.getGMap();
 
-		map = $scope.map.control.getGMap();
+			var markerOptions = {
+			    position: new google.maps.LatLng($scope.map.center.latitude, $scope.map.center.longitude),
+			    map: map,
+			    icon: new google.maps.MarkerImage("/img/markers/pin.png"),
+				animation: google.maps.Animation.DROP
+			};
 
-		var markerOptions = {
-		    position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-		    map: map,
-		    icon: new google.maps.MarkerImage("/img/markers/pin.png"),
-			animation: google.maps.Animation.DROP
-		};
+			marker = new google.maps.Marker(markerOptions);
+			marker.setMap(map);
 
-		marker = new google.maps.Marker(markerOptions);
-		marker.setMap(map);
+			var acOptions = {
+			  types: ['geocode']
+			};
+			var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
+			autocomplete.bindTo('bounds',map);
 
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+			  var place = autocomplete.getPlace();
+			  /*
+			  if (place.geometry.viewport) {
+			    map.fitBounds(place.geometry.viewport);
+			  } else {
+			    map.setCenter(place.geometry.location);
+			    map.setZoom(15);
+			  }
+			  */
+			  updatePosition(place.geometry.location);
+			  //marker.setPosition(place.geometry.location);
+			  
+			});
 
-		updatePosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+			updatePosition(new google.maps.LatLng($scope.map.center.latitude, $scope.map.center.longitude));
 
-		var acOptions = {
-		  types: ['geocode']
-		};
-		var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
-		autocomplete.bindTo('bounds',map);
-
-		google.maps.event.addListener(autocomplete, 'place_changed', function() {
-		  var place = autocomplete.getPlace();
-		  /*
-		  if (place.geometry.viewport) {
-		    map.fitBounds(place.geometry.viewport);
-		  } else {
-		    map.setCenter(place.geometry.location);
-		    map.setZoom(15);
-		  }
-		  */
-		  updatePosition(place.geometry.location);
-		  //marker.setPosition(place.geometry.location);
-		  
+			navigator.geolocation.getCurrentPosition(function(position){
+				updatePosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+			});
 		});
+	}
 
-    });
+	
 		
 
 
