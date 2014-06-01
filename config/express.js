@@ -87,6 +87,13 @@ module.exports = function(db) {
 
 	// connect flash for flash messages
 	//app.use(flash());
+	
+	// cross domain support
+	app.all('/', function(req, res, next) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "X-Requested-With");
+		next();
+	});
 
 	// routes should be at the last
 	app.use(app.router);
@@ -94,12 +101,7 @@ module.exports = function(db) {
 	// Setting the app router and static folder
 	app.use(express.static(config.root + '/public'));
 
-	// cross domain support
-	app.all('/', function(req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Access-Control-Allow-Headers", "X-Requested-With");
-		next();
-	});
+	
 	
 	// Load Routes
 	utilities.walk('./app/routes', /(.*)\.(js$|coffee$)/).forEach(function(routePath) {
