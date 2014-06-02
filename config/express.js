@@ -29,6 +29,22 @@ module.exports = function(db) {
 //		modulesJSFiles: utilities.walk('./public/modules', /(.*)\.(js)/, /(.*)\.(spec.js)/, './public'),
 //		modulesCSSFiles: utilities.walk('./public/modules', /(.*)\.(css)/, null, './public')
 	});
+	
+	
+	// cross domain support
+	app.use(function(req, res, next) {
+		res.header('Access-Control-Allow-Origin', '*');
+		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+		res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+	
+		// intercept OPTIONS method
+		if ('OPTIONS' == req.method) {
+		  res.send(200);
+		}
+		else {
+		  next();
+		}
+	});
 
 	// Passing the request url to environment locals
 	app.use(function(req, res, next) {
@@ -87,13 +103,6 @@ module.exports = function(db) {
 
 	// connect flash for flash messages
 	//app.use(flash());
-	
-	// cross domain support
-	app.all('/', function(req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Access-Control-Allow-Headers", "X-Requested-With");
-		next();
-	});
 
 	// routes should be at the last
 	app.use(app.router);
