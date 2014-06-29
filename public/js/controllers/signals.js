@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Signal) {
+app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Signal, Maps) {
 
 	
 	//$scope.signal = new Signal();
@@ -40,110 +40,45 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 
 	//$scope.location
 
-	var autocomplete;
-	var map;
-	var marker;
-	var sigMarkers = [];
-	var markerClusterer = null;
+	
+	Maps.addListener('positionChanged', function(){
+		$scope.filter.location = Maps.getPosition().toString();
+		$scope.filter.bounds = Maps.getBounds().toString();
+	});
+	
+	Maps.addListener('boundsChanged', function(){
+		$scope.filter.bounds = Maps.getBounds().toString();
+	});
 
-	function updatePosition(position){
-		map.setCenter(position);
-		map.setZoom(15);
-		marker.setPosition(position);
-		marker.setAnimation(google.maps.Animation.DROP);
-
-		$scope.filter.location = position.toString();
-		
-		$scope.filter.bounds = map.getBounds().toString();
-		/*
-		$scope.signal.location = {
-			latitude : position.k,
-			longitude : position.A
-		};
-		*/
-	}
-
+	
 	function displaySignals(list){
 
-		if(markerClusterer != null){
-			markerClusterer.clearMarkers();
-		}
-
-		for (var i = 0; i < sigMarkers.length; i++) {
-			sigMarkers[i].setMap(null);
-		}
-		sigMarkers = [];
+		
+		Maps.clearMarkers();
+		
 		for(var i in list){
 			if(list[i].location){
+				
 				var markerOptions = {
 				    position: new google.maps.LatLng(list[i].location[0], list[i].location[1]),
-				    map: map,
 				    icon: new google.maps.MarkerImage("/img/markers/sign.png"),
 					animation: google.maps.Animation.DROP
 				};
-
-				//console.log(list[i].location);
-
-				var sigMarker = new google.maps.Marker(markerOptions);
-				sigMarker.setMap(map);
-				sigMarkers.push(sigMarker);
+				
+				Maps.addMarker(markerOptions)
+				
 			}
 		}
-		markerClusterer = new MarkerClusterer(map, sigMarkers, {
-          maxZoom: 10,
-          gridSize: 10
-        });
+		
+		Maps.updateClusterer();
 	}
 
 	$scope.init = function(){
 		// after initial state load
 		$timeout(function() {
-			map = $scope.map.control.getGMap();
-
-			var markerOptions = {
-			    position: new google.maps.LatLng($scope.map.center.latitude, $scope.map.center.longitude),
-			    map: map,
-				icon: new google.maps.MarkerImage("/img/markers/pin.png"),
-				animation: google.maps.Animation.DROP
-			};
-
-			marker = new google.maps.Marker(markerOptions);
-			marker.setMap(map);
-
-			var acOptions = {
-			  types: ['geocode']
-			};
-
-			var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
-			autocomplete.bindTo('bounds',map);
-
-			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-				var place = autocomplete.getPlace();
-				updatePosition(place.geometry.location);
-			});
-
-			google.maps.event.addListener(map, 'zoom_changed', function () {
-			    google.maps.event.addListenerOnce(map, 'bounds_changed', function (e) {
-			    	$scope.filter.bounds = map.getBounds().toString();
-			    });
-			});
-
-			google.maps.event.addListener(map, 'dragend', function (e) {
-		    	$scope.filter.bounds = map.getBounds().toString();
-		    });
-
-			updatePosition(new google.maps.LatLng($scope.map.center.latitude, $scope.map.center.longitude));
-
-		    navigator.geolocation.getCurrentPosition(function(position){ 
-				updatePosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));				
-		    });
+			Maps.init($scope.map, document.getElementById('autocomplete'));
 		});
 	}
-
-    
-    
-		
-
 
 	$scope.map = {
 	    control: {},

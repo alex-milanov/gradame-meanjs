@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
+app.controller('SignalsNewCtrl', function ($scope, $location, $http, $timeout, Signal, Maps) {
 
 	$scope.signal = new Signal();
 	
@@ -19,73 +19,16 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, Signal) {
 		"решен"
 	];
 
-	var autocomplete;
-	var map;
-	var marker;
-
-	function updatePosition(position){
-		map.setCenter(position);
-		map.setZoom(15);
-		marker.setPosition(position);
-		marker.setAnimation(google.maps.Animation.DROP);
-
-		//$scope.signal.location = [position.A,position.k];
-		$scope.signal.location = position.toString();
-
-		/*
-		$scope.signal.location = {
-			latitude : position.k,
-			longitude : position.A
-		};
-		*/
-	}
+	Maps.addListener('positionChanged', function(){
+		$scope.signal.location = Maps.getPosition().toString();
+	});
 
 	$scope.init = function(){
 		// after initial state load
 		$timeout(function() {
-			map = $scope.map.control.getGMap();
-
-			var markerOptions = {
-			    position: new google.maps.LatLng($scope.map.center.latitude, $scope.map.center.longitude),
-			    map: map,
-			    icon: new google.maps.MarkerImage("/img/markers/pin.png"),
-				animation: google.maps.Animation.DROP
-			};
-
-			marker = new google.maps.Marker(markerOptions);
-			marker.setMap(map);
-
-			var acOptions = {
-			  types: ['geocode']
-			};
-			var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
-			autocomplete.bindTo('bounds',map);
-
-			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-			  var place = autocomplete.getPlace();
-			  /*
-			  if (place.geometry.viewport) {
-			    map.fitBounds(place.geometry.viewport);
-			  } else {
-			    map.setCenter(place.geometry.location);
-			    map.setZoom(15);
-			  }
-			  */
-			  updatePosition(place.geometry.location);
-			  //marker.setPosition(place.geometry.location);
-			  
-			});
-
-			updatePosition(new google.maps.LatLng($scope.map.center.latitude, $scope.map.center.longitude));
-
-			navigator.geolocation.getCurrentPosition(function(position){
-				updatePosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-			});
+			Maps.init($scope.map, document.getElementById('autocomplete'));
 		});
 	}
-
-	
-		
 
 
 	$scope.map = {
