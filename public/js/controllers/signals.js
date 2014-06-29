@@ -61,8 +61,8 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 				
 				var markerOptions = {
 				    position: new google.maps.LatLng(list[i].location[0], list[i].location[1]),
-				    icon: new google.maps.MarkerImage("/img/markers/sign.png"),
-					animation: google.maps.Animation.DROP
+				    icon: new google.maps.MarkerImage("/img/markers/sign.png")
+					//animation: google.maps.Animation.DROP
 				};
 				
 				Maps.addMarker(markerOptions)
