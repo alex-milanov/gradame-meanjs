@@ -1,11 +1,57 @@
-# Grada.me 
-Имплементация на базата на бойлерплейтите: [mean.js](https://github.com/meanjs/mean) и [passport-api-tokens](https://github.com/roblevintennis/passport-api-tokens)  
-Официален сайт: http://www.grada.me 
+# Grada.me
 
+Вижте официалния сайт [www.grada.me](http://www.grada.me) за описание на проекта
 
-Структура:
-----------
-  
+## Инсталация (за програмисти)
+Проектът е написан с технологии изцяло използващи JavaScript. Причина за това е всички процеси
+(frontend, backend и работа база данни) да имат общ език и популярността му да увеличава
+надеждността за продължителна разработка.
+
+Backend частта от проекта е написана на [Node.js](http://nodejs.org/)
+и [Express.js](https://github.com/visionmedia/express),
+и използва [MongoDB](http://www.mongodb.org/).
+Frontend частта от проекта е написана на [Angular js](https://angularjs.org/).
+
+### Автоматична настройка
+Нужни са ви единствено:
+
+ - [Vagrant](http://www.vagrantup.com/), ако нямате – [сваляте и инсталирате](
+https://www.vagrantup.com/downloads.html)
+ - [VirtualBox](https://www.virtualbox.org/), ако нямате – [сваляте и инсталирате](https://www.virtualbox.org/wiki/Downloads)
+
+В директорията на проекта пускате 1 команда:
+
+```sh
+vagrant up
+```
+
+Това може да отнеме няколко минути, след което имате работещ сайта на адрес:  [http://localhost:8888/](http://localhost:8888/)
+
+#### Ако има проблеми при автоматичната настройка
+
+Може би `vagrant` не може да намери основата, на която базираме автоматичната инсталация (*hashicorp/precise32 VM*). В този случай изпълнете:
+
+```
+vagrant box add hashicorp/precise32 https://vagrantcloud.com/hashicorp/precise32/version/1/provider/virtualbox.box
+```
+
+#### Детайли какво се случва при автоматичната настройка
+Автоматичната настройка създава виртуална машина заемаща 384MB RAM памет и 2GB на диска. Може да я спирате и пускате с команди от директорията на проекта:
+
+```sh
+vagrant halt # изключва
+vagrant up # включва
+```
+
+За още детайли [вижте какво се инсталира в нея](bootstrap_vagrant.sh).
+
+### Детайли по имплементацията
+
+Имплементация е базирана на шаблони/boilerplates:
+- [mean.js](https://github.com/meanjs/mean)
+- [passport-api-tokens](https://github.com/roblevintennis/passport-api-tokens)
+
+## Структура
 - app/
  - routes/
  - controllers/
@@ -22,23 +68,4 @@
     - services/
  - lib/
  - views/
-
-
-
-Инсталация:
---------------
-
-```sh
-# клониране на repo-то
-git clone [git-repo-url] gradame-meanjs
-cd gradame-meanjs
-
-# инсталиране на зависимостите
-npm install
-bower install
-
-# стартиране на сървъра
-node server.js
-```
-
     
