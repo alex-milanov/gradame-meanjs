@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('SignalsNewCtrl', function ($scope, $location, $http, $timeout, Signal) {
+app.controller('SignalsNewCtrl', function ($scope, $location, $http, $timeout, Signal, Maps) {
 
 	$scope.signal = new Signal();
 	
@@ -72,6 +72,8 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, $timeout, S
 	$scope.reset = function(){	
 		$scope.signal = new Signal();
 	}
+	
+	
 	
 
 });
