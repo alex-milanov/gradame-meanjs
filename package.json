@@ -7,7 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "latest",
+    "express": "3.x",
     "consolidate": "latest",
     "swig": "latest",
     "mongoose": "latest",

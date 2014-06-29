@@ -14,7 +14,7 @@ app.factory('Auth',
       },
       register: function (user) {
       	
-      	$http.post("/register", user)
+      	$http.post("/auth/register", user)
 			.success(function(data) {
 				//console.log('Success: '+data);
 				$location.url('/');
