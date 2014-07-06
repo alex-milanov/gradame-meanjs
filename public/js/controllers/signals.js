@@ -42,12 +42,15 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 
 	
 	Maps.addListener('positionChanged', function(){
-		$scope.filter.location = Maps.getPosition().toString();
-		$scope.filter.bounds = Maps.getBounds().toString();
+		if(Maps.getPosition())
+			$scope.filter.location = Maps.getPosition().toString();
+		if(Maps.getBounds())
+			$scope.filter.bounds = Maps.getBounds().toString();
 	});
 	
 	Maps.addListener('boundsChanged', function(){
-		$scope.filter.bounds = Maps.getBounds().toString();
+		if(Maps.getBounds())
+			$scope.filter.bounds = Maps.getBounds().toString();
 	});
 
 	
@@ -70,7 +73,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 			}
 		}
 		
-		Maps.updateClusterer();
+		Maps.updateCluster();
 	}
 
 	$scope.init = function(){
