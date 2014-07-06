@@ -1,5 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Anaheim|Sniglet|Source+Code+Pro|Averia+Gruesa+Libre|Open+Sans&subset=latin,cyrillic);
-	
 
 body {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -13,12 +12,14 @@ body {
 }
 
 .navbar {
-	background: #FAF9F7;
+  background: #FCFBF9;
+  border-color: #FCFBF9;
+  box-shadow: 0 10px 15px rgba(252, 251, 249, 1.0); /* TODO: find better way to separate visually fixed navbar */
 }
 
 .navbar-brand img {
-	width: 80px;
-	vertical-align: top;
+  width: 80px;
+  vertical-align: top;
 }
 
 a {
@@ -43,12 +44,70 @@ ul > li {
 }
 
 footer {
-	text-align: center;
-	padding: 50px 0px 30px 0px;
+  text-align: center;
+  padding: 50px 0px 30px 0px;
 }
 
-.angular-google-map-container { 
-  height: 400px;
-  border: 1px solid #ccc; 
-  border-radius: 4px;
+.angular-google-map-container {
+  height: 362px;
+}
+
+.map-container {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.map-addon {
+  padding: 5px 10px;
+  background: #E5E3DF;
+  color: #756E5F;
+  border-top: 1px solid white;
+  margin-bottom: 25px;
+}
+
+.results-count {
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.container {
+  background: white;
+  border: 1px solid #D5D0BD;
+  border-color: #E5E3DF;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.search-pane {
+  margin-top: 25px;
+}
+
+.filter-pane {
+  background: #FCFBF9;
+  border: 1px solid #E5E3DF;
+  padding: 5px 10px;
+}
+
+.auth-forms {
+  margin-bottom: 25px;
+}
+
+label { display: none; }
+
+.btn-success {
+}
+
+address {
+  margin-bottom: 0px;
+}
+
+.thumbnail {
+  margin-bottom: 0px;
+  max-width: 60px;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.media {
+  margin-top: 10px;
 }

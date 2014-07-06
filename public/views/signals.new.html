@@ -1,37 +1,49 @@
 <div data-ng-init="init()">
- 
-  <h2>Подай сигнал</h2>
- 
   <form>
-    <p ng-show="error" class="text-danger">{{ error }}</p>
-    <textarea ng-model="signal.description" placeholder="Описание" class="form-control"></textarea><br>
-    
-	<select ng-model="signal.type" class="form-control">
-    	<option value="">Избери Тип</option>
-    	<option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
-    </select><br>
-
-	<input type="file" ng-model="signal.images" multiple  class="form-control"><br>
-    <ul>
-        <li ng-repeat="file in signal.images">{{file.name}}</li>
-    </ul>
-
-    
-	<input type="text" ng-model="signal.address" placeholder="Адрес" class="form-control" id="autocomplete"><br>
-	<p>{{ signal.location }}</p>
-
-    <google-map 
-    	center="map.center" 
-    	zoom="map.zoom" 
-        options="map.options"
-        draggable="true"
-        pan="true"
-        control="map.control"
-    ></google-map><br>
-
-
-    <input type="button" ng-click="save()" value="Сигнализирай" class="btn btn-default" />
-	
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Подай сигнал</h1>
+        <p>Използвайте формата по-долу, за да съобщите за съществуващ проблем…</p>
+        <p ng-show="error" class="text-danger">{{ error }}</p>
+        <div class="form-group">
+          <label class="control-label">Описание</label>
+          <textarea class="form-control" ng-model="signal.description" placeholder="Описание"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Тип</label>
+          <select class="form-control" ng-model="signal.type">
+            <option value="">Избери Тип</option>
+            <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Снимки</label>
+          <input type="file" class="form-control" ng-model="signal.images" multiple>
+          <ul>
+            <li ng-repeat="file in signal.images">{{file.name}}</li>
+          </ul>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Адрес</label>
+          <input type="text" class="form-control" ng-model="signal.address" placeholder="Адрес" id="autocomplete">
+        </div>
+        <div class="form-group">
+          <input type="button" ng-click="save()" value="Сигнализирай" class="btn btn-large btn-success" />
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="map-container">
+          <google-map
+            center="map.center"
+            zoom="map.zoom"
+            options="map.options"
+            draggable="true"
+            pan="true"
+            control="map.control"
+          ></google-map>
+          <p class="map-addon"><b>Местоположение:</b>&nbsp;{{ signal.location }}</p>
+        </div>
+      </div>
+    </div>
   </form>
- 
 </div>
