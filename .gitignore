@@ -2,3 +2,4 @@
 .vagrant
 node_modules
 public/lib
+public/img/signals/
