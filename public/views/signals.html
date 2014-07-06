@@ -41,10 +41,10 @@
     <div class="col-sm-4 col-sm-pull-8 col-xs-12">
 		<hr class="visible-xs" />
         {{ signals.length }} резултата:
-        <ul class="media-list">
+        <ul class="media-list" ng-if="signals">
              <li class="media" data-ng-repeat="signal in signals">
 				 <a href="#/signals/{{ signal._id }}" class="pull-left thumbnail">
-					<img ng-show="signal.images[0]" src="/img/signals/{{ signal._id + '/' + signal.images[0] }}"
+					<img ng-if="signal.images[0]" data-ng-src="/img/signals/{{ signal._id + '/' + signal.images[0] }}"
 					class="media-object" style="width: 64px;">
 				</a>
 				<div class="media-body">
