@@ -7,7 +7,8 @@ app.factory('Maps',
 		var Maps = {};
 			
 		var callbacks = {
-			'updatePosition' : []
+			'positionChanged' : [],
+			'boundsChanged' : []
 		};
 		
 		var autocomplete,

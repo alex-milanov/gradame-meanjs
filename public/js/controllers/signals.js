@@ -70,7 +70,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 			}
 		}
 		
-		Maps.updateClusterer();
+		Maps.updateCluster();
 	}
 
 	$scope.init = function(){
