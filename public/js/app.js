@@ -7,9 +7,13 @@ var app = angular.module('gradame', [
   ]);
   
   
-app.config(['$stateProvider', '$urlRouterProvider', 
-	//'$locationProvider', 
-	function ($stateProvider, $urlRouterProvider ) {
+app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
+	function ($stateProvider, $urlRouterProvider, $httpProvider) {
+		
+		$httpProvider.defaults.useXDomain = true;
+		
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+		
 		$stateProvider
 			.state('home', {
 				url : '',
