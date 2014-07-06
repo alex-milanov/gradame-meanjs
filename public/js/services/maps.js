@@ -124,7 +124,9 @@ app.factory('Maps',
 		
 		
 		Maps.updateCluster = function(){
-			markerClusterer.setMap(null);
+			
+			if(markerClusterer)
+				markerClusterer.setMap(null);
 			
 			markerClusterer = new MarkerClusterer(map, sigMarkers, {
 				maxZoom: 10,
