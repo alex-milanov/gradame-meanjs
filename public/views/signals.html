@@ -2,67 +2,74 @@
 <!-- TODO add fitlers, signals list and map -->
 
 <div class="row">
-    
-    <div class="col-sm-6 col-xs-12">
-		<div class="form-group">
-        	<input type="text" placeholder="Намери подадени сигнали по адрес" size="40" class="form-control input-sm" id="autocomplete"/> 
-		</div>
-		<!--
-        <button ng-click="findNear()" class="btn btn-default btn-sm ">Наблизо</button>
-        -->
+  <div class="col-md-8">
+    <h1>Сигнали</h1>
+  </div>
+  <div class="col-md-4">
+    <div class="search-pane">
+      <div class="form-group">
+        <input type="text" class="form-control input" placeholder="Намери подадени сигнали по адрес" size="40" id="autocomplete"/>
+      </div>
     </div>
-    <div class="col-sm-6 col-xs-12">
-		<form action="" class="form-inline  pull-right" role="form" style="width: 100%;">
+  </div>
+</div>
+<div class="row">
+    <!--
+        <button ng-click="findNear()" class="btn btn-default btn-sm ">Наблизо</button>
+    -->
+  <div class="col-md-12">
+    <div class="filter-pane">
+      <form action="" class="form-inline" role="form" style="width: 100%;">
         <label>Филтрирай по:</label>
         <select class="form-control input-sm" ng-model="filter.type">
-            <option value="">Тип: всички</option>
-            <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
+          <option value="">Тип: всички</option>
+          <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
         </select>
         <select class="form-control input-sm" ng-model="filter.status">
-            <option value="">Статус: всички</option>
-            <option ng-repeat="signalStatus in signalStatuses" value="{{ $index }}" >{{ signalStatus }}</option>
+          <option value="">Статус: всички</option>
+          <option ng-repeat="signalStatus in signalStatuses" value="{{ $index }}" >{{ signalStatus }}</option>
         </select>
-		</form>
+      </form>
     </div>
+  </div>
 </div>
 <div data-ng-init="init()" class="row">
-	<div class="col-sm-8 col-sm-push-4 col-xs-12">
-		<hr class="visible-xs" />
-		<google-map 
-			center="map.center" 
-			zoom="map.zoom" 
-			options="map.options"
-			draggable="true"
-			pan="true"
-			control="map.control"
-			style="width: 100%;"
-		></google-map>
-	</div>
-    <div class="col-sm-4 col-sm-pull-8 col-xs-12">
-		<hr class="visible-xs" />
-        {{ signals.length }} резултата:
-        <ul class="media-list">
-             <li class="media" data-ng-repeat="signal in signals">
-				 <a href="#/signals/{{ signal._id }}" class="pull-left thumbnail">
-					<img ng-show="signal.images[0]" src="/img/signals/{{ signal._id + '/' + signal.images[0] }}"
-					class="media-object" style="width: 64px;">
-				</a>
-				<div class="media-body">
-					<address>
-						<b>{{ signal.type }}</b><br/>
-						<small>{{ signal.address }}</small><br/>
-						{{ signal.date_created }}
-					</address>
-				 </div>
-                <!--
-                сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
-                status:     {{ signal.status }}
-                <br/>
-                <a href="{{ signal._id }}">повече</a>
-                -->
-            </li>
-            
-        </ul>
+  <div class="col-sm-8 col-sm-push-4 col-xs-12">
+    <hr class="visible-xs" />
+    <div class="map-container">
+      <google-map
+        center="map.center"
+        zoom="map.zoom"
+        options="map.options"
+        draggable="true"
+        pan="true"
+        control="map.control"
+        style="width: 100%;"
+      ></google-map>
     </div>
-	
+  </div>
+  <div class="col-sm-4 col-sm-pull-8 col-xs-12">
+    <hr class="visible-xs" />
+    <div class="results-count"><b>{{ signals.length }}</b>&nbsp;резултата</div>
+    <ul class="media-list">
+      <li class="media" data-ng-repeat="signal in signals">
+        <a href="#/signals/{{ signal._id }}" class="pull-left thumbnail">
+          <img ng-show="signal.images[0]" src="/img/signals/{{ signal._id + '/' + signal.images[0] }}" class="media-object">
+        </a>
+        <div class="media-body">
+          <address>
+            <b>{{ signal.type }}</b><br/>
+            <small>{{ signal.address }}</small><br/>
+            <small>{{ signal.date_created }}</small>
+          </address>
+        </div>
+        <!--
+        сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
+        status:     {{ signal.status }}
+        <br/>
+        <a href="{{ signal._id }}">повече</a>
+        -->
+      </li>
+    </ul>
+  </div>
 </div>
