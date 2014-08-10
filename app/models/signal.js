@@ -4,13 +4,13 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+	Schema = mongoose.Schema;
 
 /**
  * Article Schema
  */
 var SignalSchema = new Schema({
-  type: String,
+	type: String,
     //title: { type: String, default: '', trim: true },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     authorName: String,
@@ -19,8 +19,8 @@ var SignalSchema = new Schema({
     address: String,
     status: { type: Number, default: 0},
     images: { type: [String] },
-  date_created: { type: Date, default: Date.now }
-
+	date_created: { type: Date, default: Date.now }
+	
 });
 
 
@@ -29,7 +29,7 @@ var SignalSchema = new Schema({
  * Validations
  */
 /* SignalSchema.path('title').validate(function(title) {
-  return title.length;
+	return title.length;
 }, 'Title cannot be blank');*/
 
 
@@ -37,11 +37,11 @@ var SignalSchema = new Schema({
  * Statics
  */
 SignalSchema.statics = {
-  load: function(id, cb) {
-    this.findOne({
-      _id: id
-    }).populate('user', 'displayName').exec(cb);
-  }
+	load: function(id, cb) {
+		this.findOne({
+			_id: id
+		}).populate('user', 'displayName').exec(cb);
+	}
 };
 
 mongoose.model('Signal', SignalSchema);

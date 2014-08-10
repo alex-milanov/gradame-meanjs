@@ -62,7 +62,7 @@ vagrant up # включва
 - config/
  - env/
  - strategies/
-- public/
+- public/ 
  - css/
  - img/
  - js/
@@ -70,4 +70,4 @@ vagrant up # включва
     - services/
  - lib/
  - views/
-
+    

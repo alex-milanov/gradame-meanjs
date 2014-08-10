@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  User = mongoose.model('User'),
-  Token = mongoose.model('Token'),
-  crypto = require('crypto'),
-  _ = require('lodash');
+	User = mongoose.model('User'),
+	Token = mongoose.model('Token'),
+	crypto = require('crypto'),
+	_ = require('lodash');
 
 
 var flash = function (info, error) {
@@ -23,7 +23,7 @@ var flash = function (info, error) {
  * Signup
  */
 exports.register = function(req, res) {
-  var name = req.body.fullname;
+	var name = req.body.fullname;
     var email = req.body.email;
     var password = req.body.password;
     var user = new User({full_name: name,email: email});
@@ -58,9 +58,9 @@ exports.register = function(req, res) {
  * Signin after passport authentication
  */
 exports.login = function(req, res, next) {
-  if (req.user) {
+	if (req.user) {
 
-    var email = req.user.email;
+		var email = req.user.email;
 
         User.createUserToken(req.user.email, function(err, usersToken) {
             // console.log('token generated: ' +usersToken);
@@ -69,31 +69,31 @@ exports.login = function(req, res, next) {
                 res.json({error: 'Issue generating token'});
             } else {
 
-              // quick hack : add avatar
-              var hash = crypto.createHash('md5').update(email).digest("hex");
-              //console.log(hash);
+            	// quick hack : add avatar
+            	var hash = crypto.createHash('md5').update(email).digest("hex");
+            	//console.log(hash);
 
-              User.findUser(email, usersToken, function(err, user) {
-                if (err) {
-                    console.log(err);
-                    res.json({error: 'Issue finding user.'});
-                } else {
-                    if (Token.hasExpired(user.token.date_created)) {
-                        console.log("Token expired...TODO: Add renew token funcitionality.");
-                        res.json({error: 'Token expired. You need to log in again.'});
-                    } else {
-                        res.json({
-                            user: {
-                              hash: hash,
-                                email: user.email,
-                                full_name: user.full_name
-                            },
-                            token: user.token.token
-
-                        });
-                    }
-                }
-            });
+            	User.findUser(email, usersToken, function(err, user) {
+		            if (err) {
+		                console.log(err);
+		                res.json({error: 'Issue finding user.'});
+		            } else {
+		                if (Token.hasExpired(user.token.date_created)) {
+		                    console.log("Token expired...TODO: Add renew token funcitionality.");
+		                    res.json({error: 'Token expired. You need to log in again.'});
+		                } else {
+		                    res.json({
+		                        user: {
+		                        	hash: hash,
+		                            email: user.email,
+		                            full_name: user.full_name
+		                        },
+		                        token: user.token.token
+		                        
+		                    });
+		                }
+		            }
+		        });
 
             }
         });
@@ -106,7 +106,7 @@ exports.login = function(req, res, next) {
  * Signout
  */
 exports.logout = function(req, res) {
-  var messages = flash('Logged out', null);
+	var messages = flash('Logged out', null);
     var incomingToken = req.headers.token;
     console.log('LOGOUT: incomingToken: ' + incomingToken);
     if (incomingToken) {
@@ -136,7 +136,7 @@ exports.logout = function(req, res) {
  */
 exports.me = function(req, res) {
 
-  var incomingToken = req.headers.token;
+	var incomingToken = req.headers.token;
     console.log('incomingToken: ' + incomingToken);
     var decoded = User.decode(incomingToken);
     //Now do a lookup on that email in mongodb ... if exists it's a real user
@@ -164,17 +164,17 @@ exports.me = function(req, res) {
         res.json({error: 'Issue decoding incoming token.'});
     }
 
-  //res.jsonp(req.user || null);
+	//res.jsonp(req.user || null);
 };
 
 exports.userByID = function(req, res, next, id) {
-  User.findOne({
-    _id: id
-  }).exec(function(err, user) {
-    if (err) return next(err);
-    if (!user) return next(new Error('Failed to load User ' + id));
-    req.profile = user;
-    next();
-  });
+	User.findOne({
+		_id: id
+	}).exec(function(err, user) {
+		if (err) return next(err);
+		if (!user) return next(new Error('Failed to load User ' + id));
+		req.profile = user;
+		next();
+	});
 };
 

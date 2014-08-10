@@ -1,13 +1,13 @@
 'use strict';
 
 var passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy,
-  User = require('mongoose').model('User');
+	LocalStrategy = require('passport-local').Strategy,
+	User = require('mongoose').model('User');
 
 
 module.exports = function() {
-  // Use local strategy
-  passport.serializeUser(function(user, done) {
+	// Use local strategy
+	passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
 
@@ -20,6 +20,6 @@ module.exports = function() {
 
 
     // passport-local-mongoose
-  passport.use(User.createStrategy());
-
+ 	passport.use(User.createStrategy());
+	
 };

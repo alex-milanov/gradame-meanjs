@@ -4,140 +4,140 @@
  * Module dependencies.
  */
 var express = require('express'),
-  passport = require('passport'),
-  config = require('./config'),
-  consolidate = require('consolidate'),
-  swig = require('swig'),
-  path = require('path'),
-  utilities = require('./utilities');
+	passport = require('passport'),
+	config = require('./config'),
+	consolidate = require('consolidate'),
+	swig = require('swig'),
+	path = require('path'),
+	utilities = require('./utilities');
 
 module.exports = function(db) {
-  // Initialize express app
-  var app = express();
+	// Initialize express app
+	var app = express();
 
-  // Initialize models
-  utilities.walk('./app/models', /(.*)\.(js$|coffee$)/).forEach(function(modelPath) {
-    require(path.resolve(modelPath));
-  });
+	// Initialize models
+	utilities.walk('./app/models', /(.*)\.(js$|coffee$)/).forEach(function(modelPath) {
+		require(path.resolve(modelPath));
+	});
 
-  // Setting the environment locals
-  app.locals({
-    title: config.app.title,
-    description: config.app.description,
-    keywords: config.app.keywords
-//    facebookAppId: config.facebook.clientID,
-//    modulesJSFiles: utilities.walk('./public/modules', /(.*)\.(js)/, /(.*)\.(spec.js)/, './public'),
-//    modulesCSSFiles: utilities.walk('./public/modules', /(.*)\.(css)/, null, './public')
-  });
+	// Setting the environment locals
+	app.locals({
+		title: config.app.title,
+		description: config.app.description,
+		keywords: config.app.keywords
+//		facebookAppId: config.facebook.clientID,
+//		modulesJSFiles: utilities.walk('./public/modules', /(.*)\.(js)/, /(.*)\.(spec.js)/, './public'),
+//		modulesCSSFiles: utilities.walk('./public/modules', /(.*)\.(css)/, null, './public')
+	});
+	
+	
+	// cross domain support
+	app.use(function(req, res, next) {
+		res.header('Access-Control-Allow-Origin', '*');
+		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+		res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+	
+		// intercept OPTIONS method
+		if ('OPTIONS' == req.method) {
+		  res.send(200);
+		}
+		else {
+		  next();
+		}
+	});
 
+	// Passing the request url to environment locals
+	app.use(function(req, res, next) {
+		res.locals.url = req.protocol + ':// ' + req.headers.host + req.url;
+		next();
+	});
 
-  // cross domain support
-  app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+	// Should be placed before express.static
+	app.use(express.compress({
+		filter: function(req, res) {
+			return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
+		},
+		level: 9
+	}));
 
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-      res.send(200);
-    }
-    else {
-      next();
-    }
-  });
+	// Showing stack errors
+	app.set('showStackError', true);
 
-  // Passing the request url to environment locals
-  app.use(function(req, res, next) {
-    res.locals.url = req.protocol + ':// ' + req.headers.host + req.url;
-    next();
-  });
+	// Set swig as the template engine
+	app.engine('html', consolidate[config.templateEngine]);
 
-  // Should be placed before express.static
-  app.use(express.compress({
-    filter: function(req, res) {
-      return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
-    },
-    level: 9
-  }));
+	// Set views path and view engine
+	app.set('view engine', 'html');
+	app.set('views', config.root + '/app/views');
 
-  // Showing stack errors
-  app.set('showStackError', true);
+	// Application Configuration for development environment
+	app.configure('development', function() {
+		// Enable logger 
+		app.use(express.logger('dev'));
 
-  // Set swig as the template engine
-  app.engine('html', consolidate[config.templateEngine]);
+		// Disable views cache
+		app.set('view cache', false);
+	});
 
-  // Set views path and view engine
-  app.set('view engine', 'html');
-  app.set('views', config.root + '/app/views');
+	// Application Configuration for production environment
+	app.configure('production', function() {
+		app.locals({
+			cache: 'memory' // To solve SWIG Cache Issues
+		});
+	});
 
-  // Application Configuration for development environment
-  app.configure('development', function() {
-    // Enable logger
-    app.use(express.logger('dev'));
+	//  request body parsing middleware should be above methodOverride
+	app.use(express.urlencoded());
+	app.use(express.json());
+	app.use(express.bodyParser()); 					// pull information from html in POST
+	app.use(express.methodOverride());
 
-    // Disable views cache
-    app.set('view cache', false);
-  });
+	// Enable jsonp
+	app.enable('jsonp callback');
 
-  // Application Configuration for production environment
-  app.configure('production', function() {
-    app.locals({
-      cache: 'memory' // To solve SWIG Cache Issues
-    });
-  });
+	
 
-  //  request body parsing middleware should be above methodOverride
-  app.use(express.urlencoded());
-  app.use(express.json());
-  app.use(express.bodyParser());          // pull information from html in POST
-  app.use(express.methodOverride());
+	// use passport
+	app.use(passport.initialize());
+	//app.use(passport.session());
 
-  // Enable jsonp
-  app.enable('jsonp callback');
+	// connect flash for flash messages
+	//app.use(flash());
 
+	// routes should be at the last
+	app.use(app.router);
 
+	// Setting the app router and static folder
+	app.use(express.static(config.root + '/public'));
 
-  // use passport
-  app.use(passport.initialize());
-  //app.use(passport.session());
+	
+	
+	// Load Routes
+	utilities.walk('./app/routes', /(.*)\.(js$|coffee$)/).forEach(function(routePath) {
+		require(path.resolve(routePath))(app);
+	});
 
-  // connect flash for flash messages
-  //app.use(flash());
+	// Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
+	app.use(function(err, req, res, next) {
+		// If the error object doesn't exists
+		if (!err) return next();
 
-  // routes should be at the last
-  app.use(app.router);
+		// Log it
+		console.error(err.stack);
 
-  // Setting the app router and static folder
-  app.use(express.static(config.root + '/public'));
+		// Error page
+		res.status(500).render('500.html', {
+			error: err.stack
+		});
+	});
 
+	// Assume 404 since no middleware responded
+	app.use(function(req, res) {
+		res.status(404).render('404.html', {
+			url: req.originalUrl,
+			error: 'Not Found'
+		});
+	});
 
-
-  // Load Routes
-  utilities.walk('./app/routes', /(.*)\.(js$|coffee$)/).forEach(function(routePath) {
-    require(path.resolve(routePath))(app);
-  });
-
-  // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
-  app.use(function(err, req, res, next) {
-    // If the error object doesn't exists
-    if (!err) return next();
-
-    // Log it
-    console.error(err.stack);
-
-    // Error page
-    res.status(500).render('500.html', {
-      error: err.stack
-    });
-  });
-
-  // Assume 404 since no middleware responded
-  app.use(function(req, res) {
-    res.status(404).render('404.html', {
-      url: req.originalUrl,
-      error: 'Not Found'
-    });
-  });
-
-  return app;
+	return app;
 };
