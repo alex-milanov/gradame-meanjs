@@ -2,7 +2,7 @@
 
 app.controller('AuthCtrl',
   function ($scope, $location, Auth) {
-    
+
     /*
     if (Auth.signedIn()) {
       $location.path('/');
@@ -16,14 +16,10 @@ app.controller('AuthCtrl',
         });
     };
 
- 
- 
     $scope.register = function () {
       Auth.register($scope.user);
-      
+
     };
-    
+
     $scope.logout = Auth.logout;
-   
-    
   });
