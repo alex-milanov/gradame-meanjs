@@ -52,6 +52,7 @@ vagrant up # включва
 Имплементация е базирана на шаблони/boilerplates:
 - [mean.js](https://github.com/meanjs/mean)
 - [passport-api-tokens](https://github.com/roblevintennis/passport-api-tokens)
+- [angularjs-token-auth](http://stackoverflow.com/questions/11176330/angularjs-how-to-send-auth-token-with-resource-requests) (stackoverflow)
 
 ## Структура
 - app/
