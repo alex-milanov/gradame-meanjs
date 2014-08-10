@@ -1,46 +1,41 @@
 <div class="container-fluid">
-	<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a class="navbar-brand" href="#">
-			<img src="img/logo.png" alt="Grada.me" />
-		</a>
-	</div>
-	
-	<div ng-controller="NavCtrl" class="collapse navbar-collapse" id="navbar-collapse-1">
-    	<ul class="nav navbar-nav navbar-levt">
-			<li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="/">Начало</a></li>
-    		<li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/signals">Сигнали</a></li>
-			<li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/signals/new">Подай сигнал</a></li>
-		</ul>
-    
-		<ul class="nav navbar-nav navbar-right" ng-hide="signedIn()">
-			<li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/login">Вход</a></li>
-			<li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/register">Регистрация</a></li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
-			<li>
-				<a class="avatar">
-				<img src="http://1.gravatar.com/avatar/{{ user.hash }}"/>
-				{{ user.full_name }}
-				</a>
-			</li>
-			<li data-toggle="collapse" data-target="#navbar-collapse-1"><a ng-click="logout()" id="login-btn">Изход</a></li>
-		</ul>
-	</div>
-
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">
+      <img src="img/logo.png" alt="Grada.me" />
+    </a>
+  </div>
+  <div ng-controller="NavCtrl" class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-levt">
+      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="/">Начало</a></li>
+        <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/signals">Сигнали</a></li>
+      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/signals/new">Подай сигнал</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" ng-hide="signedIn()">
+      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/login">Вход</a></li>
+      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/register">Регистрация</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
+      <li>
+        <a class="avatar">
+        <img src="http://1.gravatar.com/avatar/{{ user.hash }}"/>
+        {{ user.full_name }}
+        </a>
+      </li>
+      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a ng-click="logout()" id="login-btn">Изход</a></li>
+    </ul>
+  </div>
 </div>
-	<!-- TODO: convert to angular
-    {{#if user }}
-    <img src="/avatar/{{ user._id }}" width="20" height="20" alt=""/>
-    <a href="{{ url 'user' }}{{ user._id }}">{{ user.name }}</a>
-    <a href="{{ url 'logout' }}" class="button">logout</a>
-    {{/if}}
-	-->
-	
-	<!-- removed auth code -->
-    
+<!-- TODO: convert to angular
+  {{#if user }}
+  <img src="/avatar/{{ user._id }}" width="20" height="20" alt=""/>
+  <a href="{{ url 'user' }}{{ user._id }}">{{ user.name }}</a>
+  <a href="{{ url 'logout' }}" class="button">logout</a>
+  {{/if}}
+-->
+<!-- removed auth code -->
