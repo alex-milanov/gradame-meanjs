@@ -34,6 +34,9 @@ sudo apt-get update -y
 sudo apt-get install mongodb-org -y
 npm install pm2@latest -g
 
+# grunt CLI tool so all tasks can be ran in the VM
+npm install grunt-cli -g
+
 
 # backend and frontend dependencies
 (cd $VAGRANT_DIR && npm install && bower install)
