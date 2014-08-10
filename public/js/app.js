@@ -47,6 +47,11 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
         templateUrl: '/views/signals.new.html',
         controller: 'SignalsNewCtrl'
       })
+      .state('signals-show', {
+        url : '/signals/{signalId}',
+        templateUrl: '/views/signals.show.html',
+        controller: 'SignalsShowCtrl'
+      })
       .state("otherwise", { url : '/'});
 
     //$locationProvider.html5Mode(true);
