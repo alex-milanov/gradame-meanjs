@@ -13,8 +13,8 @@ body {
 
 .navbar {
   background: #FCFBF9;
-  border-color: #FCFBF9;
-  box-shadow: 0 10px 15px rgba(252, 251, 249, 1.0); /* TODO: find better way to separate visually fixed navbar */
+  /*border-color: #FCFBF9;*/
+  /*box-shadow: 0 10px 15px rgba(252, 251, 249, 1.0); /* TODO: find better way to separate visually fixed navbar */
 }
 
 .navbar-brand img {
@@ -70,6 +70,7 @@ footer {
   margin-bottom: 10px;
 }
 
+/*
 .container {
   background: white;
   border: 1px solid #D5D0BD;
@@ -77,6 +78,7 @@ footer {
   padding-right: 25px;
   padding-left: 25px;
 }
+*/
 
 .search-pane {
   margin-top: 25px;
