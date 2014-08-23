@@ -48,4 +48,22 @@ describe("Test routes for user", function() {
       .send(user)
       .expect(401, done);
   });
+
+  it("Should succeed on login with a valid user", function(done) {
+    request(app)
+      .post("/auth/register")
+      .set('Accept', 'application/json')
+      .send(user)
+      .end(function(err, res) {
+        request(app)
+          .post("/auth/login")
+          .set('Accept', 'application/json')
+          .send(user)
+          .expect(200)
+          .end(function(err, res) {
+            res.body.user.should.be.equal(user);
+            done();
+          });
+      });
+  });
 });
