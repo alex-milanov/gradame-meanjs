@@ -14,17 +14,17 @@ describe("Test routes for index", function() {
 });
 
 describe("Test routes for user", function() {
-  after(function() {
+  var user = {
+    fullname: "Test Test",
+    email: "user@internet.com",
+    password: "abc123"
+  };
+
+  afterEach(function() {
     User.remove().exec();
   });
 
   it("Should register a new user with POST /auth/register", function(done) {
-    var user = {
-      fullname: "Test Test",
-      email: "user@internet.com",
-      password: "abc123"
-    };
-
     request(app)
       .post("/auth/register")
       .set('Accept', 'application/json')
@@ -39,5 +39,13 @@ describe("Test routes for user", function() {
         res.body.should.have.property("registered");
         done();
       });
+  });
+
+  it("Should fail on login with invalid user", function(done) {
+    request(app)
+      .post("/auth/login")
+      .set('Accept', 'application/json')
+      .send(user)
+      .expect(401, done);
   });
 });
