@@ -35,7 +35,7 @@ app.factory('Maps',
     var _updatePosition = function(pos){
 
       map.setCenter(pos);
-      map.setZoom(15);
+      map.setZoom(13);
       marker.setPosition(pos);
       marker.setAnimation(google.maps.Animation.DROP);
 
