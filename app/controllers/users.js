@@ -28,7 +28,7 @@ exports.register = function(req, res) {
     var password = req.body.password;
     var user = new User({full_name: name,email: email});
     var message;
-    console.log(req);
+    // console.log(req);
 
     User.register(user, password, function(error, account) {
         if (error) {
@@ -89,7 +89,7 @@ exports.login = function(req, res, next) {
 		                            full_name: user.full_name
 		                        },
 		                        token: user.token.token
-		                        
+
 		                    });
 		                }
 		            }
