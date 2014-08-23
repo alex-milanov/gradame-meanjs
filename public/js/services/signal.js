@@ -1,5 +1,5 @@
 app.provider('Signal', function(){
-  this.$get = ['$resource', function($resource){
+  this.$get = ['$resource', 'TokenHandler', function($resource, tokenHandler){
     var Signal = $resource('/api/signals/:collectionRoute:_id/:memberRoute',{
       _id: '@_id',
       collectionRoute: '@collectionRoute',
@@ -9,7 +9,11 @@ app.provider('Signal', function(){
         method:"POST",
         headers:{'Content-Type':undefined},
         transformRequest: function (data, headersGetter) {
-          console.log({data : data});
+		
+		  // add token
+		  if(tokenHandler.get() && tokenHandler.get()!='')
+		  	headersGetter().token = tokenHandler.get();
+			
           var formData = new FormData();
           //need to convert our json object to a string version of json otherwise
           // the browser will do a 'toString()' on the object which will result
@@ -46,6 +50,10 @@ app.provider('Signal', function(){
         }
       }
     });
+	  
+	// wrap actions does not work well here
+    //Signal = tokenHandler.wrapActions( Signal, ["post", "update"] );
+	
     return Signal;
   }];
 });

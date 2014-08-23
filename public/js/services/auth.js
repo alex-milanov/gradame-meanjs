@@ -12,15 +12,14 @@ app.factory('Auth',
         return userData;
       },
       register: function (user) {
-
-      $http.post("/auth/register", user)
-        .success(function(data) {
-          //console.log('Success: '+data);
-          $location.url('/');
-        })
-        .error(function(data) {
-          console.log('Error: ' + data);
-        });
+      	$http.post("/auth/register", user)
+			.success(function(data) {
+			  //console.log('Success: '+data);
+			  $location.url('/');
+			})
+			.error(function(data) {
+			  console.log('Error: ' + data);
+			});
         //return auth.$createUser(user.email, user.password);
       },
       fbConnect : function(){
@@ -40,12 +39,14 @@ app.factory('Auth',
               TokenHandler.set(data.token);
               signedIn = true;
               userData = data.user;
+			  // add token to http requests
+			  //$http.defaults.headers.common.token = data.token;
+				
               return data;
             } else {
               return $q.reject(data);
             }
-          }).error(
-          function(data) {
+          }).error(function(data) {
             return $q.reject(data);
           });
         //return auth.$login('password', user);
@@ -55,6 +56,7 @@ app.factory('Auth',
         signedIn = false;
         userData = {};
         $location.url('/');
+		//delete($http.defaults.headers.common.token);
         //auth.$logout();
       }
     };

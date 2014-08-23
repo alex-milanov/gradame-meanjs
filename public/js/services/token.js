@@ -1,6 +1,6 @@
 app.factory('TokenHandler', function() {
   var tokenHandler = {};
-  var token = "none";
+  var token = "";
 
   tokenHandler.set = function( newToken ) {
     token = newToken;
@@ -12,9 +12,10 @@ app.factory('TokenHandler', function() {
 
   // wrap given actions of a resource to send auth token with every
   // request
-  tokenHandler.wrapActions = function( resource, actions ) {
+  tokenHandler.wrapActions = function( _resource, actions ) {
+	
     // copy original resource
-    var wrappedResource = resource;
+    var wrappedResource = _resource;
     for (var i=0; i < actions.length; i++) {
       tokenWrapper( wrappedResource, actions[i] );
     };
@@ -23,12 +24,12 @@ app.factory('TokenHandler', function() {
   };
 
   // wraps resource action to send request with auth token
-  var tokenWrapper = function( resource, action ) {
+  var tokenWrapper = function( _resource, action ) {
     // copy original action
-    resource['_' + action]  = resource[action];
+    _resource['_' + action]  = _resource[action];
     // create new action wrapping the original and sending token
-    resource[action] = function( data, success, error){
-      return resource['_' + action](
+    _resource[action] = function( data, success, error){
+      return _resource['_' + action](
         angular.extend({}, data || {}, {token: tokenHandler.get()}),
         success,
         error
