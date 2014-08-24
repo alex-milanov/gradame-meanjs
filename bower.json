@@ -10,6 +10,7 @@
 		"angular-resource": "latest",
 		"angular-google-maps": "latest",
 		"lodash": "latest",
-		"q" : "~1.x"
+		"q" : "~1.x",
+		"angular-mocks":"latest"
 	}
 }
