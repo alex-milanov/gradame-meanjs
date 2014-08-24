@@ -37,6 +37,14 @@ vagrant up
 vagrant box add hashicorp/precise32 https://vagrantcloud.com/hashicorp/precise32/version/1/provider/virtualbox.box
 ```
 
+При проблем с NFS файлова система (Vagrant казва, че машината не може да намери `nfsd`), трябва да се инсталират следните неща:
+
+```sh
+sudo apt-get install nfs-kernel-server nfs-common
+```
+
+След това нещата ще тръгнат.
+
 #### Детайли какво се случва при автоматичната настройка
 Автоматичната настройка създава виртуална машина заемаща 384MB RAM памет и 2GB на диска. Може да я спирате и пускате с команди от директорията на проекта:
 
@@ -63,7 +71,7 @@ vagrant up # включва
 - config/
  - env/
  - strategies/
-- public/ 
+- public/
  - css/
  - img/
  - js/
@@ -71,4 +79,4 @@ vagrant up # включва
     - services/
  - lib/
  - views/
-    
+

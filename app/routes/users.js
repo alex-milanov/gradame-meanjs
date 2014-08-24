@@ -19,7 +19,7 @@ module.exports = function(app) {
 
 	app.post('/auth/register', users.register);
 	app.post('/auth/login', passport.authenticate('local', {session: false}), users.login);
-	app.get('/auth/logout(\\?)?', users.logout);
+	app.get('/auth/logout', users.logout);
 
 	/*
 
@@ -42,9 +42,9 @@ module.exports = function(app) {
 	}));
 	app.get('/auth/google/callback', users.oauthCallback('google'));
 
-	
+
 	*/
-	
+
 	// Finish by binding the user middleware
 	app.param('userId', users.userByID);
 };
