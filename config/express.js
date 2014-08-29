@@ -101,6 +101,40 @@ module.exports = function(db) {
 	app.use(passport.initialize());
 	//app.use(passport.session());
 
+	// inject user if token
+	// todo move this to strategy or use 3rd party lib
+	var User = db.model("User");
+	var Token = db.model("Token");	
+	app.use(function(req,res,next){
+
+		//console.log(req.headers.token);
+		if(!req.headers.token){
+			return next();
+		}
+
+		var incomingToken = req.headers.token;
+	    console.log('incomingToken: ' + incomingToken);
+	    var decoded = User.decode(incomingToken);
+	    //Now do a lookup on that email in mongodb ... if exists it's a real user
+	    if (decoded && decoded.email) {
+	        User.findUser(decoded.email, incomingToken, function(err, user) {
+	            if (err) {
+	                console.log({error: 'Issue finding user.',
+	                			msg: err});
+	                return next();
+	            } else {
+	                if (Token.hasExpired(user.token.date_created)) {
+	                    console.log("Token expired...TODO: Add renew token funcitionality.");
+	                    return next();
+	                } else {
+	                    req.user = user;
+	                    return next();
+	                }
+	            }
+	        });
+	    } 
+	})
+
 	// connect flash for flash messages
 	//app.use(flash());
 
