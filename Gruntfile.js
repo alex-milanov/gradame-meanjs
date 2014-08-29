@@ -57,24 +57,42 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
 		watch: {
 			css: {
 				files: '**/*.sass',
 				tasks: ['sass']
 			}
-		}
+		},
+
+    nodemon: {
+      dev: {
+        script: 'server.js',
+        options: {
+          args: [],
+          ignore: ['node_modules/**'],
+          ext: 'js,html',
+          nodeArgs: ['--debug'],
+          delayTime: 1,
+          cwd: __dirname
+        }
+      }
+    },
+
+    concurrent: {
+      tasks: ['nodemon', 'watch'],
+      options: {
+        logConcurrentOutput: true
+      }
+    }
   });
 
-  grunt.loadNpmTasks('grunt-lintspaces');
-  grunt.loadNpmTasks('grunt-trimtrailingspaces');
-  grunt.loadNpmTasks('grunt-exec');
-  grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+  require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('check-spaces', ['lintspaces']);
 
   grunt.registerTask('fix-spaces', ['trimtrailingspaces', 'exec:tabs2spaces']);
 
-  grunt.registerTask('default',['watch']);
+  grunt.registerTask('default',['concurrent']);
 
 };
