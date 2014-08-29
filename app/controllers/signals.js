@@ -26,6 +26,11 @@ exports.create = function(req, res) {
 	}
 
 	var signal = new Signal(req.body);
+
+	if(req.user && req.user.id){
+		signal.author = req.user.id;
+	}
+
 	console.log(req.body);
 	
 	signal.save(function(err) {
@@ -126,6 +131,8 @@ exports.delete = function(req, res) {
  * List of Signals
  */
 exports.list = function(req, res) {
+
+	console.log({user: req.user});
 
 	var queryJson = {};
 

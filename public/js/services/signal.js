@@ -5,14 +5,22 @@ app.provider('Signal', function(){
       collectionRoute: '@collectionRoute',
       memberRoute: '@memberRoute'
     },{
+      query:{
+        method:"GET",
+        isArray:true,
+        transformRequest: function(data, headersGetter){
+          if(tokenHandler.get() && tokenHandler.get()!='')
+            headersGetter().token = tokenHandler.get();
+        }
+      },
       post:{
         method:"POST",
         headers:{'Content-Type':undefined},
         transformRequest: function (data, headersGetter) {
 		
-		  // add token
-		  if(tokenHandler.get() && tokenHandler.get()!='')
-		  	headersGetter().token = tokenHandler.get();
+  		    // add token
+  		    if(tokenHandler.get() && tokenHandler.get()!='')
+  		  	 headersGetter().token = tokenHandler.get();
 			
           var formData = new FormData();
           //need to convert our json object to a string version of json otherwise
@@ -51,8 +59,8 @@ app.provider('Signal', function(){
       }
     });
 	  
-	// wrap actions does not work well here
-    //Signal = tokenHandler.wrapActions( Signal, ["post", "update"] );
+	  // wrap actions does not work well here
+    //Signal = tokenHandler.wrapActions( Signal, ["query"] );
 	
     return Signal;
   }];
