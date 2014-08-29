@@ -174,6 +174,18 @@ exports.me = function(req, res) {
 	//res.jsonp(req.user || null);
 };
 
+
+exports.requiresToken = function(req, res, next) {
+    if (!req.headers.token || !req.user){
+        return res.status(401).send({
+            message: 'User is not logged in or token expired'
+        });
+    }
+
+    next();
+};
+
+
 exports.userByID = function(req, res, next, id) {
 	User.findOne({
 		_id: id
