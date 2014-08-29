@@ -19,7 +19,8 @@ var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	helmet = require('helmet'),
 	passport = require('passport'),
-	flash = require('connect-flash')
+	flash = require('connect-flash'),
+  less = require('less-middleware')
 
 module.exports = function(db) {
 	// Initialize express app

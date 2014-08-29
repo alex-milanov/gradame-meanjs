@@ -28,7 +28,6 @@
     "passport-local": "1.0.0",
     "passport-local-mongoose": "0.3.0",
     "jwt-simple": "0.2.0",
-    "lodash": "2.4.1",
     "q": "1.0.1",
     "crypto": "0.0.3",
     "karma": "^0.12.22"
