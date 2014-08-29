@@ -19,7 +19,8 @@
     "lodash": "2.4.1",
     "q": "1.0.1",
     "crypto": "0.0.3",
-    "karma": "^0.12.22"
+    "karma": "^0.12.22",
+    "grunt-contrib-sass": "~0.8.1"
   },
   "author": "Volunteer civic hackers at www.obshtestvo.bg",
   "devDependencies": {
@@ -36,6 +37,7 @@
     "karma-firefox-launcher": "^0.1.3",
     "karma-ie-launcher": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
-    "jasmine-expect": "^1.22.0"
+    "jasmine-expect": "^1.22.0",
+    "grunt-contrib-watch": "~0.6.1"
   }
 }

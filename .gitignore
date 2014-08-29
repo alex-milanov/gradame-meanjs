@@ -3,3 +3,5 @@
 node_modules
 public/lib
 public/img/signals/
+.sass-cache
+public/css/style.css
