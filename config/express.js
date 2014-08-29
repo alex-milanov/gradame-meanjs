@@ -3,13 +3,23 @@
 /**
  * Module dependencies.
  */
-var express = require('express'),
-	passport = require('passport'),
+var passport = require('passport'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
 	swig = require('swig'),
 	path = require('path'),
 	utilities = require('./utilities');
+
+var express = require('express'),
+	morgan = require('morgan'),
+	bodyParser = require('body-parser'),
+	session = require('express-session'),
+	compress = require('compression'),
+	methodOverride = require('method-override'),
+	cookieParser = require('cookie-parser'),
+	helmet = require('helmet'),
+	passport = require('passport'),
+	flash = require('connect-flash')
 
 module.exports = function(db) {
 	// Initialize express app
@@ -21,16 +31,13 @@ module.exports = function(db) {
 	});
 
 	// Setting the environment locals
-	app.locals({
-		title: config.app.title,
-		description: config.app.description,
-		keywords: config.app.keywords
-//		facebookAppId: config.facebook.clientID,
-//		modulesJSFiles: utilities.walk('./public/modules', /(.*)\.(js)/, /(.*)\.(spec.js)/, './public'),
-//		modulesCSSFiles: utilities.walk('./public/modules', /(.*)\.(css)/, null, './public')
-	});
-	
-	
+	app.locals.title = config.app.title
+  app.locals.description = config.app.description
+  app.locals.keywords = config.app.keywords
+//		app.locals.facebookAppId: config.facebook.clientID,
+//		app.locals.modulesJSFiles: utilities.walk('./public/modules', /(.*)\.(js)/, /(.*)\.(spec.js)/, './public'),
+//		app.locals.modulesCSSFiles: utilities.walk('./public/modules', /(.*)\.(css)/, null, './public')
+
 	// cross domain support
 	app.use(function(req, res, next) {
 		res.header('Access-Control-Allow-Origin', '*');
@@ -53,7 +60,7 @@ module.exports = function(db) {
 	});
 
 	// Should be placed before express.static
-	app.use(express.compress({
+	app.use(compress({
 		filter: function(req, res) {
 			return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
 		},
@@ -70,27 +77,23 @@ module.exports = function(db) {
 	app.set('view engine', 'html');
 	app.set('views', config.root + '/app/views');
 
-	// Application Configuration for development environment
-	app.configure('development', function() {
-		// Enable logger 
-		app.use(express.logger('dev'));
+	// Environment dependent middleware
+	if (process.env.NODE_ENV === 'development') {
+		// Enable logger (morgan)
+		app.use(morgan('dev'));
 
 		// Disable views cache
 		app.set('view cache', false);
-	});
+	} else if (process.env.NODE_ENV === 'production') {
+		app.locals.cache = 'memory';
+	}
 
-	// Application Configuration for production environment
-	app.configure('production', function() {
-		app.locals({
-			cache: 'memory' // To solve SWIG Cache Issues
-		});
-	});
-
-	//  request body parsing middleware should be above methodOverride
-	app.use(express.urlencoded());
-	app.use(express.json());
-	app.use(express.bodyParser()); 					// pull information from html in POST
-	app.use(express.methodOverride());
+	// Request body parsing middleware should be above methodOverride
+	app.use(bodyParser.urlencoded({
+		extended: true
+	}));
+	app.use(bodyParser.json());
+	app.use(methodOverride());
 
 	// Enable jsonp
 	app.enable('jsonp callback');
@@ -104,14 +107,19 @@ module.exports = function(db) {
 	// connect flash for flash messages
 	//app.use(flash());
 
-	// routes should be at the last
-	app.use(app.router);
+  // use less middleware
+  app.use(less(config.root + '/public'));
+
+	// Use helmet to secure Express headers
+	app.use(helmet.xframe());
+	app.use(helmet.xssFilter());
+	app.use(helmet.nosniff());
+	app.use(helmet.ienoopen());
+	app.disable('x-powered-by');
 
 	// Setting the app router and static folder
 	app.use(express.static(config.root + '/public'));
 
-	
-	
 	// Load Routes
 	utilities.walk('./app/routes', /(.*)\.(js$|coffee$)/).forEach(function(routePath) {
 		require(path.resolve(routePath))(app);
