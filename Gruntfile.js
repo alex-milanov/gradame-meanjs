@@ -48,15 +48,51 @@ module.exports = function(grunt) {
       spaces2tabs: 'find . \\\( -name "*.js" -o -name "*.html" -o -name "*.css" \\\) ' +
                    '-not \\\( -type d -o -path "./public/lib/*" -o -path "./node_modules/*" -o -path "./.vagrant/*" -o -path "./.git/*" \\\) ' +
                    '-exec bash -c \'unexpand -t 2 "$0" > /tmp/e && mv /tmp/e "$0"\' {} \\\;'
+    },
+
+    sass: {
+			dist: {
+				files: {
+					'public/css/style.css' : 'public/css/style.sass'
+				}
+			}
+		},
+
+		watch: {
+			css: {
+				files: '**/*.sass',
+				tasks: ['sass']
+			}
+		},
+
+    nodemon: {
+      dev: {
+        script: 'server.js',
+        options: {
+          args: [],
+          ignore: ['node_modules/**'],
+          ext: 'js,html',
+          nodeArgs: ['--debug'],
+          delayTime: 1,
+          cwd: __dirname
+        }
+      }
+    },
+
+    concurrent: {
+      tasks: ['nodemon', 'watch'],
+      options: {
+        logConcurrentOutput: true
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-lintspaces');
-  grunt.loadNpmTasks('grunt-trimtrailingspaces');
-  grunt.loadNpmTasks('grunt-exec');
+  require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('check-spaces', ['lintspaces']);
 
   grunt.registerTask('fix-spaces', ['trimtrailingspaces', 'exec:tabs2spaces']);
+
+  grunt.registerTask('default',['concurrent']);
 
 };
