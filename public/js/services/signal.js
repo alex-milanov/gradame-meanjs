@@ -17,11 +17,11 @@ app.provider('Signal', function(){
         method:"POST",
         headers:{'Content-Type':undefined},
         transformRequest: function (data, headersGetter) {
-		
-  		    // add token
-  		    if(tokenHandler.get() && tokenHandler.get()!='')
-  		  	 headersGetter().token = tokenHandler.get();
-			
+
+          // add token
+          if(tokenHandler.get() && tokenHandler.get()!='')
+           headersGetter().token = tokenHandler.get();
+
           var formData = new FormData();
           //need to convert our json object to a string version of json otherwise
           // the browser will do a 'toString()' on the object which will result
@@ -58,10 +58,10 @@ app.provider('Signal', function(){
         }
       }
     });
-	  
-	  // wrap actions does not work well here
+
+    // wrap actions does not work well here
     //Signal = tokenHandler.wrapActions( Signal, ["query"] );
-	
+
     return Signal;
   }];
 });

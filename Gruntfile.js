@@ -51,19 +51,19 @@ module.exports = function(grunt) {
     },
 
     sass: {
-			dist: {
-				files: {
-					'public/css/style.css' : 'public/css/style.sass'
-				}
-			}
-		},
+      dist: {
+        files: {
+          'public/css/style.css' : 'public/css/style.sass'
+        }
+      }
+    },
 
-		watch: {
-			css: {
-				files: '**/*.sass',
-				tasks: ['sass']
-			}
-		},
+    watch: {
+      css: {
+        files: '**/*.sass',
+        tasks: ['sass']
+      }
+    },
 
     nodemon: {
       dev: {

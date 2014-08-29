@@ -13,7 +13,7 @@ app.factory('TokenHandler', function() {
   // wrap given actions of a resource to send auth token with every
   // request
   tokenHandler.wrapActions = function( _resource, actions ) {
-	
+
     // copy original resource
     var wrappedResource = _resource;
     for (var i=0; i < actions.length; i++) {

@@ -24,7 +24,7 @@ module.exports = function(config) {
       'public/lib/angular-google-maps/dist/angular-google-maps.js',
       'public/lib/angular-mocks/angular-mocks.js',
       'public/lib/angular-resource/angular-resource.js',
-      
+
       'public/js/app.js',
       'public/js/services/*.js',
       'public/js/controllers/user.js',
