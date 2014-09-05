@@ -11,6 +11,7 @@ app.factory('Maps',
     };
 
     var autocomplete,
+        geocoder,
         map,
         marker,
         sigMarkers = [],
@@ -35,7 +36,7 @@ app.factory('Maps',
     var _updatePosition = function(pos){
 
       map.setCenter(pos);
-      map.setZoom(13);
+      //map.setZoom(13);
       marker.setPosition(pos);
       marker.setAnimation(google.maps.Animation.DROP);
 
@@ -46,6 +47,7 @@ app.factory('Maps',
 
     Maps.init = function(mapEl, autocompleteEl){
         map = mapEl.control.getGMap();
+        geocoder = new google.maps.Geocoder();
 
         var markerOptions = {
           position: new google.maps.LatLng(mapEl.center.latitude, mapEl.center.longitude),
@@ -78,7 +80,7 @@ app.factory('Maps',
         google.maps.event.addListener(map, 'zoom_changed', function () {
           google.maps.event.addListenerOnce(map, 'bounds_changed', function (e) {
             //$scope.filter.bounds = map.getBounds().toString();
-            _notify('boundsChanged');
+            //_notify('boundsChanged');
           });
         });
 
@@ -137,6 +139,29 @@ app.factory('Maps',
     Maps.getPosition  = function(){
       return _position;
     }
+
+    Maps.setPosition  = function(pos){
+      _updatePosition(pos);
+    }
+
+    Maps.getCenter = function(){
+      return map.getCenter();
+    }
+
+    Maps.geocode = function(pos, callback){
+      geocoder.geocode({'latLng': pos}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+            callback(results)
+            //infowindow.setContent(results[1].formatted_address);
+           
+          }
+        } else {
+          console.log("Geocoder failed due to: " + status);
+        }
+      });
+    }
+
 
     return Maps;
   });
