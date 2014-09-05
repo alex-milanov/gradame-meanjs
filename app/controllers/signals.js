@@ -31,8 +31,6 @@ exports.create = function(req, res) {
     signal.author = req.user.id;
   }
 
-  console.log(req.body);
-
   signal.save(function(err) {
     if (err) {
       res.jsonp({
@@ -62,6 +60,7 @@ exports.create = function(req, res) {
           images.push(''+index+ext);
           var fileData = fs.readFileSync(file.path);
           fs.writeFileSync(newPath, fileData);
+          fs.unlinkSync(file.path);
           index++;
         }
 
