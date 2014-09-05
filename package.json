@@ -17,6 +17,7 @@
 		"morgan": "~1.2.2",
 		"connect-mongo": "~0.4.1",
 		"connect-flash": "~0.1.1",
+    "connect-multiparty": "",
 		"helmet": "~0.4.0",
     "consolidate": "0.10.0",
     "jwt-simple": "0.2.0",
