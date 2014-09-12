@@ -1,0 +1,15 @@
+<h4>Последно подадени сигнали</h4>
+<ul class="media-list">
+  <li class="media" ng-repeat='signal in signals'>
+    <a ng-href="#/signals/{{ signal._id }}" class="pull-left thumbnail">
+      <img ng-if="signal.images[0]" ng-src="/img/signals/{{ signal._id }}/{{ signal.images[0] }}" class="media-object ng-scope">
+    </a>
+    <div class="media-body">
+      <address>
+        <b class="ng-binding">{{ signal.type }}</b><br>
+        <small class="ng-binding">{{ signal.address }}</small><br>
+        <small class="ng-binding">{{ signal.date_created }}</small>
+      </address>
+    </div>
+  </li>
+</ul>

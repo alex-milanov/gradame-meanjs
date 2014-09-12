@@ -130,7 +130,6 @@ exports.delete = function(req, res) {
  * List of Signals
  */
 exports.list = function(req, res) {
-
   console.log({user: req.user});
 
   var queryJson = {};
@@ -160,7 +159,7 @@ exports.list = function(req, res) {
   }
 
 
-  Signal.find(queryJson).sort('-created').populate('user', 'displayName').exec(function(err, signals) {
+  Signal.find(queryJson).sort('-date_created').limit(req.query.limit ? req.query.limit : 0).populate('user', 'displayName').exec(function(err, signals) {
     if (err) {
       res.jsonp('error', {
         status: 500,
