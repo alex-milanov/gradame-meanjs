@@ -2,10 +2,7 @@
 
 app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Signal, Maps) {
   //$scope.signal = new Signal();
-  $scope.signals = Signal.query({limit: 3},
-    function(data) {
-      $scope.signals = data
-  }, function(errData) {});
+  $scope.signals = [];
 
   $scope.signalTypes = [
     "Улична дупка",
