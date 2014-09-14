@@ -47,7 +47,9 @@ module.exports = function(grunt) {
 
       spaces2tabs: 'find . \\\( -name "*.js" -o -name "*.html" -o -name "*.css" \\\) ' +
                    '-not \\\( -type d -o -path "./public/lib/*" -o -path "./node_modules/*" -o -path "./.vagrant/*" -o -path "./.git/*" \\\) ' +
-                   '-exec bash -c \'unexpand -t 2 "$0" > /tmp/e && mv /tmp/e "$0"\' {} \\\;'
+                   '-exec bash -c \'unexpand -t 2 "$0" > /tmp/e && mv /tmp/e "$0"\' {} \\\;',
+      npmInstall: 'npm install',
+      bowerInstall: 'bower install'
     },
 
     sass: {
@@ -93,6 +95,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('fix-spaces', ['trimtrailingspaces', 'exec:tabs2spaces']);
 
-  grunt.registerTask('default',['concurrent']);
+  grunt.registerTask('default',['sass','concurrent']);
+
+  grunt.registerTask('depInstall',['exec:npmInstall','exec:bowerInstall']);
 
 };
