@@ -62,7 +62,7 @@ app.controller('SignalsNewCtrl', function ($scope, $location, $http, $timeout, S
       //$scope.signal.$save().then($scope.load);
     } else {
       var signal = $scope.signal;
-      Signal.post(signal).$promise.then(function(){
+      Signal.save(signal).$promise.then(function(){
         $location.path('signals');
       });
     }

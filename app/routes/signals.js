@@ -15,7 +15,7 @@ module.exports = function(app) {
   //app.put('/signals/:signalId', users.requiresLogin, signals.hasAuthorization, signals.update);
   app.put('/api/signals/:signalId', signals.update);
   //app.del('/signals/:signalId', users.requiresLogin, signals.hasAuthorization, signals.delete);
-  app.del('/api/signals/:signalId', signals.delete);
+  app.delete('/api/signals/:signalId', signals.delete);
 
 
   // Finish by binding the article middleware

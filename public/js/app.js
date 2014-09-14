@@ -1,3 +1,5 @@
+'use strict'
+
 var app = angular.module('gradame', [
   'ui.router',
   //'ui.router.compat',
@@ -6,13 +8,25 @@ var app = angular.module('gradame', [
   'ngResource'
   ]);
 
-
 app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
   function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
     $httpProvider.defaults.useXDomain = true;
 
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+    $httpProvider.interceptors.push(['TokenHandler', function(TokenHandler) {
+      return {
+        request: function(config) {
+          // add token unless we are requesting an external site
+          if (!config.url.match(/^http/)) {
+            config.headers['token'] = TokenHandler.get();
+          }
+
+          return config;
+        }
+      }
+    }]);
 
     $stateProvider
       .state('home', {
@@ -57,3 +71,16 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     //$locationProvider.html5Mode(true);
   }
 ]);
+
+app.factory('TokenInjector', ['TokenHandler', '$location', function(TokenHandler, $location) {
+  var TokenInjector = {
+    request: function(config) {
+      if (config.url.match(/$location.host/)) {
+        config.headers['token'] = TokenHandler.get();
+      }
+    }
+  };
+
+  return TokenInjector;
+}]);
+
