@@ -1,5 +1,10 @@
 @import url(http://fonts.googleapis.com/css?family=Anaheim|Sniglet|Source+Code+Pro|Averia+Gruesa+Libre|Open+Sans&subset=latin,cyrillic)
 
+
+$panel-bg: #FCFBF9
+
+
+
 body
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
   -webkit-font-smoothing: antialiased
@@ -82,11 +87,43 @@ label
 address
   margin-bottom: 0px
 
-.thumbnail
-  margin-bottom: 0px
-  max-width: 60px
-  min-width: 60px
-  min-height: 60px
+.signals-list
+  .thumbnail
+    margin-bottom: 0px
+    max-width: 60px
+    min-width: 60px
+    min-height: 60px
+
+.signals-view
+  border: 1px solid #CCC
+  border-radius: 4px
+  .left-pane
+    padding: 20px
+    padding-top: 0px
+    display: table-cell
+    background: $panel-bg
+    border-radius: 4px 0px 0px 4px
+    float: none
+    > div
+      margin-top: 20px
+  .right-pane
+    padding: 20px
+    background: #EEE
+    display: table-cell
+    vertical-align: top
+    float: none
+    border-radius: 0px 4px 4px 0px
+    border-left: 1px solid #CCC
+  .thumbnails
+    div
+      width: 23%
+      margin: 0px
+      margin-right: 7px
+      padding: 0px
+      float: none
+      display: inline-block
+      vertical-align: top
+
 
 .media
   margin-top: 10px
@@ -116,7 +153,7 @@ address
     height: 100%
   .filter-pane
     padding: 15px 20px
-    background: #FCFBF9
+    background: $panel-bg
     border-bottom: 1px solid #E5E3DF
     .form-control!
   .meta-info

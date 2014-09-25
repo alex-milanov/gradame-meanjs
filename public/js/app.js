@@ -61,10 +61,10 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
         templateUrl: '/views/signals.new.html',
         controller: 'SignalsNewCtrl'
       })
-      .state('signals-show', {
+      .state('signals-view', {
         url : '/signals/{signalId}',
-        templateUrl: '/views/signals.show.html',
-        controller: 'SignalsShowCtrl'
+        templateUrl: '/views/signals.view.html',
+        controller: 'SignalsViewCtrl'
       })
       .state("otherwise", { url : '/'});
 
