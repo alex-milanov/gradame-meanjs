@@ -72,7 +72,8 @@ module.exports = function(db) {
   app.set('showStackError', true);
 
   // Set swig as the template engine
-  app.engine('html', consolidate[config.templateEngine]);
+  app.engine('html', consolidate["ejs"]);
+  app.engine('jade', consolidate[config.templateEngine]);
 
   // Set views path and view engine
   app.set('view engine', 'html');
@@ -152,13 +153,13 @@ module.exports = function(db) {
   app.use(helmet.ienoopen());
   app.disable('x-powered-by');
 
-  // Setting the app router and static folder
-  app.use(express.static(config.root + '/public'));
-
   // Load Routes
   utilities.walk('./app/routes', /(.*)\.(js$|coffee$)/).forEach(function(routePath) {
     require(path.resolve(routePath))(app);
   });
+
+  // Setting the app router and static folder
+  app.use(express.static(config.root + '/public'));
 
   // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
   app.use(function(err, req, res, next) {
@@ -169,14 +170,14 @@ module.exports = function(db) {
     console.error(err.stack);
 
     // Error page
-    res.status(500).render('500.html', {
+    res.status(500).render('500.jade', {
       error: err.stack
     });
   });
 
   // Assume 404 since no middleware responded
   app.use(function(req, res) {
-    res.status(404).render('404.html', {
+    res.status(404).render('404.jade', {
       url: req.originalUrl,
       error: 'Not Found'
     });
