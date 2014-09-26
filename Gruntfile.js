@@ -41,11 +41,11 @@ module.exports = function(grunt) {
     },
 
     exec: {
-      tabs2spaces: 'find . \\\( -name "*.js" -o -name "*.html" -o -name "*.css" \\\) ' +
+      tabs2spaces: 'find . \\\( -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.jade" \\\) ' +
                    '-not \\\( -type d -o -path "./public/lib/*" -o -path "./node_modules/*" -o -path "./.vagrant/*" -o -path "./.git/*" \\\) ' +
                    '-exec bash -c \'expand -t 2 "$0" > /tmp/e && mv /tmp/e "$0"\' {} \\\;',
 
-      spaces2tabs: 'find . \\\( -name "*.js" -o -name "*.html" -o -name "*.css" \\\) ' +
+      spaces2tabs: 'find . \\\( -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.jade" \\\) ' +
                    '-not \\\( -type d -o -path "./public/lib/*" -o -path "./node_modules/*" -o -path "./.vagrant/*" -o -path "./.git/*" \\\) ' +
                    '-exec bash -c \'unexpand -t 2 "$0" > /tmp/e && mv /tmp/e "$0"\' {} \\\;',
       npmInstall: 'npm install',
