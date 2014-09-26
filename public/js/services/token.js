@@ -1,14 +1,13 @@
-app.factory('TokenHandler', function() {
-  var tokenHandler = {};
-  var token = "";
-
-  tokenHandler.set = function(newToken) {
-    token = newToken;
-  };
-
-  tokenHandler.get = function() {
-    return token;
-  };
-
-  return tokenHandler;
-});
+app.factory('TokenHandler', ['$cookies', function() {
+  return {
+    set: function(token) {
+      $cookies.token = token
+    },
+    get: function() {
+      return $cookies.token;
+    },
+    clear: function() {
+      delete $cookies.token;
+    }
+  }
+}]);

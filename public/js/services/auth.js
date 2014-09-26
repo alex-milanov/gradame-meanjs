@@ -39,8 +39,6 @@ app.factory('Auth',
               TokenHandler.set(data.token);
               signedIn = true;
               userData = data.user;
-        // add token to http requests
-        //$http.defaults.headers.common.token = data.token;
 
               return data;
             } else {
@@ -52,11 +50,10 @@ app.factory('Auth',
         //return auth.$login('password', user);
       },
       logout: function () {
-        TokenHandler.set("");
+        TokenHandler.clear();
         signedIn = false;
         userData = {};
         $location.url('/');
-    //delete($http.defaults.headers.common.token);
         //auth.$logout();
       }
     };

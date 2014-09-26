@@ -5,7 +5,8 @@ var app = angular.module('gradame', [
   //'ui.router.compat',
   'ur.file',
   'google-maps',
-  'ngResource'
+  'ngResource',
+  'ngCookies'
   ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
