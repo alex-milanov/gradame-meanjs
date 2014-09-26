@@ -19,16 +19,16 @@ exports.views = function(req, res){
   var jadePath = filePath.replace('html','jade');
   console.log(config.root + '/app/views/default/' + jadePath);
   fs.exists(config.root + '/app/views/default/' + jadePath, function (exists) {
-  	console.log(exists);
+    console.log(exists);
     if(exists){
       res.render('default/'+jadePath);
     } else {
-	  console.log(config.root + '/public/views/' + filePath);
-	  // fallback to the current public views directory
-	  fs.exists(config.root + '/public/views/' + filePath, function (exists) {
-	    if(exists){
-	      res.render('../../public/views/'+filePath);
-	    }
+    console.log(config.root + '/public/views/' + filePath);
+    // fallback to the current public views directory
+    fs.exists(config.root + '/public/views/' + filePath, function (exists) {
+      if(exists){
+        res.render('../../public/views/'+filePath);
+      }
       });
     }
   });

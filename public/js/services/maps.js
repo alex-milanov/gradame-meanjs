@@ -154,7 +154,7 @@ app.factory('Maps',
           if (results[1]) {
             callback(results)
             //infowindow.setContent(results[1].formatted_address);
-           
+
           }
         } else {
           console.log("Geocoder failed due to: " + status);
