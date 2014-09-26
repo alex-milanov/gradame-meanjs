@@ -72,15 +72,3 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
   }
 ]);
 
-app.factory('TokenInjector', ['TokenHandler', '$location', function(TokenHandler, $location) {
-  var TokenInjector = {
-    request: function(config) {
-      if (config.url.match(/$location.host/)) {
-        config.headers['token'] = TokenHandler.get();
-      }
-    }
-  };
-
-  return TokenInjector;
-}]);
-
