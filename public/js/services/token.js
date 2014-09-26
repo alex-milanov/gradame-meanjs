@@ -1,13 +1,13 @@
-app.factory('TokenHandler', ['$cookies', function() {
+app.factory('TokenHandler', ['$localStorage', function($localStorage) {
   return {
     set: function(token) {
-      $cookies.token = token
+      $localStorage.token = token
     },
     get: function() {
-      return $cookies.token;
+      return $localStorage.token;
     },
     clear: function() {
-      delete $cookies.token;
+      delete $localStorage.token;
     }
   }
 }]);

@@ -9,7 +9,7 @@
     "angular-ui-router" : "latest",
     "angular-resource": "latest",
     "angular-google-maps": "latest",
-    "angular-cookies": "latest",
+    "ngstorage": "latest",
     "lodash": "latest",
     "q" : "~1.x",
     "angular-mocks":"latest"
