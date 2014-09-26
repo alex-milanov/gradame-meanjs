@@ -1,29 +1,29 @@
 div.container-fluid
-	div.navbar-header
-		button.navbar-toggle(type="button",data-toggle="collapse",data-target="#navbar-collapse-1")
-			span.sr-only Toggle navigation
-			span.icon-bar
-			span.icon-bar
-			span.icon-bar
-		a.navbar-brand(href="#")
-			img(src="img/logo.png",alt="Grada.me")
-	div.collapse.navbar-collapse#navbar-collapse-1(data-ng-controller="NavCtrl")
-		ul.nav.navbar-nav.navbar-left
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a(href="/") Начало
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a(href="#/signals") Сигнали
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a(href="#/signals/new") Подай сигнал
-		ul.nav.navbar-nav.navbar-right(data-ng-hide="signedIn()")
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a(href="#/login") Вход
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a(href="#/register") Регистрация
-		ul.nav.navbar-nav.navbar-right(data-ng-show="signedIn()")
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a.avatar
-					img(src="http://1.gravatar.com/avatar/{{ user.hash }}")
-					span {{ user.full_name }}
-			li(data-toggle="collapse",data-target="#navbar-collapse-1")
-				a#login-btn(href="#/logout",data-ng-click="logout()") Изход
+  div.navbar-header
+    button.navbar-toggle(type="button",data-toggle="collapse",data-target="#navbar-collapse-1")
+      span.sr-only Toggle navigation
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    a.navbar-brand(href="#")
+      img(src="img/logo.png",alt="Grada.me")
+  div.collapse.navbar-collapse#navbar-collapse-1(data-ng-controller="NavCtrl")
+    ul.nav.navbar-nav.navbar-left
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a(href="/") Начало
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a(href="#/signals") Сигнали
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a(href="#/signals/new") Подай сигнал
+    ul.nav.navbar-nav.navbar-right(data-ng-hide="signedIn()")
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a(href="#/login") Вход
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a(href="#/register") Регистрация
+    ul.nav.navbar-nav.navbar-right(data-ng-show="signedIn()")
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a.avatar
+          img(src="http://1.gravatar.com/avatar/{{ user.hash }}")
+          span {{ user.full_name }}
+      li(data-toggle="collapse",data-target="#navbar-collapse-1")
+        a#login-btn(href="#/logout",data-ng-click="logout()") Изход
