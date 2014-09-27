@@ -18,6 +18,19 @@ sed -i 's/^plugins=(.*/plugins=(git django python pip emoji-clock zsh-syntax-hig
 echo "export LC_ALL=en_US.UTF-8" >> $HOME/.zshrc
 echo "export LANG=en_US.UTF-8" >> $HOME/.zshrc
 
+# ruby
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+source $HOME/.zshrc
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+rbenv install 2.1.1
+rbenv global 2.1.1
+
+# sass as CSS precompiler
+gem install sass
+gem install compass --pre
+
 # nodejs
 wget -qO- https://raw.github.com/creationix/nvm/v0.4.0/install.sh | sh
 source $HOME/.nvm/nvm.sh
