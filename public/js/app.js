@@ -5,7 +5,8 @@ var app = angular.module('gradame', [
   //'ui.router.compat',
   'ur.file',
   'google-maps',
-  'ngResource'
+  'ngResource',
+  'ngStorage'
   ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
@@ -71,16 +72,4 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     //$locationProvider.html5Mode(true);
   }
 ]);
-
-app.factory('TokenInjector', ['TokenHandler', '$location', function(TokenHandler, $location) {
-  var TokenInjector = {
-    request: function(config) {
-      if (config.url.match(/$location.host/)) {
-        config.headers['token'] = TokenHandler.get();
-      }
-    }
-  };
-
-  return TokenInjector;
-}]);
 

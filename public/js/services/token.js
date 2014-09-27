@@ -1,14 +1,13 @@
-app.factory('TokenHandler', function() {
-  var tokenHandler = {};
-  var token = "";
-
-  tokenHandler.set = function(newToken) {
-    token = newToken;
-  };
-
-  tokenHandler.get = function() {
-    return token;
-  };
-
-  return tokenHandler;
-});
+app.factory('TokenHandler', ['$localStorage', function($localStorage) {
+  return {
+    set: function(token) {
+      $localStorage.token = token
+    },
+    get: function() {
+      return $localStorage.token;
+    },
+    clear: function() {
+      delete $localStorage.token;
+    }
+  }
+}]);

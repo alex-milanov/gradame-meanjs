@@ -1,69 +1,69 @@
 'use strict';
 
-app.factory('Auth',
+app.factory('Auth', ['$rootScope', '$http', '$location', '$q', 'TokenHandler',
   function ($rootScope, $http, $location, $q, TokenHandler) {
 
   var signedIn = false;
   var fbConnected = false;
   var userData = {};
 
-    var Auth = {
-      me : function(){
-        return userData;
-      },
-      register: function (user) {
-        $http.post("/auth/register", user)
-      .success(function(data) {
-        //console.log('Success: '+data);
-        $location.url('/');
-      })
-      .error(function(data) {
-        console.log('Error: ' + data);
-      });
-        //return auth.$createUser(user.email, user.password);
-      },
-      fbConnect : function(){
+  $http.get('/api/users/me').success(function(data) {
+    userData = data.user;
+  })
 
-      },
-      fbConnected : function(){
-        return fbConnected;
-      },
-      signedIn: function () {
-        return signedIn;
-        //return auth.user !== null;
-      },
-      login: function (user) {
-        return $http.post("/auth/login", user)
-          .success(function(data) {
-            if(data.token){
-              TokenHandler.set(data.token);
-              signedIn = true;
-              userData = data.user;
-        // add token to http requests
-        //$http.defaults.headers.common.token = data.token;
+  $rootScope.signedIn = function () {
+    return Auth.signedIn();
+  };
 
-              return data;
-            } else {
-              return $q.reject(data);
-            }
-          }).error(function(data) {
+  var Auth = {
+    me: function() {
+      return userData;
+    },
+    register: function(user) {
+      $http.post("/auth/register", user)
+        .success(function(data) {
+          $location.url('/');
+        }).error(function(data) {
+          console.log('Error: ' + data);
+        });
+    },
+    fbConnect: function() {
+
+    },
+    fbConnected: function() {
+      return fbConnected;
+    },
+    signedIn: function () {
+      var token = TokenHandler.get();
+
+      return _.isString(token) && !_.isEmpty(token);
+      //return auth.user !== null;
+    },
+    login: function (user) {
+      return $http.post("/auth/login", user)
+        .success(function(data) {
+          if(data.token){
+            TokenHandler.set(data.token);
+            signedIn = true;
+            userData = data.user;
+
+            return data;
+          } else {
             return $q.reject(data);
-          });
-        //return auth.$login('password', user);
-      },
-      logout: function () {
-        TokenHandler.set("");
-        signedIn = false;
-        userData = {};
-        $location.url('/');
-    //delete($http.defaults.headers.common.token);
-        //auth.$logout();
-      }
-    };
+          }
+        }).error(function(data) {
+          return $q.reject(data);
+        });
+      //return auth.$login('password', user);
+    },
+    logout: function () {
+      TokenHandler.clear();
+      signedIn = false;
+      userData = {};
+      $location.url('/');
+      //auth.$logout();
+    }
+  };
 
-    $rootScope.signedIn = function () {
-      return Auth.signedIn();
-    };
-
-    return Auth;
-  });
+  return Auth;
+}]);
