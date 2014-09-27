@@ -62,6 +62,29 @@ vagrant up # включва
 - [passport-api-tokens](https://github.com/roblevintennis/passport-api-tokens)
 - [angularjs-token-auth](http://stackoverflow.com/questions/11176330/angularjs-how-to-send-auth-token-with-resource-requests) (stackoverflow)
 
+
+### Бележки при инсталация без vagrant
+
+#### Dependecies
+- sass  
+За компилиране на sass се ползва ruby gem-a sass  
+Препоръчителна инсталация в linux среда със zsh:
+```sh
+# ruby
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+source $HOME/.zshrc
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+rbenv install 2.1.1
+rbenv global 2.1.1
+
+# sass as CSS precompiler
+gem install sass
+gem install compass --pre
+```
+
+
 ## Структура
 - app/
  - routes/
