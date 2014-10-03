@@ -1,8 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Anaheim|Sniglet|Source+Code+Pro|Averia+Gruesa+Libre|Open+Sans&subset=latin,cyrillic)
 
-
 $panel-bg: #FCFBF9
-
+$font-size-small: 12px
 
 
 body
@@ -123,7 +122,24 @@ address
       float: none
       display: inline-block
       vertical-align: top
-
+  @mixin section()
+    border-top: 1px solid #CCC
+    padding: 15px 0
+  .action-block-comment
+    @include section()
+  .history
+    @include section()
+    h4
+      margin: 0
+      text-transform: uppercase
+      color: #CCC
+      font-size: $font-size-small
+    .history-item
+      .type
+        background: red
+      .content
+        background: green
+      .timestamp
 
 .media
   margin-top: 10px
