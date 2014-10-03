@@ -97,6 +97,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default',['sass','concurrent']);
 
-  grunt.registerTask('depInstall',['exec:npmInstall','exec:bowerInstall']);
+  grunt.registerTask('install',['exec:npmInstall','exec:bowerInstall']);
 
 };
