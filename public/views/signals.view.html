@@ -34,21 +34,25 @@
     <div class="action-block-comment">
       <form>
         <div class="form-group">
-          <textarea class="form-control" placeholder="Коментирай проблема"></textarea>
+          <textarea class="form-control" data-ng-model="comment" placeholder="Коментирай проблема"></textarea>
         </div>
-        <button type="submit" class="btn btn-default pull-right">Добави коментара</button>
+        <button type="submit" class="btn btn-default pull-right" data-ng-click="addComment(comment)">Добави коментар</button>
         <div class="clearfix"></div>
       </form>
     </div>
     <div class="history">
       <h4>История на проблема</h4>
-      <ul>
-        <li class="history-item">
-          <div class="type"></div>
-          <div class="content"></div>
-          <div class="timestamp"></div>
-        <li>
-      </ul>
+      <br/>
+      <table width="100%" class="table table-bordered">
+        <tr data-ng-repeat="activity in signal.activities">
+          <td width="10%" align="center" valign="top">
+            <i class="fa fa-comment-o" style="font-size: 42px;"></i>
+          </td>
+          <td width="50%" valign="top">{{ activity.comment }}</td>
+          <td width="20%" valign="top">{{ activity.dateTime }}</td>
+          <td width="20%" valign="top">{{ activity.createdBy }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

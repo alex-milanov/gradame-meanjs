@@ -215,7 +215,12 @@ exports.activitiesAdd = function(req, res){
   if(!signal.acitvities)
     signal.acitvities = [];
 
-  signal.activities.push(req.body);
+  var activity = _.extend({}, req.body);
+  if(req.user && req.user.id){
+    activity.createdBy = req.user.id;
+  }
+
+  signal.activities.push(activity);
 
   console.log(signal);
 

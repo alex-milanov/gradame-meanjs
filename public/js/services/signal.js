@@ -32,6 +32,13 @@ app.factory('Signal', ['$resource', function($resource) {
       method: 'PUT',
       headers:{'Content-Type': false}
     },
+    activitiesAdd: {
+      method: 'POST',
+      isArray: false,
+      params: {
+        memberRoute: 'activities'
+      }
+    },
     findNear: {
       method: 'GET',
       isArray: true,
