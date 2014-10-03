@@ -208,6 +208,29 @@ exports.findNear = function(req, res) {
 };
 
 
+exports.activitiesAdd = function(req, res){
+  
+  var signal = req.signal;
+
+  if(!signal.acitvities)
+    signal.acitvities = [];
+
+  signal.activities.push(req.body);
+
+  console.log(signal);
+
+  signal.save(function(err) {
+    if (err) {
+      res.render('error', {
+        status: 500
+      });
+    } else {
+      res.jsonp(signal);
+    }
+  });
+}
+
+
 /**
  * Signal middleware
  */
