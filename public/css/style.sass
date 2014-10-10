@@ -93,6 +93,19 @@ address
     min-width: 60px
     min-height: 60px
 
+// Each action block uses specific color for form's submit button.
+// Same color is then used in the corresponding history item.
+$action-block-assign-color:   #f2c42e
+$action-block-confirm-color:  #eb6c57
+$action-block-comment-color:  #999
+
+.btn-comment
+  background: $action-block-comment-color
+  color: white
+  &:hover
+    background: $action-block-comment-color - #222
+    color: white
+
 .signals-view
   border: 1px solid #CCC
   border-radius: 4px
@@ -144,7 +157,7 @@ address
         float: left
         width: $history-item-metric
         height: $history-item-metric
-        background: #999
+        background: $action-block-comment-color
         color: white
         line-height: $history-item-metric
         font-size: 130%
