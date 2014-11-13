@@ -5,6 +5,7 @@ module.exports = {
   app: {
     title: 'Grada.me - Development Environment'
   },
+  port: 3021,
   localAuth : {
     ttl: 3600000, //1 hour
     resetTokenExpiresMinutes: 20, //20 minutes later
