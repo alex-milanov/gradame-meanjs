@@ -1,0 +1,225 @@
+@import url(http://fonts.googleapis.com/css?family=Anaheim|Sniglet|Source+Code+Pro|Averia+Gruesa+Libre|Open+Sans&subset=latin,cyrillic)
+
+$panel-bg: #FCFBF9
+$font-size-small: 12px
+$text-color-light: #999
+
+body
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
+  -webkit-font-smoothing: antialiased
+  background: #fcfbf9 url("../img/bg.png") no-repeat bottom left fixed
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  padding-top: 70px
+
+.container-fluid
+  padding-right: 20px
+  padding-left: 20px
+
+.navbar
+  background: #FCFBF9
+  /*border-color: #FCFBF9;
+  /*box-shadow: 0 10px 15px rgba(252, 251, 249, 1.0); /* TODO: find better way to separate visually fixed navbar
+
+.navbar-brand img
+  width: 80px
+  vertical-align: top
+
+a
+  cursor: pointer
+  &.avatar
+    padding-top: 10px!important
+    padding-bottom: 5px!important
+
+ul
+  padding: 0px
+  > li
+    list-style: none
+
+.avatar img
+  width: 32px
+
+footer
+  text-align: center
+  padding: 50px 0px 30px 0px
+
+.angular-google-map-container
+  height: 362px
+
+.map-container
+  margin-top: 25px
+  margin-bottom: 25px
+
+.map-addon
+  padding: 5px 10px
+  background: #E5E3DF
+  color: #756E5F
+  border-top: 1px solid white
+  margin-bottom: 25px
+
+.results-count
+  margin-top: 25px
+  margin-bottom: 10px
+
+/*
+ *.container {
+ *  background: white;
+ *  border: 1px solid #D5D0BD;
+ *  border-color: #E5E3DF;
+ *  padding-right: 25px;
+ *  padding-left: 25px;
+ *}
+
+.search-pane
+  margin-top: 25px
+
+.auth-forms
+  margin-bottom: 25px
+
+label
+  display: none
+
+.btn-success!
+
+address
+  margin-bottom: 0px
+
+.signals-list
+  .thumbnail
+    margin-bottom: 0px
+    max-width: 60px
+    min-width: 60px
+    min-height: 60px
+
+// Each action block uses specific color for form's submit button.
+// Same color is then used in the corresponding history item.
+$action-block-assign-color:   #f2c42e
+$action-block-confirm-color:  #eb6c57
+$action-block-comment-color:  #999
+
+.btn-comment
+  background: $action-block-comment-color
+  color: white
+  &:hover
+    background: $action-block-comment-color - #222
+    color: white
+
+.signals-view
+  border: 1px solid #CCC
+  border-radius: 4px
+  .left-pane
+    padding: 20px
+    padding-top: 0px
+    display: table-cell
+    float: none
+    background: $panel-bg
+    border-radius: 4px 0px 0px 4px
+    > div
+      margin-top: 20px
+  .right-pane
+    padding: 20px
+    background: #EEE
+    display: table-cell
+    float: none
+    vertical-align: top
+    border-radius: 0px 4px 4px 0px
+    border-left: 1px solid #CCC
+  .thumbnails
+    div
+      width: 23%
+      margin: 0px
+      margin-right: 7px
+      padding: 0px
+      float: none
+      display: inline-block
+      vertical-align: top
+  @mixin section()
+    border-top: 1px solid #CCC
+    padding: 15px 0
+  .action-block-comment
+    @include section()
+  .history
+    @include section()
+    h4
+      margin: 0
+      margin-bottom: 16px
+      text-transform: uppercase
+      color: #CCC
+      font-size: $font-size-small
+    $history-item-metric: 37px // min height for each history item
+    .history-item
+      clear: both
+      min-height: $history-item-metric
+      margin-bottom: 8px
+      .type
+        float: left
+        width: $history-item-metric
+        height: $history-item-metric
+        background: $action-block-comment-color
+        color: white
+        line-height: $history-item-metric
+        font-size: 130%
+        text-align: center
+      .timestamp
+        float: right
+        width: 100px
+        height: $history-item-metric
+        padding-top: 4px
+        background: #DDD
+        color: $text-color-light
+        font-size: $font-size-small
+        line-height: 1.3
+        text-align: center
+      .content
+        margin-left: 50px
+        margin-right: 110px
+        .created-by
+          font-size: $font-size-small
+          color: $text-color-light
+
+.media
+  margin-top: 10px
+
+#page-signals
+  .sidebar
+    width: 350px
+    position: fixed
+    top: 50px
+    left: 0
+    bottom: 0
+    background: #ffffff
+    overflow-y: auto
+    z-index: 1
+    border-right: 1px solid #E5E3DF
+  .map-container
+    position: fixed
+    top: 50px
+    left: 350px
+    right: 0
+    bottom: 0
+    heighth: 100%
+    z-index: 0
+    margin: 0
+  .angular-google-map, .angular-google-map-container
+    width: 100%
+    height: 100%
+  .filter-pane
+    padding: 15px 20px
+    background: $panel-bg
+    border-bottom: 1px solid #E5E3DF
+    .form-control!
+  .meta-info
+    padding: 5px 0
+    margin: 0 20px
+    border-bottom: 1px dashed #E5E3DF
+    color: #ABA9A6
+  .media-list
+    padding: 10px 20px
+    .media!
+
+.form-group
+  margin-bottom: 5px
+  &:last-child
+    margin-bottom: 0

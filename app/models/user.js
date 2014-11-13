@@ -4,11 +4,11 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema,
+  Schema = mongoose.Schema,
     path = require('path'),
     config = require(path.join(__dirname, '../..', '/config/config.js')).localAuth,
     passportLocalMongoose = require('passport-local-mongoose'),
-	crypto = require('crypto'),
+  crypto = require('crypto'),
     jwt = require('jwt-simple'),
     tokenSecret = 'put-a-$Ecr3t-h3re';
 
@@ -35,10 +35,10 @@ var TokenModel = mongoose.model('Token', TokenSchema);
 /**
  * A Validation function for local strategy properties
 var validateLocalStrategyProperty = function(property) {
-	return ((this.provider !== 'local' && !this.updated) || property.length);
+  return ((this.provider !== 'local' && !this.updated) || property.length);
 };
 var validateLocalStrategyPassword = function(password) {
-	return (this.provider !== 'local' || (password && password.length > 6));
+  return (this.provider !== 'local' || (password && password.length > 6));
 };
  */
 
@@ -49,19 +49,19 @@ var validateLocalStrategyPassword = function(password) {
  * User Schema
  */
 var UserSchema = new Schema({
-	full_name: String,
+  full_name: String,
     email: String,
     password: String,
     validated: String,
-    
+
     date_created: { type: Date, default: Date.now },
     date_updated: { type: Date },
-    
+
     token: {type: Object},
     //For reset we use a reset token with an expiry (which must be checked)
     reset_token: {type: String},
     reset_token_expires_millis: {type: Number},
-    
+
     facebook         : {
         id           : String,
         token        : String,
@@ -100,7 +100,7 @@ UserSchema.statics.findUser = function(email, token, cb) {
         if(err || !usr) {
             cb(err, null);
         } else if (usr.token && usr.token.token && token === usr.token.token) {
-            cb(false, {email: usr.email, token: usr.token, date_created: usr.date_created, full_name: usr.full_name});
+            cb(false, {id: usr._id, email: usr.email, token: usr.token, date_created: usr.date_created, full_name: usr.full_name});
         } else {
             cb(new Error('Token does not exist or does not match.'), null);
         }

@@ -85,7 +85,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
           latitude: 42.7,
           longitude: 23.3
         },
-      zoom: 10
+      zoom: 15
   };
 
   // general load

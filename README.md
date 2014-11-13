@@ -37,6 +37,14 @@ vagrant up
 vagrant box add hashicorp/precise32 https://vagrantcloud.com/hashicorp/precise32/version/1/provider/virtualbox.box
 ```
 
+При проблем с NFS файлова система (Vagrant казва, че машината не може да намери `nfsd`), трябва да се инсталират следните неща:
+
+```sh
+sudo apt-get install nfs-kernel-server nfs-common
+```
+
+След това нещата ще тръгнат.
+
 #### Детайли какво се случва при автоматичната настройка
 Автоматичната настройка създава виртуална машина заемаща 384MB RAM памет и 2GB на диска. Може да я спирате и пускате с команди от директорията на проекта:
 
@@ -52,6 +60,30 @@ vagrant up # включва
 Имплементация е базирана на шаблони/boilerplates:
 - [mean.js](https://github.com/meanjs/mean)
 - [passport-api-tokens](https://github.com/roblevintennis/passport-api-tokens)
+- [angularjs-token-auth](http://stackoverflow.com/questions/11176330/angularjs-how-to-send-auth-token-with-resource-requests) (stackoverflow)
+
+
+### Бележки при инсталация без vagrant
+
+#### Dependecies
+- sass  
+За компилиране на sass се ползва ruby gem-a sass  
+Препоръчителна инсталация в linux среда със zsh:
+```sh
+# ruby
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+source $HOME/.zshrc
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+rbenv install 2.1.1
+rbenv global 2.1.1
+
+# sass as CSS precompiler
+gem install sass
+gem install compass --pre
+```
+
 
 ## Структура
 - app/
@@ -62,7 +94,7 @@ vagrant up # включва
 - config/
  - env/
  - strategies/
-- public/ 
+- public/
  - css/
  - img/
  - js/
@@ -70,4 +102,4 @@ vagrant up # включва
     - services/
  - lib/
  - views/
-    
+
