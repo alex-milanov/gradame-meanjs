@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('NavCtrl', function ($scope, $location, Auth) {
-
+app.controller('NavCtrl', function ($scope, $location, Auth) {    
+    // handle auth
     $scope.user = {};
 
     $scope.signedIn = function(){
@@ -13,4 +13,16 @@ app.controller('NavCtrl', function ($scope, $location, Auth) {
     }
 
     $scope.logout = Auth.logout;
+
+    // handle menu
+    $scope.isCollapsed = false;
+	
+	$scope.toggleCollapsibleMenu = function() {
+		$scope.isCollapsed = !$scope.isCollapsed;
+	};
+
+	// Collapsing the menu after navigation
+	$scope.$on('$stateChangeSuccess', function() {
+		$scope.isCollapsed = false;
+	});
 });

@@ -12,13 +12,13 @@
   </div>
   <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
       <ul class="nav navbar-nav navbar-levt">
-      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="/">Начало</a></li>
-        <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/signals">Сигнали</a></li>
-      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/signals/new">Подай сигнал</a></li>
+      <li><a href="/">Начало</a></li>
+        <li><a href="#/signals">Сигнали</a></li>
+      <li><a href="#/signals/new">Подай сигнал</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-hide="signedIn()">
-      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/login">Вход</a></li>
-      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a href="#/register">Регистрация</a></li>
+      <li ><a href="#/login">Вход</a></li>
+      <li ><a href="#/register">Регистрация</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
       <li>
@@ -27,9 +27,9 @@
         {{ user.full_name }}
         </a>
       </li>
-      <li data-toggle="collapse" data-target="#navbar-collapse-1"><a ng-click="logout()" id="login-btn">Изход</a></li>
+      <li ><a ng-click="logout()" id="login-btn">Изход</a></li>
     </ul>
-  </div>
+  </nav>
 </div>
 <!-- TODO: convert to angular
   {{#if user }}
