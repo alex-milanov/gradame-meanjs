@@ -10,7 +10,7 @@
       <img src="img/logo.png" alt="Grada.me" />
     </a>
   </div>
-  <nav class="collapse navbar-collapse" data-ng-class="{in:isCollapsed}" role="navigation">
+  <nav class="collapse navbar-collapse" data-ng-class="{in:isCollapsed}" role="navigation" ng-controller="AuthCtrl">
       <ul class="nav navbar-nav navbar-left">
       <li><a href="/">Начало</a></li>
         <li><a href="#/signals">Сигнали</a></li>
@@ -22,9 +22,9 @@
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
       <li>
-        <a class="avatar">
-        <img src="http://1.gravatar.com/avatar/{{ user.hash }}"/>
-        {{ user.full_name }}
+        <a class="avatar" ui-sref="profile">
+          <img ng-src="{{ userData.picture.url }}" />
+          {{ userData.name }}
         </a>
       </li>
       <li ><a ng-click="logout()" id="login-btn">Изход</a></li>

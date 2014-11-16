@@ -5,21 +5,18 @@ var passport = require('passport');
 module.exports = function(app) {
   // User Routes
   var users = require('../../app/controllers/users');
-  app.get('/api/users/me', users.me);
-  //app.put('/users', users.update);
-  //app.post('/users/password', users.changePassword);
+  
+  app.route('/users/me')
+    .get(users.me)
+    .put(users.update);
+ 
+  app.route('/users/me/picture')
+    .post(users.updatePicture);
+ 
 
-  /*
-  // Setting up the users api
-  app.post('/auth/signup', users.signup);
-  app.post('/auth/signin', users.signin);
-  app.get('/auth/signout', users.signout);
-  */
-
-
-  app.post('/auth/register', users.register);
-  app.post('/auth/login', passport.authenticate('local', {session: false}), users.login);
-  app.get('/auth/logout', users.logout);
+  app.post('/register', users.register);
+  app.post('/login', passport.authenticate('local', {session: false}), users.login);
+  app.get('/logout', users.logout);
 
   /*
 

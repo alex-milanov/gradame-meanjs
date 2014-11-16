@@ -2,24 +2,31 @@
 
 app.controller('AuthCtrl',
   function ($scope, $location, Auth) {
+    
+    $scope.$on('userLoggedIn',function(event, userData){
+      $scope.userData = userData;
+    })
 
-    /*
-    if (Auth.signedIn()) {
-      $location.path('/');
+    if(Auth.getUserData()){
+      $scope.userData = Auth.getUserData();
     }
-    */
 
     $scope.login = function () {
-      Auth.login($scope.user)
-        .then(function(response){
-          $location.path('');
-        });
+      Auth.login($scope.user);
+     
     };
-
+ 
     $scope.register = function () {
       Auth.register($scope.user);
-
+      
     };
-
-    $scope.logout = Auth.logout;
+    
+    $scope.logout = function(){
+      Auth.logout()
+    };
+   
+    $scope.signedIn = function () {
+      return Auth.signedIn();
+    };
+    
   });

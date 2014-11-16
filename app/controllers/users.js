@@ -56,37 +56,15 @@ exports.register = function(req, res) {
 /**
  * Signin after passport authentication
  */
-exports.login = function(req, res, next) {
+exports.login = function(req, res){
   if (req.user) {
-
-    var email = req.user.email;
-
     User.createUserToken(req.user.email, function(err, usersToken) {
+      // console.log('token generated: ' +usersToken);
+      // console.log(err);
       if (err) {
         res.json({error: 'Issue generating token'});
       } else {
-
-        var hash = crypto.createHash('md5').update(email).digest("hex");
-
-        User.findUser(email, usersToken, function(err, user) {
-          if (err) {
-            res.json({error: 'Issue finding user.'});
-          } else {
-            if (Token.hasExpired(user.token.date_created)) {
-              res.json({error: 'Token expired. You need to log in again.'});
-            } else {
-              res.json({
-                user: {
-                  hash: hash,
-                  email: user.email,
-                  full_name: user.full_name
-                },
-                token: user.token.token
-              });
-            }
-          }
-        });
-
+        res.json({token : usersToken});
       }
     });
   } else {
@@ -122,38 +100,129 @@ exports.logout = function(req, res) {
   }
 };
 
-/**
- * Send User
- */
-exports.me = function(req, res) {
-  var incomingToken = req.headers.token;
-  var decoded = User.decode(incomingToken);
+var getPicture = function(user){
+  var picture = {};
 
-  // Now do a lookup on that email in mongodb ... if exists it's a real user
-  if (decoded && decoded.email) {
-    User.findUser(decoded.email, incomingToken, function(err, user) {
-      if (err) {
-        res.json({error: 'Issue finding user.'});
-      } else {
-        if (Token.hasExpired(user.token.date_created)) {
-          res.json({error: 'Token expired. You need to log in again.'});
-        } else {
-          res.json({
-            user: {
-              email: user.email,
-              full_name: user.full_name
-            }
-          });
-        }
-      }
-    });
+  if(user.picture && user.picture.url && user.picture.url!=''){
+    picture = user.picture;
+  } else if(user.facebook && user.facebook.username && user.facebook.token){
+    picture = {
+      url: 'https://graph.facebook.com/' + user.facebook.username 
+      + '/picture' + "?width=200&height=200" + "&access_token=" + user.facebook.token,
+      provider: 'facebook'
+    }
+  } else if (user.google && user.google.picture) {
+    picture = {
+      url: user.google.picture,
+      provider: 'google'
+    };
   } else {
-    res.json({error: 'Issue decoding incoming token.'});
+    var hash = crypto.createHash('md5').update(user.email).digest("hex");
+    picture = {
+      url: 'http://www.gravatar.com/avatar/'+hash,
+      provider: 'gravatar'
+    };
+  }
+  return picture;
+}
+
+exports.me = function(req, res) {
+  
+  var user = req.user;
+
+  var returnObj = {
+    email: user.email, 
+    token: user.token, 
+    date_created: user.date_created, 
+    name: user.name
+  };
+
+  var providers = ['facebook','google','twitter'];
+  returnObj.providers = {};
+  for(var i in providers){
+    if(user[providers[i]] && user[providers[i]].name){
+      returnObj.providers[providers[i]] = user[providers[i]].name;
+    }
   }
 
-  //res.jsonp(req.user || null);
+  // set up picture
+  returnObj.picture = getPicture(user);
+  
+
+  res.jsonp(returnObj);
+
 };
 
+exports.update = function(req, res){
+  var user = req.user;
+
+  if(req.body.name)
+    user.name = req.body.name;
+  if(req.body.email)
+    user.email = req.body.email;
+
+  user.save(function(err) {
+    if (err) {
+      res.render('error', {
+        status: 500
+      });
+    } else {
+      res.jsonp({
+        'updated' : true
+      })//ctrl.list(req, res);
+    }
+
+  });
+};
+
+exports.updatePicture = function(req, res){
+    var user = req.user;
+    var picture = req.body;
+
+    var picChanged = false;
+    var msg = '';
+
+    switch(picture.provider){
+      case 'facebook':
+        if(user.facebook && user.facebook.username && user.facebook.token){
+          user.picture = {
+            url: 'https://graph.facebook.com/' + user.facebook.username 
+            + '/picture' + "?width=200&height=200" + "&access_token=" + user.facebook.token,
+            provider: 'facebook'
+          }
+          picChanged = true;
+        }
+        break; 
+      case 'google':   
+        if (user.google && user.google.picture) {
+          user.picture = {
+            url: user.google.picture,
+            provider: 'google'
+          }
+          picChanged = true;
+        }
+        break;
+      case 'gravatar':
+        var hash = crypto.createHash('md5').update(user.email).digest("hex");
+        user.picture = { 
+          url: 'http://www.gravatar.com/avatar/'+hash,
+          provider: 'gravatar'
+        }
+
+        picChanged = true;
+        break;
+    }
+    
+    if(picChanged){
+      user.save(function(err, result){
+        if(!err)
+          res.jsonp({msg:'Successfully changed picture'})
+      })
+    } else {
+      res.jsonp({msg: 'Failed to change picture'})
+    }
+
+  }
 
 exports.requiresToken = function(req, res, next) {
     if (!req.headers.token || !req.user){

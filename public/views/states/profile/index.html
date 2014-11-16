@@ -1,1 +1,18 @@
-me.html
+<div class="profile" ui-view="">
+	<img class="profile-image" ng-src="{{ user.picture.url || 'http://www.gravatar.com/avatar/' }}" />
+	<p class="profile-name">
+		{{ user.name }}
+	</p>
+	<p class="profile-email">
+		{{ user.email }}
+	</p>
+	<hr/>
+	<div class="profile-actions">
+		<button class="btn btn-primary" ui-sref="profile.edit">
+			<i class="fa fa-edit"></i> Промени личните данни
+		</button>
+		<button class="btn btn-warning" ui-sref="profile.change-picture">
+			<i class="fa fa-camera"></i> Смени Снимката
+		</button>
+	</div>
+</div>

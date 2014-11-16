@@ -50,7 +50,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
       })
       .state('profile', {
         url : '/profile',
-        templateUrl: '/views/states/profile/index.html'
+        templateUrl: '/views/states/profile/index.html',
+        controller: 'ProfileCtrl'
+      })
+      .state('profile.edit', {
+        url : '/profile/edit',
+        templateUrl: '/views/states/profile/edit.html'
       })
       .state('signals', {
         url : '/signals',

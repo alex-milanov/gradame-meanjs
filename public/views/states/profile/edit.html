@@ -1,1 +1,9 @@
-register.html
+<div class="auth-forms">
+  <h1>Промени личните данни</h1>
+  <form ng-submit="save(user)" name="form">
+    <input type="text" ng-model="user.name" placeholder="Име" name="name" class="form-control"><br>
+    <input type="email" ng-model="user.email" placeholder="Email" class="form-control"><br>
+    <input type="password" ng-model="user.password" placeholder="Парола" class="form-control"><br>
+    <input type="submit" value="Изпрати" class="btn btn-primary" />
+  </form>
+</div>
