@@ -32,39 +32,39 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     $stateProvider
       .state('home', {
         url : '',
-        templateUrl: '/views/home.html'
+        templateUrl: '/views/states/home.html'
       })
       .state('home-dash', {
         url : '/',
-        templateUrl: '/views/home.html'
+        templateUrl: '/views/states/home.html'
       })
       .state('login', {
         url : '/login',
-        templateUrl: '/views/login.html',
+        templateUrl: '/views/states/login.html',
         controller: 'AuthCtrl'
       })
       .state('register', {
         url : '/register',
-        templateUrl: '/views/register.html',
+        templateUrl: '/views/states/register.html',
         controller: 'AuthCtrl'
       })
       .state('profile', {
         url : '/profile',
-        templateUrl: '/views/profile.html'
+        templateUrl: '/views/states/profile/index.html'
       })
       .state('signals', {
         url : '/signals',
-        templateUrl: '/views/signals.html',
+        templateUrl: '/views/states/signals/index.html',
         controller: 'SignalsCtrl'
       })
       .state('signals-new', {
         url : '/signals/new',
-        templateUrl: '/views/signals.new.html',
+        templateUrl: '/views/states/signals/new.html',
         controller: 'SignalsNewCtrl'
       })
       .state('signals-view', {
         url : '/signals/{signalId}',
-        templateUrl: '/views/signals.view.html',
+        templateUrl: '/views/states/signals/view.html',
         controller: 'SignalsViewCtrl'
       })
       .state("otherwise", { url : '/'});

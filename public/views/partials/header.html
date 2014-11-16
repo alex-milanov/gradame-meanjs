@@ -1,4 +1,4 @@
-<div class="container" data-ng-controller="HeaderController">
+<div class="container-fluid" data-ng-controller="NavCtrl">
   <div class="navbar-header">    
     <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
       <span class="sr-only">Toggle navigation</span>
@@ -10,8 +10,8 @@
       <img src="img/logo.png" alt="Grada.me" />
     </a>
   </div>
-  <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-      <ul class="nav navbar-nav navbar-levt">
+  <nav class="collapse navbar-collapse" data-ng-class="{in:isCollapsed}" role="navigation">
+      <ul class="nav navbar-nav navbar-left">
       <li><a href="/">Начало</a></li>
         <li><a href="#/signals">Сигнали</a></li>
       <li><a href="#/signals/new">Подай сигнал</a></li>
@@ -31,11 +31,3 @@
     </ul>
   </nav>
 </div>
-<!-- TODO: convert to angular
-  {{#if user }}
-  <img src="/avatar/{{ user._id }}" width="20" height="20" alt=""/>
-  <a href="{{ url 'user' }}{{ user._id }}">{{ user.name }}</a>
-  <a href="{{ url 'logout' }}" class="button">logout</a>
-  {{/if}}
--->
-<!-- removed auth code -->
