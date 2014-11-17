@@ -1,0 +1,53 @@
+
+
+body > header.navbar {
+  background: none!important;
+  border: 0px;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  .navbar-header {
+  	background: #fff;
+  	.navbar-brand {
+  		margin: 0px;
+	  	padding: 3px 7px 2px 7px;
+	  	height: 42px;
+  		vertical-align: middle;
+  	}
+  }
+  .nav {
+    background: #fc6840;
+  	li {
+      height: 42px;
+      a {
+    		color: #efefef;
+    		&:hover { color: #fff}
+    		padding: 0px 10px;
+        line-height: 42px;
+        vertical-align: middle;
+      }
+      &:hover {
+        background: lighten(#fc6840, 5%);
+      }
+  	}
+  }
+  a {
+    cursor: pointer;
+    &.avatar {
+      img {
+        width: 28px;
+        border-radius: 100%;
+        border: 1px solid white;
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+
+
+
+footer {
+  text-align: center;
+  padding: 50px 0px 30px 0px;
+}
