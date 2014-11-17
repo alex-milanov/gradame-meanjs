@@ -6,9 +6,9 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
     path = require('path'),
-    config = require(path.join(__dirname, '../..', '/config/config.js')).localAuth,
+    config = require(path.join(__dirname, '../..', '/config/auth.js')).localAuth,
     passportLocalMongoose = require('passport-local-mongoose'),
-  crypto = require('crypto'),
+    crypto = require('crypto'),
     jwt = require('jwt-simple'),
     tokenSecret = 'put-a-$Ecr3t-h3re';
 
@@ -56,6 +56,12 @@ var UserSchema = new Schema({
 
     date_created: { type: Date, default: Date.now },
     date_updated: { type: Date },
+    
+    picture: {
+        url: String,
+        provider: String // upload, facebook ...
+    },
+    role: { type: String, default: 'user' },    // user | admin 
 
     token: {type: Object},
     //For reset we use a reset token with an expiry (which must be checked)
@@ -66,7 +72,8 @@ var UserSchema = new Schema({
         id           : String,
         token        : String,
         email        : String,
-        name         : String
+        name         : String,
+        username     : String
     },
     twitter          : {
         id           : String,
@@ -78,7 +85,8 @@ var UserSchema = new Schema({
         id           : String,
         token        : String,
         email        : String,
-        name         : String
+        name         : String,
+        picture      : String
     }
 });
 

@@ -4,8 +4,10 @@ html(lang="en")
     title= title
     link(rel='stylesheet', href='/lib/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/lib/angular-image-crop/image-crop-styles.css')
+    
     link(rel='stylesheet', href='/css/style.css')
-  body(data-ng-app='gradame')
+  body
     header.navbar.navbar-default.navbar-fixed-top(role='navigation',ng-include="'views/partials/header.html'")
     section.container
       section.content
@@ -20,14 +22,25 @@ html(lang="en")
     script(src="lib/jquery/dist/jquery.js")
     script(src="lib/bootstrap/dist/js/bootstrap.min.js")
     script(src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&&libraries=places")
+    //- Angular pre load
+    script.
+      FileAPI = {
+          jsUrl: 'lib/ng-file-upload-shim/FileAPI.min.js',
+          flashUrl: 'lib/ng-file-upload-shim/FileAPI.flash.swf'
+      }
+    script(src="lib/ng-file-upload-shim/angular-file-upload-shim.min.js")
     //- Angural
     script(src="lib/angular/angular.js")
     script(src="lib/angular-ui-router/release/angular-ui-router.js")
     script(src="lib/angular-resource/angular-resource.js")
     script(src="lib/angular-google-maps/dist/angular-google-maps.js")
     script(src="lib/ngstorage/ngStorage.js")
-    //- not managed by bower
-    script(src="js/other/angular-file/angular-file.js")
+    script(src="lib/angular-image-crop/image-crop.js")
+    //- Angular file upload
+    script(src="lib/ng-file-upload/angular-file-upload.min.js")
+    script(src="lib/ng-file-upload/angular-file-upload.js")
+    //- Angular file bindings
+    script(src="lib/angular-file/src/angular-file.js")
     //- APP
     script(src="js/app.js")
     //- services

@@ -4,18 +4,22 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+  passport = require('passport'),
+  crypto = require('crypto'),
+  path = require('path'),
+  moment = require('moment'),
+  fs = require('fs'),
   User = mongoose.model('User'),
   Token = mongoose.model('Token'),
-  crypto = require('crypto'),
   _ = require('lodash');
 
 
-  var flash = function (info, error) {
-    return {
-      info: info,
-      err: error
-    };
-  }
+var flash = function (info, error) {
+  return {
+    info: info,
+    err: error
+  };
+}
 
 
 
@@ -175,9 +179,73 @@ exports.update = function(req, res){
   });
 };
 
+exports.getPicture = function(req, res){
+  var user = req.user;
+  res.jsonp(getPicture(user));
+}
+
+
+// TODO: move image and file functionality to service
+var decodeBase64Image = function(dataString) {
+  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    response = {};
+
+  if (matches && matches.length !== 3) {
+    return null;
+  }
+
+  if (matches[1] == 'image/png') {
+    response.typeExtension = '.png';
+  } else if (matches[1] == 'image/jpg') {
+    response.typeExtension = '.jpg';
+  } else if (matches[1] == 'image/jpeg') {
+    response.typeExtension = '.jpeg';
+  } else {
+    return null;
+  }
+
+  response.data = new Buffer(matches[2], 'base64');
+
+  return response;
+};
+
+// TODO: delete old uploaded picture after change
 exports.updatePicture = function(req, res){
-    var user = req.user;
-    var picture = req.body;
+  var user = req.user;
+  var picture = req.body;
+  
+
+  if(picture.provider == "upload"){
+
+    var imageBuffer = decodeBase64Image(picture.fileString);
+    if (!imageBuffer) {
+      res.jsonp({msg:'Could not read new profile image from request because of incorrect base64 encoded image'});
+    } else {
+      
+      var destFileName = user._id + '_' + moment() + imageBuffer.typeExtension;
+      var destImgUrl = 'img/users/' + destFileName;
+      var destImgPath = path.join(__dirname, '../..','public', destImgUrl);
+      
+      console.log(destImgPath);
+
+      fs.writeFile(destImgPath, imageBuffer.data, function (err, data) {
+        if (err) {
+          res.jsonp({msg:err});
+        } else {
+          user.picture = {
+            'url': destImgUrl,
+            'provider': 'upload'
+          };
+
+          user.save(function(err, result){
+            if(!err)
+              res.jsonp({msg:'Successfully changed picture'})
+          })
+
+        }
+      });
+    }
+  } else {
 
     var picChanged = false;
     var msg = '';
@@ -221,8 +289,151 @@ exports.updatePicture = function(req, res){
     } else {
       res.jsonp({msg: 'Failed to change picture'})
     }
-
   }
+
+}
+
+
+
+/**
+* OAuth middleware
+*/
+
+exports.oauthPrepareCall = function(req, res, next) {
+  var provider = req.provider;
+
+  var params = {};
+  // scope
+  switch(provider){
+    case 'facebook':
+      params.scope = 'email'
+      break;
+    case 'google':
+      params.scope = ['profile', 'email'];
+      break;
+  }
+  // state
+  if(req.user && req.user.token && req.user.token.token){
+    // pass the user token as state
+    params.state = req.user.token.token;
+  }
+
+  passport.authenticate(provider, params)(req, res, next);
+}
+
+exports.oauthProcessProfile = function(req, res, next) {
+  var provider = req.provider;
+  passport.authenticate(provider, function(err, providerData) {
+    console.log(err,providerData);
+    
+    if (!req.user) {
+
+      var providerIdField = 'id';
+      var providerIdFieldPath = provider +'.'+providerIdField;
+      var queryMatch = {};
+      queryMatch[providerIdFieldPath] = providerData.id;
+
+      console.log(queryMatch);
+
+      User.findOne(queryMatch, function(err, user) {
+
+        // if the user is found, then log them in
+        if (user) {
+          
+          if (!user[provider].token) {
+            user[provider] = providerData;
+
+            user.save(function(err) {
+              req.user = user;
+              next();
+            });
+          } else {
+            req.user = user;
+            next();
+          }
+        } else {
+          // if there is no user found with that facebook id, create them
+          var newUser     = new User();
+          newUser[provider] = providerData;
+          
+          // automatically import user data
+          newUser.email = providerData.email
+          newUser.name = providerData.name;
+
+          // save our user to the database
+          newUser.save(function(err) {
+            req.user = newUser;
+            next();
+          });
+          
+        }
+
+      });
+
+    } else {
+      // user already exists and is logged in, we have to link accounts
+      var user = req.user; // pull the user out of the session
+
+      // update the current users facebook credentials
+      user[provider] = providerData;
+
+      // save the user
+      user.save(function(err) {
+        req.user = user;
+        next();
+      });
+    }
+  })(req, res, next);
+}
+
+exports.oauthCallback = function(req, res, next) {
+  var user = req.user;
+  req.login(user, function(err) {
+    if (err) {
+      return res.redirect('/#/login');
+    }
+    var redirectURL = '/#/';
+    User.createUserToken(req.user.email, function(err, usersToken) {
+      if (err) {
+        res.redirect('/#/login');
+      } else {
+        res.redirect(redirectURL+'?'+usersToken);
+      }
+    });
+    return;
+  });
+};
+
+exports.oauthUnlink = function(req, res) {
+  if(req.user && req.provider && req.user[req.provider]){
+    var user = req.user;
+    var provider = req.provider;
+    
+    user.set(provider,undefined);
+
+    user.save(function(err) {
+      if (err) {
+        res.status('500').jsonp({
+          msg: 'could not unlink',
+          err: err
+        });
+      } else {
+        res.jsonp({
+          'unlinked' : true
+        })
+      }
+    });
+  } else {
+    res.status('404').jsonp({
+      msg: 'not linked'
+    });
+  }
+}
+
+exports.oauthProviderParam = function(req,res,next,provider){
+  req.provider = provider;
+  next();
+}
 
 exports.requiresToken = function(req, res, next) {
     if (!req.headers.token || !req.user){

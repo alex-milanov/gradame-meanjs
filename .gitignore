@@ -1,8 +1,9 @@
 .DS_Store
 .vagrant
+.sass-cache
 node_modules
+config/auth.js
 public/lib
 public/img/signals/
-.sass-cache
 public/css/style.css
 public/css/style.css.map

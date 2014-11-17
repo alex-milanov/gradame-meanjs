@@ -111,15 +111,21 @@ module.exports = function(db) {
   var User = db.model("User");
   var Token = db.model("Token");
   app.use(function(req,res,next){
-
-    //console.log(req.headers.token);
+    console.log({token: req.headers.token, state: req.query.state});
     if(!req.headers.token || req.headers.token == ''){
-      return next();
+      if(!req.query.state || req.query.state == ''){
+        return next();
+      }
     }
 
     //console.log(incomingToken);
+    var incomingToken = '';
+    if(req.headers.token && req.headers.token!=''){
+      incomingToken = req.headers.token;
+    } else {
+      incomingToken = req.query.state;
+    }
 
-    var incomingToken = req.headers.token;
     //console.log('incomingToken: ' + incomingToken);
     var decoded = User.decode(incomingToken);
     //Now do a lookup on that email in mongodb ... if exists it's a real user

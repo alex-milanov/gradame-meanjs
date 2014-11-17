@@ -2,7 +2,8 @@
 
 var app = angular.module('gradame', [
   'ui.router',
-  //'ui.router.compat',
+  'ImageCropper',
+  'angularFileUpload',
   'ur.file',
   'google-maps',
   'ngResource',
@@ -57,6 +58,10 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
         url : '/profile/edit',
         templateUrl: '/views/states/profile/edit.html'
       })
+      .state('profile.changePicture', {
+        url : '/profile/change-picture',
+        templateUrl: '/views/states/profile/change-picture.html'
+      })
       .state('signals', {
         url : '/signals',
         templateUrl: '/views/states/signals/index.html',
@@ -77,4 +82,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     //$locationProvider.html5Mode(true);
   }
 ]);
+
+angular.element(document).ready(function() {
+  //Fixing facebook bug with redirect
+  if (window.location.hash === '#_=_') window.location.hash = '#';
+
+  //Then init the app
+  angular.bootstrap(document, ['gradame']);
+});
 

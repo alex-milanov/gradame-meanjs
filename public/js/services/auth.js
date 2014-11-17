@@ -23,38 +23,35 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
         signedIn = true;
         $rootScope.$broadcast('userLoggedIn',userData);
         $templateCache.removeAll();
-        $state.go(states.profile);
+        $state.go(states.profile,{},{reload: true});
       }, function(err) {
         console.log(err);
         Auth.logout();
       })
   };
 
-  if(location.hash && location.hash.substr(3,1) == '?'){
-    var token = location.hash.substr(4);
-    location.hash  = '#!/';
+  if(location.hash && location.hash.substr(2,1) == '?'){
+    var token = location.hash.substr(3);
+    location.hash  = '#/';
     performLogin(token);     
   }
 
   var Auth = {
     register: function (user) {       
       $http.post("/register", user)
-    .success(function(data) {
-      if(data.token){
-        performLogin(data.token);
-      } else {
-        Auth.logout();
-      }
-      
-    })
-    .error(function(data) {
-      console.log('Error: ' + data);
-    });
-      //return auth.$createUser(user.email, user.password);
+        .success(function(data) {
+          if(data.token){
+            performLogin(data.token);
+          } else {
+            Auth.logout();
+          }
+        })
+        .error(function(data) {
+          console.log('Error: ' + data);
+        });
     },
     signedIn: function () {
       return signedIn;
-      //return auth.user !== null;
     },
     getUserData: function() {
       return userData;
@@ -81,6 +78,19 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
     },
     reloadUserData: function() {
       performLogin(TokenHandler.get());
+    },
+    linkWith: function(provider){
+      window.location.assign('/oauth/facebook?state='+TokenHandler.get());
+    },
+    unlink: function(provider){
+      $http.delete("/oauth/"+provider)
+        .success(function(data) {
+          console.log(data);
+          performLogin(TokenHandler.get());
+        })
+        .error(function(data) {
+          console.log('Error: ' + data);
+        });
     }
   };
 

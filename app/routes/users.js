@@ -1,46 +1,36 @@
 'use strict';
 
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 var passport = require('passport');
 
 module.exports = function(app) {
   // User Routes
   var users = require('../../app/controllers/users');
-  
-  app.route('/users/me')
-    .get(users.me)
-    .put(users.update);
- 
-  app.route('/users/me/picture')
-    .post(users.updatePicture);
  
 
   app.post('/register', users.register);
   app.post('/login', passport.authenticate('local', {session: false}), users.login);
   app.get('/logout', users.logout);
 
-  /*
+  app.route('/users/me')
+    .get(users.me)
+    .put(users.update);
+  app.route('/users/me/picture')
+    .post(multipartMiddleware,users.updatePicture);
+  
 
-  // Setting the facebook oauth routes
-  app.get('/auth/facebook', passport.authenticate('facebook', {
-    scope: ['email']
-  }));
-  app.get('/auth/facebook/callback', users.oauthCallback('facebook'));
+  /** oauth provider routes **/
 
-  // Setting the twitter oauth routes
-  app.get('/auth/twitter', passport.authenticate('twitter'));
-  app.get('/auth/twitter/callback',  users.oauthCallback('twitter'));
+  // route for oauth provider (facebook, google, ..) authentication and login
+  app.route('/oauth/:provider')
+    .get(users.oauthPrepareCall)
+    .delete(users.oauthUnlink);
 
-  // Setting the google oauth routes
-  app.get('/auth/google', passport.authenticate('google', {
-    scope: [
-      'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/userinfo.email'
-    ]
-  }));
-  app.get('/auth/google/callback', users.oauthCallback('google'));
-
-
-  */
+  // handle the callback after oauth provider has authenticated the user
+  app.route('/oauth/:provider/callback').get(users.oauthProcessProfile,users.oauthCallback);
+  
+  app.param('provider',users.oauthProviderParam)
 
   // Finish by binding the user middleware
   app.param('userId', users.userByID);

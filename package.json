@@ -28,11 +28,14 @@
     "passport": "0.2.0",
     "passport-local": "1.0.0",
     "passport-local-mongoose": "0.3.0",
+    "passport-facebook": "~1.0.3",
+    "passport-google-oauth": "~0.1.5",
     "q": "1.0.1",
     "crypto": "0.0.3",
     "karma": "^0.12.22",
     "jade": "~1.7.0",
-    "ejs": "~1.0.0"
+    "ejs": "~1.0.0",
+    "moment": "~2.8.3"
   },
   "author": "Volunteer civic hackers at www.obshtestvo.bg",
   "devDependencies": {
