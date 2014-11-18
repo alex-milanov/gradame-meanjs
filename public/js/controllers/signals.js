@@ -65,9 +65,6 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
   }
 
   
-
-  
-
   // general load
   $scope.load = function(params){
 
@@ -75,10 +72,12 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
       var params = {};
 
     // don't autoload
-    if(!$scope.filter.bounds || $scope.filter.bounds == ""){
-      return;
-    } else {
+    if($scope.filter.bounds && $scope.filter.bounds != ""){
       params["bounds"] = $scope.filter.bounds;
+    } else if(Maps.getBounds() && Maps.getBounds().toString()!=''){
+      params["bounds"] = Maps.getBounds().toString();
+    } else {
+      return;
     }
 
     if($scope.filter.type != ""){
@@ -102,8 +101,8 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
       $scope.signals = signals;
       displaySignals(signals);
     });
-
   }
+
 
   $scope.findNear = function(_callback){
     Signal.findNear({location:$scope.filter.location}).$promise.then(function(signals){

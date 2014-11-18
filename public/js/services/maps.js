@@ -23,11 +23,7 @@ app.factory('Maps',
     
 
     // simple notify
-    var _notify = function(event){
-      for(var i in callbacks[event]){
-        callbacks[event][i]();
-      }
-    }
+    
 
     var _updatePosition = function(pos){
 
@@ -130,6 +126,9 @@ app.factory('Maps',
     }
 
     Maps.getBounds = function(){
+      if(!map){
+        return false;
+      }
       return map.getBounds();
     };
 
