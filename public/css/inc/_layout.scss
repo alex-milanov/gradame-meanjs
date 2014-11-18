@@ -1,1 +1,56 @@
-_layout.scss
+
+.main-container {
+	.sidebar-header {
+    	width: 350px;
+    	top: 80px;
+    	left: 40px;
+    	position: fixed;
+		z-index: 99;
+		background: #645051;
+		color: #fff;
+		h3 {
+			margin: 0px;
+			padding: 10px;
+      		font-family: 'BebasNeue'
+		}
+  	}
+	.sidebar {
+		width: 350px;
+		position: fixed;
+		top: 126px;
+		left: 40px;
+		bottom: 20px;
+		background: white;
+		z-index: 99;
+		overflow-y: auto;
+	}
+	.page-container {
+		left: 410px;
+		top: 80px;
+		bottom: 20px;
+		right: 20px;
+		z-index: 99;
+		position: fixed;
+		> .page-content {
+			background: white;
+			padding: 20px;
+			width: 100%;
+			height: 100%;
+			overflow-y: auto;
+		}
+	}
+	.map-container {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0;
+		bottom: 0;
+		z-index: 0;
+		margin: 0;
+	}
+	
+	.angular-google-map, .angular-google-map-container {
+		width: 100%;
+		height: 100%;
+	}
+}

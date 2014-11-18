@@ -3,6 +3,9 @@ app.controller('ProfileCtrl',
 	[ "$scope", "$state", "$upload", "$location", "$http", "Auth", 
 	function ($scope, $state, $upload, $location, $http, Auth) {
 		
+		
+		console.log('in profile');
+		
 		if(!Auth.signedIn()){
 			Auth.logout();
 		}
@@ -11,6 +14,7 @@ app.controller('ProfileCtrl',
 			$scope.user = _.clone(Auth.getUserData());
 		}
 
+		console.log('in profile');
 
 		$scope.linkWith = Auth.linkWith;
 		$scope.unlink = Auth.unlink;

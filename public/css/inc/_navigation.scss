@@ -1,6 +1,6 @@
 
 
-body > header.navbar {
+header.navbar {
   background: none!important;
   border: 0px;
   top: 20px;
@@ -20,8 +20,9 @@ body > header.navbar {
   	li {
       height: 42px;
       a {
-    		color: #efefef;
-    		&:hover { color: #fff}
+        font-family: 'BebasNeue';
+        font-size: 18px;
+    		color: #fff;
     		padding: 0px 10px;
         line-height: 42px;
         vertical-align: middle;

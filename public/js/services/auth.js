@@ -4,11 +4,10 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
   function ($rootScope, $state, $templateCache, $http, $location, $q, TokenHandler, User) {
 
   var signedIn = false;
-  var userData = false;
 
   var states = {
-    profile : 'profile',
-    login : 'login'
+    profile : 'home.profile',
+    login : 'home.login'
   }
 
   var loadUserData = function(){

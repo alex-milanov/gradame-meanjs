@@ -10,8 +10,8 @@ var app = angular.module('gradame', [
   'ngStorage'
   ]);
 
-app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
-  function ($stateProvider, $urlRouterProvider, $httpProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider',
+  function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
 
     $httpProvider.defaults.useXDomain = true;
 
@@ -30,54 +30,110 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
       }
     }]);
 
+    $urlRouterProvider.otherwise('/');
+
+
+
     $stateProvider
       .state('home', {
-        url : '',
-        templateUrl: '/views/states/home.html'
-      })
-      .state('home-dash', {
         url : '/',
-        templateUrl: '/views/states/home.html'
+        views: {
+          "@": {
+            controller: 'SignalsCtrl',
+            templateUrl: '/views/states/home.html',  
+          },
+          'sidebar@home' : {
+            templateUrl: '/views/states/signals/sidebar.html',
+          },
+          'map-container@home' : {
+            templateUrl: '/views/states/signals/map-container.html',
+          },
+          'page-container@home' : {
+            templateUrl: '/views/states/home-page-container.html'
+          }
+        }
       })
-      .state('login', {
-        url : '/login',
-        templateUrl: '/views/states/login.html',
-        controller: 'AuthCtrl'
+      .state('home.login', {
+        url : 'login',
+        views: {
+          'page-container@home' : {
+            templateUrl: '/views/states/login.html',
+            controller: 'AuthCtrl'
+          }
+        }
       })
-      .state('register', {
-        url : '/register',
-        templateUrl: '/views/states/register.html',
-        controller: 'AuthCtrl'
+      .state('home.register', {
+        url : 'register',
+        views: {
+          'page-container@home' : {
+            templateUrl: '/views/states/register.html',
+            controller: 'AuthCtrl'
+          }
+        }
       })
-      .state('profile', {
-        url : '/profile',
-        templateUrl: '/views/states/profile/index.html',
-        controller: 'ProfileCtrl'
+      /* signals ctrls */
+      .state('home.signals', {
+        url : 'signals',
+        views: {
+          'sidebar@home' : {
+            templateUrl: '/views/states/signals/sidebar.html'
+          },
+          'page-container@home' : {
+            template: ''
+          }
+        }
       })
-      .state('profile.edit', {
-        url : '/profile/edit',
-        templateUrl: '/views/states/profile/edit.html'
+      .state('home.signals.new', {
+        url : '/new',
+        views: {
+          'sidebar@home' : {
+            templateUrl: '/views/states/signals/new.html',
+            controller: 'SignalsNewCtrl'
+          },
+          'page-container@home' : {
+            template: ''
+          }
+        }
       })
-      .state('profile.changePicture', {
-        url : '/profile/change-picture',
-        templateUrl: '/views/states/profile/change-picture.html'
+      .state('home.signals.view', {
+        url : '/{signalId}',
+        views: {
+          'page-container@home' : {
+            templateUrl: '/views/states/signals/view.html',
+            controller: 'SignalsViewCtrl'
+          }
+        }
       })
-      .state('signals', {
-        url : '/signals',
-        templateUrl: '/views/states/signals/index.html',
-        controller: 'SignalsCtrl'
+      /* profile ctrls */
+      .state('home.profile', {
+        url : 'profile',
+        views: {
+          'sidebar' : {
+            templateUrl: '/views/states/profile/index.html',
+          }
+        }
       })
-      .state('signals-new', {
-        url : '/signals/new',
-        templateUrl: '/views/states/signals/new.html',
-        controller: 'SignalsNewCtrl'
+      .state('home.profile.edit', {
+        url : '/edit',
+        views: {
+          'page-container@home' : {
+            templateUrl: '/views/states/profile/edit.html'
+          }
+        }
       })
-      .state('signals-view', {
-        url : '/signals/{signalId}',
-        templateUrl: '/views/states/signals/view.html',
-        controller: 'SignalsViewCtrl'
+      .state('home.profile.changePicture', {
+        url : '/change-picture',
+        views: {
+          'page-container@home' : {
+            templateUrl: '/views/states/profile/change-picture.html'
+          }
+        }
       })
-      .state("otherwise", { url : '/'});
+      
+
+    $locationProvider.hashPrefix('!');
+
+
 
     //$locationProvider.html5Mode(true);
   }
@@ -85,7 +141,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
 
 angular.element(document).ready(function() {
   //Fixing facebook bug with redirect
-  if (window.location.hash === '#_=_') window.location.hash = '#';
+  if (window.location.hash === '#_=_') window.location.hash = '#!';
 
   //Then init the app
   angular.bootstrap(document, ['gradame']);

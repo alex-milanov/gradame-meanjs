@@ -1,59 +1,60 @@
 
-		
-		<img class="prof-img"  ng-hide="showCropComponent" ng-src="{{ user.picture.url }}" class="" />
-		<hr/>
+<div class="page-content">		
+	<img class="prof-img"  ng-hide="showCropComponent" ng-src="{{ user.picture.url }}" class="" />
+	<hr/>
+	<br/>
+	<p class="name">
+		Change Picture
+	</p>
+	<hr/>
+	<div ng-show="(showCropComponent && !imageCropResult)">
+		<image-crop
+			data-width="200"
+			data-height="200"
+			data-shape="circle"
+			data-step="imageCropStep"
+			data-result="imageCropResult"
+			></image-crop>
 		<br/>
-		<p class="name">
-			Change Picture
-		</p>
-		<hr/>
-		<div ng-show="(showCropComponent && !imageCropResult)">
-			<image-crop
-				data-width="200"
-				data-height="200"
-				data-shape="circle"
-				data-step="imageCropStep"
-				data-result="imageCropResult"
-				></image-crop>
-			<br/>
-		</div>
-		<div ng-if="imageCropResult">
-			<img class="prof-img" ng-src="{{ imageCropResult }}" alt="The Cropped Image">
-		</div>
-	  	<br/>
-		<hr/>
-		<span ng-hide="imageCropResult">
-			via: 
-			<button class="btn btn-sm btn-default" ng-click="showCropComponent=true">
-				Upload
-				<i class="fa fa-upload"></i>
-			</button> 
-			<button class="btn btn-sm btn-primary" ng-if="user.providers.facebook" ng-click="changePic('facebook')">
-				<i class="fa fa-facebook"></i>
-				Facebook
-			</button>
-			<button class="btn btn-sm btn-danger" ng-if="user.providers.google" ng-click="changePic('google')">
-				<i class="fa fa-google-plus"></i>
-				Google+
-			</button>
-			<button class="btn btn-sm btn-default btn-nav" ng-click="changePic('gravatar')">
-				<img src="https://en.gravatar.com/favicon.ico" style="width: 14px;"></i>
-				Gravatar
-			</button>
-		</span>
-		<span ng-show="imageCropResult">
-			<button class="btn btn-sm btn-success" ng-click="uploadPic()">
-				<i class="fa fa-check"></i>
-				Apply
-			</button>
-		</span>
-		<!--
-		<button ui-sref="home.profile" class="btn btn-sm btn-success">
+	</div>
+	<div ng-if="imageCropResult">
+		<img class="prof-img" ng-src="{{ imageCropResult }}" alt="The Cropped Image">
+	</div>
+  	<br/>
+	<hr/>
+	<span ng-hide="imageCropResult">
+		via: 
+		<button class="btn btn-sm btn-default" ng-click="showCropComponent=true">
+			Upload
+			<i class="fa fa-upload"></i>
+		</button> 
+		<button class="btn btn-sm btn-primary" ng-if="user.providers.facebook" ng-click="changePic('facebook')">
+			<i class="fa fa-facebook"></i>
+			Facebook
+		</button>
+		<button class="btn btn-sm btn-danger" ng-if="user.providers.google" ng-click="changePic('google')">
+			<i class="fa fa-google-plus"></i>
+			Google+
+		</button>
+		<button class="btn btn-sm btn-default btn-nav" ng-click="changePic('gravatar')">
+			<img src="https://en.gravatar.com/favicon.ico" style="width: 14px;"></i>
+			Gravatar
+		</button>
+	</span>
+	<span ng-show="imageCropResult">
+		<button class="btn btn-sm btn-success" ng-click="uploadPic()">
 			<i class="fa fa-check"></i>
 			Apply
 		</button>
-		-->
-		<button ui-sref="profile" class="btn btn-sm btn-warning">
-			Cancel
-			<i class="fa fa-remove"></i>
-		</button>
+	</span>
+	<!--
+	<button ui-sref="home.profile" class="btn btn-sm btn-success">
+		<i class="fa fa-check"></i>
+		Apply
+	</button>
+	-->
+	<button ui-sref="home.profile" class="btn btn-sm btn-warning">
+		Cancel
+		<i class="fa fa-remove"></i>
+	</button>
+</div>

@@ -6,22 +6,22 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" ui-sref="home">
       <img src="img/new/logo.png" alt="Grada.me" />
     </a>
   </div>
   <nav class="collapse navbar-collapse" data-ng-class="{in:isCollapsed}" role="navigation" ng-controller="AuthCtrl">
       <ul class="nav navbar-nav navbar-left">
-        <li><a href="#/signals">Сигнали</a></li>
-      <li><a href="#/signals/new">Подай сигнал</a></li>
+        <li><a ui-sref="home.signals">Сигнали</a></li>
+      <li><a ui-sref="home.signals.new">Подай сигнал</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-hide="signedIn()">
-      <li ><a href="#/login">Вход</a></li>
-      <li ><a href="#/register">Регистрация</a></li>
+      <li ><a ui-sref="home.login">Вход</a></li>
+      <li ><a ui-sref="home.register">Регистрация</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right" ng-show="signedIn()">
       <li>
-        <a class="avatar" ui-sref="profile">
+        <a class="avatar" ui-sref="home.profile">
           <img ng-src="{{ userData.picture.url }}" />
           {{ userData.name }}
         </a>
