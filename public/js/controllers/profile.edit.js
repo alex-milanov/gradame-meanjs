@@ -12,7 +12,7 @@ app.controller('ProfileEditCtrl',
 			$http.put('/users/me',userData).success(function(){
 				console.log('User Data Updated');
 				Profile.loadUserData().then(function(){
-					$state.go('home.profile');
+					$state.go('home.profile', {}, {reload: true});
 				})
 			})
 		};
@@ -23,7 +23,7 @@ app.controller('ProfileEditCtrl',
 					console.log(data.msg)
 				}
 				Profile.loadUserData().then(function(){
-					$state.go('home.profile'); //, {}, { reload: true, inherit: false, notify: true, location: true });
+					$state.go('home.profile', {}, {reload: true});
 				})
 			 })
 		}
@@ -50,7 +50,7 @@ app.controller('ProfileEditCtrl',
 				$scope.showCancel = false;
 				*/
 				Profile.loadUserData().then(function(){
-					$state.go('home.profile'); //, {}, { reload: true, inherit: false, notify: true, location: true });
+					$state.go('home.profile', {}, {reload: true}); //, {}, { reload: true, inherit: false, notify: true, location: true });
 				})
 
 			});

@@ -3,10 +3,7 @@
 	<h3> Смени Снимката </h3>
 	
 	<img class="prof-img"  ng-hide="showCropComponent" ng-src="{{ user.picture.url }}" class="" />
-	<hr/>
-	<br/>
 	
-	<hr/>
 	<div ng-show="(showCropComponent && !imageCropResult)">
 		<image-crop
 			data-width="200"

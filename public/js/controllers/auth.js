@@ -3,7 +3,13 @@
 app.controller('AuthCtrl',
   function ($scope, $location, Auth, Profile) {
     
+
+
     $scope.$on('userLoggedIn',function(event, userData){
+      $scope.userData = userData;
+    })
+
+    $scope.$on('userDataChanged',function(event, userData){
       $scope.userData = userData;
     })
 

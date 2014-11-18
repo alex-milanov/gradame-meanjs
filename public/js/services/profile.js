@@ -7,6 +7,7 @@ app.factory('Profile', ['$rootScope', '$state', '$templateCache', '$http', '$loc
 
 		var loadUserData = function(){
 			return User.me().$promise.then(function(data){
+      			$rootScope.$broadcast('userDataChanged',data);
 				userData = data;
 			});
 		}
