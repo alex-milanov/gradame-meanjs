@@ -39,13 +39,14 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
         url : '/',
         views: {
           "@": {
-            controller: 'SignalsCtrl',
             templateUrl: '/views/states/home.html',  
           },
           'sidebar@home' : {
+            controller: 'SignalsCtrl',
             templateUrl: '/views/states/signals/sidebar.html',
           },
           'map-container@home' : {
+            controller: 'MapsCtrl',
             templateUrl: '/views/states/signals/map-container.html',
           },
           'page-container@home' : {
@@ -76,6 +77,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
         url : 'signals',
         views: {
           'sidebar@home' : {
+            controller: 'SignalsCtrl',
             templateUrl: '/views/states/signals/sidebar.html'
           },
           'page-container@home' : {
@@ -98,8 +100,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
       .state('home.signals.view', {
         url : '/{signalId}',
         views: {
-          'page-container@home' : {
+          'sidebar@home' : {
             templateUrl: '/views/states/signals/view.html',
+            controller: 'SignalsViewCtrl'
+          },
+          'page-container@home' : {
+            templateUrl: '/views/states/signals/activities.html',
             controller: 'SignalsViewCtrl'
           }
         }

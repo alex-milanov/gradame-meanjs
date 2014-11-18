@@ -35,17 +35,15 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
   });
 
   //$scope.location
-
-  Maps.addListener('positionChanged', function(){
-    if(Maps.getPosition())
-      $scope.filter.location = Maps.getPosition().toString();
+  $scope.$on('mapPositionChanged',function(event, position){
+    $scope.filter.location = position.toString()
+    // not sure if needed
     if(Maps.getBounds())
       $scope.filter.bounds = Maps.getBounds().toString();
-  });
+  })
 
-  Maps.addListener('boundsChanged', function(){
-    if(Maps.getBounds())
-      $scope.filter.bounds = Maps.getBounds().toString();
+  $scope.$on('mapBoundsChanged',function(event, bounds){
+    $scope.filter.bounds = bounds.toString();
   });
 
   function displaySignals(list){
@@ -66,27 +64,9 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
     Maps.updateCluster();
   }
 
-  $scope.init = function(){
-    // after initial state load
-    $timeout(function() {
-      Maps.init($scope.map, document.getElementById('autocomplete'));
-    });
-  }
+  
 
-  $scope.map = {
-      control: {},
-      options: {
-            streetViewControl: false,
-            panControl: false,
-            maxZoom: 20,
-            minZoom: 3
-        },
-        center: {
-          latitude: 42.7,
-          longitude: 23.3
-        },
-      zoom: 15
-  };
+  
 
   // general load
   $scope.load = function(params){
