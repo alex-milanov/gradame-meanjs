@@ -1,0 +1,37 @@
+<div class="page-content">
+  <h3>Активност по сигнал</h3>
+  <div class="action-block-assign">
+  </div>
+  <div class="action-block-confirm">
+  </div>
+  <div class="action-block-comment">
+    <form>
+      <div class="form-group">
+        <textarea class="form-control" data-ng-model="comment" placeholder="Коментирай проблема"></textarea>
+      </div>
+      <button type="submit" class="btn btn-comment pull-right" data-ng-click="addComment(comment)">
+        <i class="type fa fa-comment-o"></i>&nbsp;
+        Добави коментар
+      </button>
+      <div class="clearfix"></div>
+    </form>
+  </div>
+  <div class="history">
+    <h4>История на проблема</h4>
+    <ul>
+      <li class="history-item" data-ng-repeat="activity in signal.activities | orderBy: reverse">
+        <i class="type fa fa-comment-o"></i>
+        <div class="timestamp">
+          {{ activity.dateTime | date:'dd MMM yyyy HH:mm' }}
+        </div>
+        <div class="content">
+          {{ activity.comment }}
+          <div class="created-by">
+            {{ activity.createdBy }}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  </div>
+</div>

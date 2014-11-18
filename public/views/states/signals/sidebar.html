@@ -1,4 +1,7 @@
-<div class="signals-sidebar">
+<header class="sidebar-header">
+  <h3><img src="img/new/signals-icon.png"> Сигнали</h3>
+</header>
+<div class="sidebar-content signals-list">
   <div class="filter-pane">
     <form role="form">
       <div class="form-group">
@@ -21,7 +24,7 @@
   </div>
   <ul class="media-list signals-list" ng-if="signals">
     <li class="media" data-ng-repeat="signal in signals">
-      <a href="#/signals/{{ signal._id }}" class="pull-left thumbnail">
+      <a href="#!/signals/{{ signal._id }}" class="pull-left thumbnail">
         <img ng-if="signal.images[0]" data-ng-src="/img/signals/{{ signal._id + '/' + signal.images[0] }}" class="media-object">
       </a>
       <div class="media-body">

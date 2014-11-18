@@ -1,4 +1,7 @@
-<div class="profile" ui-view="">
+<header class="sidebar-header">
+  <h3><i class="fa fa-user"></i> Моят Профил</h3>
+</header>
+<div class="sidebar-content profile" ui-view="">
 	<img class="profile-image" ng-src="{{ user.picture.url || 'http://www.gravatar.com/avatar/' }}" />
 	<p class="profile-name">
 		{{ user.name }}
