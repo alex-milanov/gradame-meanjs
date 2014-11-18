@@ -1,7 +1,7 @@
 'use strict';
 
-app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$location', '$q', 'TokenHandler', 'User',
-  function ($rootScope, $state, $templateCache, $http, $location, $q, TokenHandler, User) {
+app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$location', '$q', 'TokenHandler', 'Profile',
+  function ($rootScope, $state, $templateCache, $http, $location, $q, TokenHandler, Profile) {
 
   var signedIn = false;
 
@@ -10,28 +10,26 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
     login : 'home.login'
   }
 
-  var loadUserData = function(){
-    return User.me().$promise.then(function(data){
-      userData = data;
-    });
-  }
+  
 
   var performLogin = function(token){
-    TokenHandler.set(token);
-      loadUserData().then(function(){
-        signedIn = true;
-        $rootScope.$broadcast('userLoggedIn',userData);
-        $templateCache.removeAll();
-        $state.go(states.profile,{},{reload: true});
-      }, function(err) {
-        console.log(err);
-        Auth.logout();
-      })
+    if(token){
+      TokenHandler.set(token);
+    }
+    Profile.loadUserData().then(function(){
+      signedIn = true;
+      $rootScope.$broadcast('userLoggedIn',Profile.getUserData());
+      $templateCache.removeAll();
+      $state.go(states.profile,{},{reload: true});
+    }, function(err) {
+      console.log(err);
+      Auth.logout();
+    })
   };
 
-  if(location.hash && location.hash.substr(2,1) == '?'){
-    var token = location.hash.substr(3);
-    location.hash  = '#/';
+  if(location.hash && location.hash.substr(3,1) == '?'){
+    var token = location.hash.substr(4);
+    location.hash  = '#!/';
     performLogin(token);     
   }
 
@@ -51,9 +49,6 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
     },
     signedIn: function () {
       return signedIn;
-    },
-    getUserData: function() {
-      return userData;
     },
     login: function (user) {
       $http.post("/login", user)
@@ -75,9 +70,7 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
       $state.go(states.login);
       //auth.$logout();
     },
-    reloadUserData: function() {
-      performLogin(TokenHandler.get());
-    },
+    performLogin: performLogin,
     linkWith: function(provider){
       window.location.assign('/oauth/facebook?state='+TokenHandler.get());
     },

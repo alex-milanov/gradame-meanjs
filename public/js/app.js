@@ -108,8 +108,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
       .state('home.profile', {
         url : 'profile',
         views: {
-          'sidebar' : {
-            templateUrl: '/views/states/profile/index.html',
+          'sidebar@home' : {
+            templateUrl: '/views/states/profile/view.html',
+            controller: 'ProfileViewCtrl'
+          },
+          'page-container@home' : {
+            templateUrl: '/views/states/profile/activities.html'
           }
         }
       })
@@ -117,7 +121,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
         url : '/edit',
         views: {
           'page-container@home' : {
-            templateUrl: '/views/states/profile/edit.html'
+            templateUrl: '/views/states/profile/edit.html',
+            controller: 'ProfileEditCtrl'
           }
         }
       })
@@ -125,7 +130,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
         url : '/change-picture',
         views: {
           'page-container@home' : {
-            templateUrl: '/views/states/profile/change-picture.html'
+            templateUrl: '/views/states/profile/change-picture.html',
+            controller: 'ProfileEditCtrl'
           }
         }
       })

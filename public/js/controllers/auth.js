@@ -1,14 +1,14 @@
 'use strict';
 
 app.controller('AuthCtrl',
-  function ($scope, $location, Auth) {
+  function ($scope, $location, Auth, Profile) {
     
     $scope.$on('userLoggedIn',function(event, userData){
       $scope.userData = userData;
     })
 
-    if(Auth.getUserData()){
-      $scope.userData = Auth.getUserData();
+    if(Profile.getUserData()){
+      $scope.userData = Profile.getUserData();
     }
 
     $scope.login = function () {

@@ -1,6 +1,6 @@
 'use strict'
 
-app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$location', '$q', 'TokenHandler', 'User',
+app.factory('Profile', ['$rootScope', '$state', '$templateCache', '$http', '$location', '$q', 'TokenHandler', 'User',
 	function ($rootScope, $state, $templateCache, $http, $location, $q, TokenHandler, User) {
 		
 		var userData = false;
@@ -11,6 +11,16 @@ app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$locati
 			});
 		}
 
+		// TODO: move here change pic, edit, link, unlink
+
+		var Profile = {
+			getUserData: function() {
+				return userData;
+			},
+			loadUserData: loadUserData
+		}
+
 		
+		return Profile;
 
 	}]);
