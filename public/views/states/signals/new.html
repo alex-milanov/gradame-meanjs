@@ -1,7 +1,13 @@
 <header class="sidebar-header">
   <h3><img src="img/new/signals-icon.png"> <a ui-sref="home.signals">Сигнали</a> > Подай Сигнал</h3>
 </header>
-<div class="sidebar-content signals-new">
+<div class="visible-xs-block btn-group btn-group-justified sidebar-selector" role="group" >
+  <a class="btn btn-default" ng-click="sidebarSelect(0)" ng-class="{'active': (sidebarChoice==0)}">
+    <i class="fa fa-bullhorn"></i> Форма</a>
+  <a class="btn btn-default" ng-click="sidebarSelect(2)" ng-class="{'active': (sidebarChoice==2)}">
+    <i class="fa fa-map-marker"></i> Карта</a>
+</div>
+<div class="sidebar-content signals-new" ng-class="{'hidden-xs': (sidebarChoice==2)}">
   <form>
     <p>Използвайте формата по-долу, за да съобщите за съществуващ проблем…</p>
     <p ng-show="error" class="text-danger">{{ error }}</p>

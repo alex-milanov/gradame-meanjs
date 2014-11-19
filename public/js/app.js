@@ -52,6 +52,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
           'page-container@home' : {
             templateUrl: '/views/states/home-page-container.html'
           }
+        },
+        classes: {
+          sidebar: 'hidden-xs'
         }
       })
       .state('home.login', {
@@ -61,6 +64,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
             templateUrl: '/views/states/login.html',
             controller: 'AuthCtrl'
           }
+        },
+        classes: {
+          sidebar: 'hidden-xs'
         }
       })
       .state('home.register', {
@@ -70,6 +76,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
             templateUrl: '/views/states/register.html',
             controller: 'AuthCtrl'
           }
+        },
+        classes: {
+          sidebar: 'hidden-xs'
         }
       })
       /* signals ctrls */
@@ -130,6 +139,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
             templateUrl: '/views/states/profile/edit.html',
             controller: 'ProfileEditCtrl'
           }
+        },
+        classes: {
+          sidebar: 'hidden-xs'
         }
       })
       .state('home.profile.changePicture', {
@@ -139,6 +151,9 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationP
             templateUrl: '/views/states/profile/change-picture.html',
             controller: 'ProfileEditCtrl'
           }
+        },
+        classes: {
+          sidebar: 'hidden-xs'
         }
       })
       

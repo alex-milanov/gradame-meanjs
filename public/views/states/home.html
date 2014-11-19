@@ -1,13 +1,15 @@
 <header class="navbar navbar-default navbar-fixed-top" role="navigation" ng-include="'views/partials/header.html'">
 </header>
 
-<section class="main-container" ui-view="main">
-  <div class="sidebar-container">
+<section class="main-container" ui-view="main" ng-controller="MainCtrl">
+  <div class="sidebar-container" ng-class="$state.current.classes.sidebar">
   	<div class="sidebar" ui-view="sidebar"></div>
   </div>
-  <div class="map-container" ui-view="map-container"></div>
-  <div class="page-container" ui-view="page-container"></div>
+  <div class="map-container" ui-view="map-container" ng-class="{'toggled': (sidebarChoice==2)}"></div>
+  <div class="page-container" ui-view="page-container" ></div>
 </section>
 
+<!--
 <footer ng-include="'views/partials/footer.html'">
 </footer>
+-->
