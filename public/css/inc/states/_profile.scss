@@ -1,1 +1,31 @@
-_profile.scss
+
+
+
+.profile {
+	.profile-image-container {
+		text-align: center;
+		.profile-image {
+			border-radius: 100%;
+			width: 120px;
+			text-align: center;
+		}
+	}
+	.profile-name {
+		font-family: 'BebasNeue';
+		font-size: 24px;
+		margin: 5px;
+		text-align: center;
+	}
+	.profile-email {
+		text-align: center;
+	}
+	.profile-actions {
+		> .btn, > .btn-group {
+			margin: 5px;
+		}
+		.btn, .btn-group {
+			width: 100%;
+			text-align: left;
+		}
+	}
+}

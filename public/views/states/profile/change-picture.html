@@ -1,21 +1,23 @@
 
-<div class="page-content">
+<div class="page-content profile">
 	<h3> Смени Снимката </h3>
 	
-	<img class="prof-img"  ng-hide="showCropComponent" ng-src="{{ user.picture.url }}" class="" />
+	<div class="profile-image-container">
+		<img class="profile-image" ng-hide="showCropComponent" ng-src="{{ user.picture.url }}" class="" />
+	</div>
 	
 	<div ng-show="(showCropComponent && !imageCropResult)">
 		<image-crop
-			data-width="200"
-			data-height="200"
+			data-width="180"
+			data-height="180"
 			data-shape="circle"
 			data-step="imageCropStep"
 			data-result="imageCropResult"
 			></image-crop>
 		<br/>
 	</div>
-	<div ng-if="imageCropResult">
-		<img class="prof-img" ng-src="{{ imageCropResult }}" alt="The Cropped Image">
+	<div class="profile-image-container" ng-if="imageCropResult">
+		<img class="profile-image" ng-src="{{ imageCropResult }}" alt="The Cropped Image">
 	</div>
   	<br/>
 	<hr/>
