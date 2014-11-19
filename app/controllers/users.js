@@ -252,9 +252,9 @@ exports.updatePicture = function(req, res){
 
     switch(picture.provider){
       case 'facebook':
-        if(user.facebook && user.facebook.username && user.facebook.token){
+        if(user.facebook && user.facebook.id && user.facebook.token){
           user.picture = {
-            url: 'https://graph.facebook.com/' + user.facebook.username 
+            url: 'https://graph.facebook.com/' + user.facebook.id 
             + '/picture' + "?width=200&height=200" + "&access_token=" + user.facebook.token,
             provider: 'facebook'
           }
