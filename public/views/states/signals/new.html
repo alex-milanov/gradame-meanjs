@@ -1,0 +1,41 @@
+<header class="sidebar-header">
+  <h3><img src="img/new/signals-icon.png"> <a ui-sref="home.signals">Сигнали</a> > Подай Сигнал</h3>
+</header>
+<div class="visible-xs-block btn-group btn-group-justified sidebar-selector" role="group" >
+  <a class="btn btn-default" ng-click="sidebarSelect(0)" ng-class="{'active': (sidebarChoice==0)}">
+    <i class="fa fa-bullhorn"></i> Форма</a>
+  <a class="btn btn-default" ng-click="sidebarSelect(2)" ng-class="{'active': (sidebarChoice==2)}">
+    <i class="fa fa-map-marker"></i> Карта</a>
+</div>
+<div class="sidebar-content signals-new" ng-class="{'hidden-xs': (sidebarChoice==2)}">
+  <form>
+    <p>Използвайте формата по-долу, за да съобщите за съществуващ проблем…</p>
+    <p ng-show="error" class="text-danger">{{ error }}</p>
+    <div class="form-group">
+      <label class="control-label">Описание</label>
+      <textarea class="form-control" ng-model="signal.description" placeholder="Описание"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Тип</label>
+      <select class="form-control" ng-model="signal.type">
+        <option value="">Избери Тип</option>
+        <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Снимки</label>
+      <input type="file" class="form-control" ng-model="signal.images">
+      <ul>
+        <li ng-repeat="file in signal.images">{{file.name}}</li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Адрес</label>
+      <input type="text" class="form-control" ng-model="signal.address" placeholder="Адрес" ng-autocomplete details="autocomplete.details" options="autocomplete.options" />
+    </div>
+    <div class="form-group">
+      <input type="button" ng-click="save()" value="Сигнализирай" class="btn btn-large btn-success" />
+      <a class="btn btn-warning" ng-click="reset()">Изчисти</a>
+    </div>
+  </form>
+</div>

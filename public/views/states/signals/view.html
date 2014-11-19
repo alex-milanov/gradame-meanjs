@@ -1,0 +1,29 @@
+<header class="sidebar-header">
+  <h3>
+    <img src="img/new/signals-icon.png"> 
+    <a ui-sref="home.signals">Сигнали</a> > Преглед на сигнал</h3>
+</header>
+<div class="sidebar-content signals-view">
+  <h4>{{ signal.type }}</h4>
+  <div>{{ signal.date_created }}</div>
+  <div class="btn-group btn-group-justified">
+    <a class="btn btn-sm btn-default active">отворен</a>
+    <a class="btn btn-sm btn-warning">работи се</a>
+    <a class="btn btn-sm btn-success">решен</a>
+  </div>
+  <div>
+    {{ signal.address }}<br>
+    {{ signal.location }}
+  </div>
+  <div>{{ signal.description }}</div>
+  <div class="thumbnail">
+    <img data-ng-src="/img/signals/{{ signal._id }}/{{ signal.images[0] }}" >
+  </div>
+  <div class="thumbnails">
+    <div ng-repeat="image in signal.images">
+      <a href="#" class="thumbnail">
+        <img data-ng-src="/img/signals/{{ signal._id }}/{{ image }}">
+      </a>
+    </div>
+  </div>
+</div>

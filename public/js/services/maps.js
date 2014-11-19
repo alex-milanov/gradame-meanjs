@@ -1,7 +1,8 @@
 'use strict';
 
 app.factory('Maps',
-  function () {
+  [ '$rootScope',
+  function ($rootScope) {
 
     var Maps = {};
 
@@ -19,19 +20,10 @@ app.factory('Maps',
         _position;
 
     // TODO: use angular or other lib for event handling
-    Maps.addListener = function(event, callback){
-      if(!callbacks[event])
-        callbacks[event] = [];
-
-      callbacks[event].push(callback);
-    }
+    
 
     // simple notify
-    var _notify = function(event){
-      for(var i in callbacks[event]){
-        callbacks[event][i]();
-      }
-    }
+    
 
     var _updatePosition = function(pos){
 
@@ -42,7 +34,7 @@ app.factory('Maps',
 
       _position = pos;
 
-      _notify("positionChanged");
+      $rootScope.$broadcast('mapPositionChanged',pos);
     };
 
     Maps.init = function(mapEl, autocompleteEl){
@@ -81,13 +73,14 @@ app.factory('Maps',
           google.maps.event.addListenerOnce(map, 'bounds_changed', function (e) {
             //$scope.filter.bounds = map.getBounds().toString();
             //_notify('boundsChanged');
+            //$rootScope.$broadcast('mapBoundsChanged',map.getBounds());
           });
         });
 
         // on dragend
         google.maps.event.addListener(map, 'dragend', function (e) {
           //$scope.filter.bounds = map.getBounds().toString();
-          _notify('boundsChanged');
+          $rootScope.$broadcast('mapBoundsChanged',map.getBounds());
         });
 
 
@@ -133,6 +126,9 @@ app.factory('Maps',
     }
 
     Maps.getBounds = function(){
+      if(!map){
+        return false;
+      }
       return map.getBounds();
     };
 
@@ -164,4 +160,4 @@ app.factory('Maps',
 
 
     return Maps;
-  });
+  }]);

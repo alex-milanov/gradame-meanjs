@@ -55,14 +55,14 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         files: {
-          'public/css/style.css' : 'public/css/style.sass'
+          'public/css/style.css' : 'public/css/style.scss'
         }
       }
     },
 
     watch: {
       css: {
-        files: '**/*.sass',
+        files: '**/*.scss',
         tasks: ['sass']
       }
     },
@@ -72,9 +72,9 @@ module.exports = function(grunt) {
         script: 'server.js',
         options: {
           args: [],
-          ignore: ['node_modules/**'],
+          ignore: ['node_modules/**','public/**'],
           ext: 'js,html',
-          nodeArgs: ['--debug'],
+          //nodeArgs: ['--debug'],
           delayTime: 1,
           cwd: __dirname
         }

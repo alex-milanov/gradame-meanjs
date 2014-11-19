@@ -1,0 +1,45 @@
+<header class="sidebar-header">
+  <h3><i class="fa fa-user"></i> Моят Профил</h3>
+</header>
+<div class="sidebar-content profile" ui-view="">
+	<div class="profile-image-container">
+		<img class="profile-image" ng-src="{{ user.picture.url || 'http://www.gravatar.com/avatar/' }}" />
+	</div>
+	<p class="profile-name">
+		{{ user.name }}
+	</p>
+	<p class="profile-email">
+		{{ user.email }}
+	</p>
+	<hr/>
+	<div class="profile-actions">
+		<button class="btn btn-primary" ui-sref="home.profile.edit">
+			<i class="fa fa-edit"></i> Промени личните данни
+		</button>
+		<button class="btn btn-warning" ui-sref="home.profile.changePicture">
+			<i class="fa fa-camera"></i> Смени Снимката
+		</button>
+	</div>
+	<hr/>
+	<div class="profile-actions">
+		<div ng-repeat="provider in ['facebook','google']" class="btn-group">
+			<button ng-if="user.providers[provider]" data-toggle="dropdown" aria-expanded="false"
+				class="social-profiles btn btn-sm dropdown-toggle" 
+				ng-class="{'btn-primary': provider=='facebook', 'btn-danger': provider=='google'}" >
+				<i class="fa" ng-class="{'fa-facebook':provider=='facebook','fa-google-plus':provider=='google'}"></i>
+			{{ user.providers[provider] }}
+				<i  class="fa fa-caret-down pull-right"></i>
+
+			</button>
+			<ul ng-if="user.providers[provider]" class="dropdown-menu" role="menu">
+				<li><a ng-click="unlink(provider)">Прекъсни</a></li>
+			</ul>
+			<button ng-if="!user.providers[provider]" ng-click="linkWith(provider)" 
+				class="social-profiles btn btn-sm" 
+				ng-class="{'btn-primary': provider=='facebook', 'btn-danger': provider=='google'}" >
+				<i class="fa" ng-class="{'fa-facebook':provider=='facebook','fa-google-plus':provider=='google'}"></i>
+			Свържи се
+			</button>
+		</div>
+	</div>
+</div>

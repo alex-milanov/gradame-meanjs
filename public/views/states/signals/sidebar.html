@@ -1,0 +1,57 @@
+<header class="sidebar-header">
+  <h3><img src="img/new/signals-icon.png"> Сигнали
+  </h3>
+</header>
+<div class="visible-xs-block btn-group btn-group-justified sidebar-selector" role="group" >
+  <a class="btn btn-default" ng-click="sidebarSelect(0)" ng-class="{'active': (sidebarChoice==0)}">
+    <i class="fa fa-filter"></i> Филтри</a>
+  <a class="btn btn-default" ng-click="sidebarSelect(1)" ng-class="{'active': (sidebarChoice==1)}">
+    <i class="fa fa-list"></i> Списък</a>
+  <a class="btn btn-default" ng-click="sidebarSelect(2)" ng-class="{'active': (sidebarChoice==2)}">
+    <i class="fa fa-map-marker"></i> Карта</a>
+</div>
+<div class="sidebar-content signals-list">
+  <div class="filter-pane" ng-class="{'hidden-xs': !(sidebarChoice==0)}">
+    <form role="form">
+      <div class="form-group">
+        <input type="text" class="form-control input-sm address" placeholder="Намери подадени сигнали по адрес" id="autocomplete"/>
+      </div>
+      <div class="form-group form-inline">
+        <select class="form-control input-sm" ng-model="filter.type">
+          <option value="">Тип: всички</option>
+          <option ng-repeat="signalType in signalTypes" value="{{ signalType }}" >{{ signalType }}</option>
+        </select>
+        <select class="form-control input-sm" ng-model="filter.status">
+          <option value="">Статус: всички</option>
+          <option ng-repeat="signalStatus in signalStatuses" value="{{ $index }}" >{{ signalStatus }}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="signals-list" ng-class="{'hidden-xs': !(sidebarChoice==1)}">
+    <div class="meta-info">
+      <b>{{ signals.length }}</b> резултата
+    </div>
+    <ul class="media-list signals-list" ng-if="signals">
+      <li class="media" data-ng-repeat="signal in signals">
+        <a href="#!/signals/{{ signal._id }}" class="pull-left thumbnail">
+          <img ng-if="signal.images[0]" data-ng-src="/img/signals/{{ signal._id + '/' + signal.images[0] }}" class="media-object">
+        </a>
+        <div class="media-body">
+          <address>
+            <b>{{ signal.type }}</b><br/>
+            <small>{{ signal.address }}</small><br/>
+            <small>{{ signal.date_created }}</small>
+          </address>
+        </div>
+        <!--
+        сигнализирано от <a href="/users/{{ signal.author }}">authorname: {{ signal.authorName }}</a><br/>
+        status:     {{ signal.status }}
+        <br/>
+        <a href="{{ signal._id }}">повече</a>
+        -->
+      </li>
+    </ul>
+    </div>
+</div>
+

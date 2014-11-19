@@ -5,28 +5,5 @@ module.exports = {
   app: {
     title: 'Grada.me - Development Environment'
   },
-  localAuth : {
-    ttl: 3600000, //1 hour
-    resetTokenExpiresMinutes: 20, //20 minutes later
-  },
-  facebook: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/facebook/callback'
-  },
-  twitter: {
-    clientID: 'CONSUMER_KEY',
-    clientSecret: 'CONSUMER_SECRET',
-    callbackURL: 'http://localhost:3000/auth/twitter/callback'
-  },
-  google: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/google/callback'
-  },
-  linkedin: {
-    clientID: 'APP_ID',
-    clientSecret: 'APP_SECRET',
-    callbackURL: 'http://localhost:3000/auth/linkedin/callback'
-  }
+  port: 3021
 };

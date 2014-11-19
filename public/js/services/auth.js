@@ -1,67 +1,88 @@
 'use strict';
 
-app.factory('Auth', ['$rootScope', '$http', '$location', '$q', 'TokenHandler',
-  function ($rootScope, $http, $location, $q, TokenHandler) {
+app.factory('Auth', ['$rootScope', '$state', '$templateCache', '$http', '$location', '$q', 'TokenHandler', 'Profile',
+  function ($rootScope, $state, $templateCache, $http, $location, $q, TokenHandler, Profile) {
 
   var signedIn = false;
-  var fbConnected = false;
-  var userData = {};
 
-  $http.get('/api/users/me').success(function(data) {
-    userData = data.user;
-  })
+  var states = {
+    profile : 'home.profile',
+    login : 'home.login'
+  }
 
-  $rootScope.signedIn = function () {
-    return Auth.signedIn();
+  
+
+  var performLogin = function(token){
+    if(token){
+      TokenHandler.set(token);
+    }
+    Profile.loadUserData().then(function(){
+      signedIn = true;
+      $rootScope.$broadcast('userLoggedIn',Profile.getUserData());
+      $templateCache.removeAll();
+      $state.go(states.profile,{},{reload: true});
+    }, function(err) {
+      console.log(err);
+      Auth.logout();
+    })
   };
 
+  if(location.hash && location.hash.substr(3,1) == '?'){
+    var token = location.hash.substr(4);
+    location.hash  = '#!/';
+    performLogin(token);     
+  }
+
   var Auth = {
-    me: function() {
-      return userData;
-    },
-    register: function(user) {
-      $http.post("/auth/register", user)
+    register: function (user) {       
+      $http.post("/register", user)
         .success(function(data) {
-          $location.url('/');
-        }).error(function(data) {
+          if(data.token){
+            performLogin(data.token);
+          } else {
+            Auth.logout();
+          }
+        })
+        .error(function(data) {
           console.log('Error: ' + data);
         });
     },
-    fbConnect: function() {
-
-    },
-    fbConnected: function() {
-      return fbConnected;
-    },
     signedIn: function () {
-      var token = TokenHandler.get();
-
-      return _.isString(token) && !_.isEmpty(token);
-      //return auth.user !== null;
+      return signedIn;
     },
     login: function (user) {
-      return $http.post("/auth/login", user)
-        .success(function(data) {
-          if(data.token){
-            TokenHandler.set(data.token);
-            signedIn = true;
-            userData = data.user;
-
-            return data;
-          } else {
-            return $q.reject(data);
-          }
-        }).error(function(data) {
-          return $q.reject(data);
-        });
+      $http.post("/login", user)
+    .success(function(data) {
+      if(data.token){
+        performLogin(data.token);
+      }
+    })
+    .error(function(data) {
+      console.log('Error: ' + data);
+    });
       //return auth.$login('password', user);
     },
     logout: function () {
-      TokenHandler.clear();
+      console.log('logging out')
+      TokenHandler.set("");
       signedIn = false;
-      userData = {};
-      $location.url('/');
+      $templateCache.removeAll();
+      $state.go(states.login);
       //auth.$logout();
+    },
+    performLogin: performLogin,
+    linkWith: function(provider){
+      window.location.assign('/oauth/facebook?state='+TokenHandler.get());
+    },
+    unlink: function(provider){
+      $http.delete("/oauth/"+provider)
+        .success(function(data) {
+          console.log(data);
+          performLogin(TokenHandler.get());
+        })
+        .error(function(data) {
+          console.log('Error: ' + data);
+        });
     }
   };
 

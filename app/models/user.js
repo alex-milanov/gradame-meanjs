@@ -6,9 +6,9 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
     path = require('path'),
-    config = require(path.join(__dirname, '../..', '/config/config.js')).localAuth,
+    config = require(path.join(__dirname, '../..', '/config/auth.js')).localAuth,
     passportLocalMongoose = require('passport-local-mongoose'),
-  crypto = require('crypto'),
+    crypto = require('crypto'),
     jwt = require('jwt-simple'),
     tokenSecret = 'put-a-$Ecr3t-h3re';
 
@@ -49,13 +49,19 @@ var validateLocalStrategyPassword = function(password) {
  * User Schema
  */
 var UserSchema = new Schema({
-  full_name: String,
+    name: String,
     email: String,
     password: String,
     validated: String,
 
     date_created: { type: Date, default: Date.now },
     date_updated: { type: Date },
+    
+    picture: {
+        url: String,
+        provider: String // upload, facebook ...
+    },
+    role: { type: String, default: 'user' },    // user | admin 
 
     token: {type: Object},
     //For reset we use a reset token with an expiry (which must be checked)
@@ -66,7 +72,8 @@ var UserSchema = new Schema({
         id           : String,
         token        : String,
         email        : String,
-        name         : String
+        name         : String,
+        username     : String
     },
     twitter          : {
         id           : String,
@@ -78,7 +85,8 @@ var UserSchema = new Schema({
         id           : String,
         token        : String,
         email        : String,
-        name         : String
+        name         : String,
+        picture      : String
     }
 });
 
@@ -100,7 +108,7 @@ UserSchema.statics.findUser = function(email, token, cb) {
         if(err || !usr) {
             cb(err, null);
         } else if (usr.token && usr.token.token && token === usr.token.token) {
-            cb(false, {id: usr._id, email: usr.email, token: usr.token, date_created: usr.date_created, full_name: usr.full_name});
+            cb(false, {id: usr._id, email: usr.email, token: usr.token, date_created: usr.date_created, name: usr.name});
         } else {
             cb(new Error('Token does not exist or does not match.'), null);
         }

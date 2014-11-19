@@ -35,17 +35,15 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
   });
 
   //$scope.location
-
-  Maps.addListener('positionChanged', function(){
-    if(Maps.getPosition())
-      $scope.filter.location = Maps.getPosition().toString();
+  $scope.$on('mapPositionChanged',function(event, position){
+    $scope.filter.location = position.toString()
+    // not sure if needed
     if(Maps.getBounds())
       $scope.filter.bounds = Maps.getBounds().toString();
-  });
+  })
 
-  Maps.addListener('boundsChanged', function(){
-    if(Maps.getBounds())
-      $scope.filter.bounds = Maps.getBounds().toString();
+  $scope.$on('mapBoundsChanged',function(event, bounds){
+    $scope.filter.bounds = bounds.toString();
   });
 
   function displaySignals(list){
@@ -66,28 +64,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
     Maps.updateCluster();
   }
 
-  $scope.init = function(){
-    // after initial state load
-    $timeout(function() {
-      Maps.init($scope.map, document.getElementById('autocomplete'));
-    });
-  }
-
-  $scope.map = {
-      control: {},
-      options: {
-            streetViewControl: false,
-            panControl: false,
-            maxZoom: 20,
-            minZoom: 3
-        },
-        center: {
-          latitude: 42.7,
-          longitude: 23.3
-        },
-      zoom: 15
-  };
-
+  
   // general load
   $scope.load = function(params){
 
@@ -95,10 +72,12 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
       var params = {};
 
     // don't autoload
-    if(!$scope.filter.bounds || $scope.filter.bounds == ""){
-      return;
-    } else {
+    if($scope.filter.bounds && $scope.filter.bounds != ""){
       params["bounds"] = $scope.filter.bounds;
+    } else if(Maps.getBounds() && Maps.getBounds().toString()!=''){
+      params["bounds"] = Maps.getBounds().toString();
+    } else {
+      return;
     }
 
     if($scope.filter.type != ""){
@@ -122,8 +101,8 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
       $scope.signals = signals;
       displaySignals(signals);
     });
-
   }
+
 
   $scope.findNear = function(_callback){
     Signal.findNear({location:$scope.filter.location}).$promise.then(function(signals){

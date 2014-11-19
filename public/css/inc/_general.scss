@@ -1,0 +1,26 @@
+
+
+$font-size-small: 12px;
+
+body {
+  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #fff;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 50px;
+}
+
+
+ul {
+  padding: 0px;
+  > li {
+    list-style: none;
+  }
+}
+
+a {
+  cursor: pointer;
+}

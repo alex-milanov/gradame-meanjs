@@ -111,33 +111,40 @@ module.exports = function(db) {
   var User = db.model("User");
   var Token = db.model("Token");
   app.use(function(req,res,next){
-
-    //console.log(req.headers.token);
-    if(!req.headers.token){
-      return next();
+    console.log({token: req.headers.token, state: req.query.state});
+    if(!req.headers.token || req.headers.token == ''){
+      if(!req.query.state || req.query.state == ''){
+        return next();
+      }
     }
 
-    var incomingToken = req.headers.token;
-      console.log('incomingToken: ' + incomingToken);
-      var decoded = User.decode(incomingToken);
-      //Now do a lookup on that email in mongodb ... if exists it's a real user
-      if (decoded && decoded.email) {
-          User.findUser(decoded.email, incomingToken, function(err, user) {
-              if (err) {
-                  console.log({error: 'Issue finding user.',
-                        msg: err});
-                  return next();
-              } else {
-                  if (Token.hasExpired(user.token.date_created)) {
-                      console.log("Token expired...TODO: Add renew token funcitionality.");
-                      return next();
-                  } else {
-                      req.user = user;
-                      return next();
-                  }
-              }
-          });
-      }
+    //console.log(incomingToken);
+    var incomingToken = '';
+    if(req.headers.token && req.headers.token!=''){
+      incomingToken = req.headers.token;
+    } else {
+      incomingToken = req.query.state;
+    }
+
+    //console.log('incomingToken: ' + incomingToken);
+    var decoded = User.decode(incomingToken);
+    //Now do a lookup on that email in mongodb ... if exists it's a real user
+    if (decoded && decoded.email) {
+      User.findOne({email:decoded.email}, function(err, user) {
+        if (err) {
+          console.log({error: 'Issue finding user.',msg: err});
+          return next();
+        } else {
+          if (Token.hasExpired(user.token.date_created)) {
+            console.log("Token expired...TODO: Add renew token funcitionality.");
+            return next();
+          } else {
+            req.user = user;
+            return next();
+          }
+        }
+      });
+    }
   })
 
   // connect flash for flash messages
