@@ -23,5 +23,6 @@ app.controller('MapsCtrl', function ($scope, $location, $http, $timeout, Signal,
 			Maps.init($scope.map, document.getElementById('autocomplete'));
 		});
 	}
+	$scope.initMap()
 
 })
