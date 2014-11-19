@@ -30,7 +30,7 @@ exports.register = function(req, res) {
   var name = req.body.fullname;
   var email = req.body.email;
   var password = req.body.password;
-  var user = new User({full_name: name,email: email});
+  var user = new User({name: name,email: email});
   var message;
 
   User.register(user, password, function(error, account) {
@@ -109,9 +109,9 @@ var getPicture = function(user){
 
   if(user.picture && user.picture.url && user.picture.url!=''){
     picture = user.picture;
-  } else if(user.facebook && user.facebook.username && user.facebook.token){
+  } else if(user.facebook && user.facebook.id && user.facebook.token){
     picture = {
-      url: 'https://graph.facebook.com/' + user.facebook.username 
+      url: 'https://graph.facebook.com/' + user.facebook.id 
       + '/picture' + "?width=200&height=200" + "&access_token=" + user.facebook.token,
       provider: 'facebook'
     }
@@ -390,12 +390,12 @@ exports.oauthCallback = function(req, res, next) {
   var user = req.user;
   req.login(user, function(err) {
     if (err) {
-      return res.redirect('/#/login');
+      return res.redirect('/#!/login');
     }
-    var redirectURL = '/#/';
+    var redirectURL = '/#!/';
     User.createUserToken(req.user.email, function(err, usersToken) {
       if (err) {
-        res.redirect('/#/login');
+        res.redirect('/#!/login');
       } else {
         res.redirect(redirectURL+'?'+usersToken);
       }
