@@ -1,8 +1,8 @@
 'use strict';
 
 app.factory('Maps',
-  [ '$rootScope',
-  function ($rootScope) {
+  [ '$rootScope', '$timeout',
+  function ($rootScope,$timeout) {
 
     var Maps = {};
 
@@ -51,22 +51,7 @@ app.factory('Maps',
         marker = new google.maps.Marker(markerOptions);
         marker.setMap(map);
 
-        var acOptions = {
-          types: ['geocode']
-        };
-
-
-        // set up autocomplete
-        var autocomplete = new google.maps.places.Autocomplete(autocompleteEl,acOptions);
-        autocomplete.bindTo('bounds',map);
-
-        // handle autocomplete choices
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          var place = autocomplete.getPlace();
-
-          _updatePosition(place.geometry.location);
-
-        });
+        
 
         // on zoom
         google.maps.event.addListener(map, 'zoom_changed', function () {
@@ -123,6 +108,16 @@ app.factory('Maps',
         maxZoom: 10,
         gridSize: 10
       });
+    }
+
+    Maps.getMap = function(cb){
+      if(map){
+        cb(map);
+      } else {
+        $timeout(function(){
+            Maps.getMap(cb);
+        },500);
+      }
     }
 
     Maps.getBounds = function(){

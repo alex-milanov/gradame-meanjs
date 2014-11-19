@@ -13,10 +13,13 @@ app.factory('Signal', ['$resource', function($resource) {
         formData.append(i, data[i]);
     }
 
-    if (images && images.length){
+    console.log(images);
+    if(images && images.length){
       for (var i = 0; i < images.length; i++) {
         formData.append('image_'+i, images[i]);
       }
+    } else {
+      formData.append('image_0',images);
     }
 
     return formData;

@@ -5,7 +5,8 @@
   <div class="sidebar-container" ng-class="$state.current.classes.sidebar">
   	<div class="sidebar" ui-view="sidebar"></div>
   </div>
-  <div class="map-container" ui-view="map-container" ng-class="{'toggled': (sidebarChoice==2)}"></div>
+  <div class="map-container" ui-view="map-container" 
+  ng-class="{'toggled': (sidebarChoice==2 && ['home.signals','home.signals.new'].indexOf($state.current.name)>-1)}"></div>
   <div class="page-container" ui-view="page-container" ></div>
 </section>
 
