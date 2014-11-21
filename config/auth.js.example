@@ -1,0 +1,18 @@
+'use strict'
+
+module.exports = {
+  localAuth : {
+    ttl: 3600000, //1 hour
+    resetTokenExpiresMinutes: 20, //20 minutes later
+  },
+  facebook: {
+    clientID: '123456789123456',
+    clientSecret: 'your-facebook-app-secret-here',
+    callbackURL: 'http://localhost:3021/oauth/facebook/callback'
+  },
+  google: {
+    clientID: '123456789-some-app-client-id.apps.googleusercontent.com',
+    clientSecret: 'your-google-client-secret-goes-here',
+    callbackURL: 'http://localhost:3021/oauth/google/callback'
+  }
+}
