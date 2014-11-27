@@ -12,6 +12,7 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Token = mongoose.model('Token'),
   _ = require('lodash');
+var imageUtilsService = require('../services/imageUtils')();
 
 
 var flash = function (info, error) {
@@ -186,28 +187,7 @@ exports.getPicture = function(req, res){
 
 
 // TODO: move image and file functionality to service
-var decodeBase64Image = function(dataString) {
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
 
-  if (matches && matches.length !== 3) {
-    return null;
-  }
-
-  if (matches[1] == 'image/png') {
-    response.typeExtension = '.png';
-  } else if (matches[1] == 'image/jpg') {
-    response.typeExtension = '.jpg';
-  } else if (matches[1] == 'image/jpeg') {
-    response.typeExtension = '.jpeg';
-  } else {
-    return null;
-  }
-
-  response.data = new Buffer(matches[2], 'base64');
-
-  return response;
-};
 
 // TODO: delete old uploaded picture after change
 exports.updatePicture = function(req, res){
@@ -217,7 +197,7 @@ exports.updatePicture = function(req, res){
 
   if(picture.provider == "upload"){
 
-    var imageBuffer = decodeBase64Image(picture.fileString);
+    var imageBuffer = imageUtilsService.decodeBase64Image(picture.fileString);
     if (!imageBuffer) {
       res.jsonp({msg:'Could not read new profile image from request because of incorrect base64 encoded image'});
     } else {

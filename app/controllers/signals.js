@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
   path = require('path'),
   _ = require('lodash'),
   utilities = require('../../config/utilities.js');
+var imageUtilsService = require('../services/imageUtils')();
 
 
 /**
@@ -40,31 +41,12 @@ exports.create = function(req, res) {
     } else {
 
       // populate files
-      if(req.files){
+      console.log(req.body);
+      if(req.body.image){
 
-        var signalPath = path.join(__dirname , "/../../public/img/signals/", signal['_id']+'');
-        var images = [];
-        if(!fs.existsSync(path.join(__dirname , "/../../public/img/signals"))){
-          fs.mkdirSync(path.join(__dirname , "/../../public/img/signals"));
-        }
+        var fromDataUrl = true;
 
-        if(!fs.existsSync(signalPath) || !fs.statSync(signalPath).isDirectory()){
-          fs.mkdirSync(signalPath);
-        }
-
-        var index = 0;
-        for(var i in req.files){
-          var file = req.files[i];
-          var ext = file.name.substr(file.name.lastIndexOf('.'));
-          var newPath = signalPath+'/'+index+ext;
-          images.push(''+index+ext);
-          var fileData = fs.readFileSync(file.path);
-          fs.writeFileSync(newPath, fileData);
-          fs.unlinkSync(file.path);
-          index++;
-        }
-
-        signal.images = images;
+        signal.images = imageUtilsService.processedImagesForResource([req.body.image],signal._id,'signal',fromDataUrl);
 
         signal.save(function(){
           if (err) {

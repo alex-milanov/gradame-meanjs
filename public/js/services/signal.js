@@ -19,7 +19,8 @@ app.factory('Signal', ['$resource', function($resource) {
         formData.append('image_'+i, images[i]);
       }
     } else {
-      formData.append('image_0',images);
+      //formData.append('image_0',images);
+      formData.append('image', images.resized.dataURL);
     }
 
     return formData;

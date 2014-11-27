@@ -25,6 +25,9 @@ header.navbar {
 			}
 			&:hover {
 				background: lighten(#fc6840, 5%);
+				.avatar img {
+					border: 1px solid #333;
+				}
 			}
 		}
 	}
@@ -101,7 +104,7 @@ header.navbar {
 		left: 0px;
 		right: 0;
 		bottom: 0;
-		z-index: -1;
+		z-index: 0;
 		margin: 0;
 		.map-content {
 			position: relative;

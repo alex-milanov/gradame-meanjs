@@ -13,7 +13,7 @@ module.exports = function(app) {
   app.post('/api/signals', users.requiresToken, multipartMiddleware, signals.create);
   app.get('/api/signals/:signalId', signals.read);
   //app.put('/signals/:signalId', users.requiresLogin, signals.hasAuthorization, signals.update);
-  app.put('/api/signals/:signalId', signals.update);
+  app.put('/api/signals/:signalId', users.requiresToken, multipartMiddleware, signals.update);
   app.post('/api/signals/:signalId/activities', signals.activitiesAdd);
   //app.del('/signals/:signalId', users.requiresLogin, signals.hasAuthorization, signals.delete);
   app.delete('/api/signals/:signalId', signals.delete);
