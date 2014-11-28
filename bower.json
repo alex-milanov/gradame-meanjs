@@ -15,6 +15,7 @@
     "angular-image-crop": "*",
     "ng-file-upload": "~1.6.12",
     "ng-file-upload-shim": "~1.6.12",
-    "angular-file": "radify/angular-file"
+    "angular-file": "radify/angular-file",
+    "angularjs-imageupload-directive": "Mischi/angularjs-imageupload-directive"
   }
 }
