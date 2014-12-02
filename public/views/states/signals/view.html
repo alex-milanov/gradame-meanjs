@@ -12,18 +12,18 @@
     <a class="btn btn-sm btn-success">решен</a>
   </div>
   <div>
-    {{ signal.address }}<br>
-    {{ signal.location }}
+    {{ signal.address }}
   </div>
   <div>{{ signal.description }}</div>
-  <div class="thumbnail">
-    <img data-ng-src="/img/signals/{{ signal._id }}/{{ signal.images[0] }}" >
-  </div>
   <div class="thumbnails">
     <div ng-repeat="image in signal.images">
-      <a href="#" class="thumbnail">
-        <img data-ng-src="/img/signals/{{ signal._id }}/{{ image }}">
+      <a class="thumbnail" data-ng-click="$parent.currentImage = image">
+        <img data-ng-src="/img/signals/{{ signal._id }}/thumb/{{ image }}" >
       </a>
     </div>
   </div>
+  <div class="thumbnail">
+    <img  data-ng-src="/img/signals/{{ signal._id }}/{{ currentImage || signal.images[0]}}" >
+  </div>
+  
 </div>

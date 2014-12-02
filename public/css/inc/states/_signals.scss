@@ -1,5 +1,48 @@
 
 
+.image-add {
+  border: 0px;
+  background: none;
+  width: 90px;
+  height: 90px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 24px;
+  vertical-align: middle;
+  color: #fc6842;
+  > i {
+    display: block;
+    margin: auto;
+    margin-top: 8px;
+    border: 1px solid #fc6842;
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    line-height: 32px;
+    border-radius: 100%;
+  }
+  &:hover {
+    border: 1px dashed #fc6842;
+    > i {
+      background: #fc6842;
+      color: white;
+    }
+  }
+}
+
+.images-list {
+  display: inline-block;
+  > li {
+    display: inline-block;
+    margin: 2px;
+    border: 1px solid #EEE;
+    > img {
+      width: 90px;
+      height: 90px;
+    }
+  }
+}
+
 
 .signals-list {
   .thumbnail {
@@ -82,28 +125,6 @@
 }
 
 .signals-view {
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  .left-pane {
-    padding: 20px;
-    padding-top: 0px;
-    display: table-cell;
-    float: none;
-    background: $panel-bg;
-    border-radius: 4px 0px 0px 4px;
-    > div {
-      margin-top: 20px;
-    }
-  }
-  .right-pane {
-    padding: 20px;
-    background: #eeeeee;
-    display: table-cell;
-    float: none;
-    vertical-align: top;
-    border-radius: 0px 4px 4px 0px;
-    border-left: 1px solid #cccccc;
-  }
   .thumbnails {
     div {
       width: 23%;

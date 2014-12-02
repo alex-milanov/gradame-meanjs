@@ -24,18 +24,21 @@
     </div>
     <div class="form-group">
       <label class="control-label">Снимки</label>
-      <input type="file" 
-        accept="image/*" 
-        image="signal.images"
-        resize-max-height="800"
-        resize-max-width="800"
-        resize-quality="0.7" />
       <!--
       <p>Original</p>
       <img ng-if="signal.images" ng-src="{{signal.images.url}}" type="{{signal.images.file.type}}"/>
       <p>Resized</p>
       <img ng-if="signal.images" ng-src="{{signal.images.resized.dataURL}}"/>
       -->
+    </div>
+    <div class="form-group">
+      <ul class="images-list" data-ng-if="signal.images">
+        <li data-ng-repeat="image in signal.images"><img ng-src="{{image.thumbSize.dataUrl}}" /></li>
+      </ul>
+      <button class="image-add" multi-image-upload 
+        image-model="signal.images" max-size="800" thumb-size="90" event-listeners="imgUploadEvents">
+        <i class="fa fa-plus"></i> Добави снимка
+      </button>
     </div>
     <div class="form-group">
       <label class="control-label">Адрес</label>
