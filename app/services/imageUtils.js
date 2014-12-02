@@ -19,6 +19,8 @@ module.exports = function() {
 		'signal': 'signals'
 	}
 
+	var thumbDir = 'thumb';
+
 	var promiseMovedFile = function(sourcePath, destPath){
 
 	}
@@ -54,19 +56,24 @@ module.exports = function() {
 	imageUtilsService.decodeBase64Image = decodeBase64Image;
 
 	// todo convert to promise
-	imageUtilsService.processedImagesForResource = function(imageFiles, identifier, resource, fromDataUrl){
+	imageUtilsService.processedImagesForResource = function(imageFiles, identifier, resource, fromDataUrl, withThumbs){
 		
 		console.log(imageFiles, identifier, resource);
 		var basePath = path.join(baseImageDir,resourceDirs[resource],identifier+'');
+		var baseThumbPath = path.join(baseImageDir,resourceDirs[resource],identifier+'',thumbDir);
 		var baseUrl = path.join(baseImageUrl,resourceDirs[resource],identifier+'');
 		var images = []
 		if(!fs.existsSync(basePath) || !fs.statSync(basePath).isDirectory()){
 			fs.mkdirSync(basePath);
 		}
+		if(!fs.existsSync(baseThumbPath) || !fs.statSync(baseThumbPath).isDirectory()){
+			fs.mkdirSync(baseThumbPath);
+		}
+
+		var isThumb = false;
 
 		_.forIn(imageFiles, function(file, key) {
 			var ext, fileData;
-
 
 			if(fromDataUrl){
 				var response = decodeBase64Image(file);
@@ -77,10 +84,18 @@ module.exports = function() {
 				fileData = fs.readFileSync(file.path);
 			}
 
-			var baseName = identifier + '_' + moment() + ext;
-			images.push(path.join(baseName));
-				
-			fs.writeFileSync(basePath + '/' + baseName, fileData);
+			var baseName = '';
+
+			if(!withThumbs || !isThumb){
+				baseName = identifier + '_' + moment() + ext;
+				images.push(baseName);
+				fs.writeFileSync(basePath + '/' + baseName, fileData);
+			} else {
+				baseName = images[images.length-1];
+				fs.writeFileSync(path.join(baseThumbPath, baseName), fileData);
+			}
+
+			isThumb = !isThumb;
 
 			if(file.path)
 				fs.unlinkSync(file.path);

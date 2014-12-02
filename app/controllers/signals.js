@@ -28,6 +28,9 @@ exports.create = function(req, res) {
 
   var signal = new Signal(req.body);
 
+  if(signal.images)
+    delete(signal.images);
+
   if(req.user && req.user.id){
     signal.author = req.user.id;
   }
@@ -41,12 +44,12 @@ exports.create = function(req, res) {
     } else {
 
       // populate files
-      console.log(req.body);
-      if(req.body.image){
+      if(req.body.images){
 
         var fromDataUrl = true;
+        var withThumbs = true;
 
-        signal.images = imageUtilsService.processedImagesForResource([req.body.image],signal._id,'signal',fromDataUrl);
+        signal.images = imageUtilsService.processedImagesForResource(req.body.images,signal._id,'signal',fromDataUrl,withThumbs);
 
         signal.save(function(){
           if (err) {
