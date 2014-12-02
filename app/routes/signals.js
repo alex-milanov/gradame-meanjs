@@ -4,7 +4,9 @@ module.exports = function(app) {
   var users = require('../../app/controllers/users');
   var signals = require('../../app/controllers/signals');
   var multipart = require('connect-multiparty');
-  var multipartMiddleware = multipart();
+  var multipartMiddleware = multipart({
+    maxFieldsSize: '20MB'
+  });
 
   // Article Routes
   app.get('/api/signals', signals.list);
