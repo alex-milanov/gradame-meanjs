@@ -13,14 +13,11 @@ app.factory('Signal', ['$resource', function($resource) {
         formData.append(i, data[i]);
     }
 
-    console.log(images);
     if(images && images.length){
       for (var i = 0; i < images.length; i++) {
-        formData.append('image_'+i, images[i]);
+        formData.append('images[]', images[i].maxSize.dataUrl);
+        formData.append('images[]', images[i].thumbSize.dataUrl);
       }
-    } else {
-      //formData.append('image_0',images);
-      formData.append('image', images.resized.dataURL);
     }
 
     return formData;
