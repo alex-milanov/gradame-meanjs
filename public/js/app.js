@@ -5,7 +5,7 @@ var app = angular.module('gradame', [
   'ImageCropper',
   'angularFileUpload',
   'ur.file',
-  'imageupload',
+  //'imageupload',
   'google-maps',
   'ngResource',
   'ngStorage'
