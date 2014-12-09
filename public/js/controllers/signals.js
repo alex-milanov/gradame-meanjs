@@ -66,23 +66,7 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 
   $scope.init = function() {
     $timeout(function() {
-      var acOptions = {
-        types: ['geocode']
-      };
-      var autocompleteEl = document.getElementById('autocomplete');
-      // set up autocomplete
-      var autocomplete = new google.maps.places.Autocomplete(autocompleteEl,acOptions);
-      
-      Maps.getMap(function(map){
-        autocomplete.bindTo('bounds',map);
-
-        // handle autocomplete choices
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          var place = autocomplete.getPlace();
-
-          Maps.setPosition(place.geometry.location);
-
-        });
+        Maps.bindAutocomplete('autocomplete');
         $scope.load();
       });
 

@@ -153,6 +153,29 @@ app.factory('Maps',
       });
     }
 
+    Maps.bindAutocomplete= function(elementId){
+      Maps.getMap(function(map){
+        var acOptions = {
+          types: ['geocode']
+        };
+
+        var autocompleteEl = document.getElementById(elementId);
+        
+        // set up autocomplete
+        var autocomplete = new google.maps.places.Autocomplete(autocompleteEl,acOptions);
+      
+     
+        autocomplete.bindTo('bounds',map);
+
+        // handle autocomplete choices
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          var place = autocomplete.getPlace();
+
+          Maps.setPosition(place.geometry.location);
+
+        });
+      })
+    }
 
     return Maps;
   }]);
