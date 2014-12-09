@@ -16,7 +16,7 @@ header.navbar {
 		li {
 			height: 42px;
 			a {
-				font-family: 'BebasNeue';
+				font-family: $gradame-headings-font;
 				font-size: 20px;
 				color: #fff;
 				padding: 0px 10px;
@@ -56,7 +56,7 @@ header.navbar {
 				h3 {
 					margin: 0px;
 					padding: 10px 15px;
-					font-family: 'BebasNeue';
+					font-family: $gradame-headings-font;
 					a, a:hover {
 						color: #fff;
 					}
@@ -85,7 +85,7 @@ header.navbar {
 			padding: 20px;
 			background: white;
 			h3 {
-		  		font-family: 'BebasNeue';
+		  		font-family: $gradame-headings-font;
 				border-bottom: 1px solid;
 				margin: 0px;
 				margin-bottom: 20px;

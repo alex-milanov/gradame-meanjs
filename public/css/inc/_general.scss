@@ -3,7 +3,7 @@
 $font-size-small: 12px;
 
 body {
-  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: $gradame-text-font;
   -webkit-font-smoothing: antialiased;
   background: #fff;
   -webkit-background-size: cover;

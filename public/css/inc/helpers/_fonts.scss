@@ -1,1 +1,7 @@
-_fonts.scss
+	@import url(http://fonts.googleapis.com/css?family=Anaheim|Sniglet|Source+Code+Pro|Averia+Gruesa+Libre|Open+Sans&subset=latin,cyrillic);
+
+
+	@import '../../fonts/bebas/bebasneue';
+
+	$gradame-headings-font: 'BebasNeue';
+	$gradame-text-font: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
