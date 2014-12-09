@@ -66,10 +66,8 @@ app.controller('SignalsCtrl', function ($scope, $location, $http, $timeout, Sign
 
   $scope.init = function() {
     $timeout(function() {
-        Maps.bindAutocomplete('autocomplete');
-        $scope.load();
-      });
-
+      Maps.bindAutocomplete('autocomplete');
+      $scope.load();
     });
   }
   
