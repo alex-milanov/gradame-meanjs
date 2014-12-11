@@ -4,4 +4,10 @@
 		border-width: 1px;
 		border-bottom-width: 2px;
 		border-radius: 1px;
+		&:focus {
+			border-color: $gradame-color-orange-shadow;
+			outline: 0px;
+			-webkit-box-shadow: none; // rgba(0, 0, 0, 0.0745098) 0px 1px 1px inset, $gradame-color-orange-shadow 0px 0px 8px;
+			box-shadow: none; // rgba(0, 0, 0, 0.0745098) 0px 1px 1px inset, $gradame-color-orange-shadow 0px 0px 8px;
+		}
 	}

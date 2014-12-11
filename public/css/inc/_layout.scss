@@ -2,7 +2,7 @@
 
 /* general styles */
 header.navbar {
-	background: #fc6840;
+	background: $gradame-color-orange;
 	.navbar-header {
 		background: #fff;
 		.navbar-brand {
@@ -12,7 +12,7 @@ header.navbar {
 		}
 	}
 	.nav {
-		background: #fc6840;
+		background: $gradame-color-orange;
 		li {
 			height: 42px;
 			a {
@@ -25,7 +25,7 @@ header.navbar {
 				vertical-align: middle;
 			}
 			&:hover {
-				background: lighten(#fc6840, 5%);
+				background: lighten($gradame-color-orange, 5%);
 				.avatar img {
 					border: 1px solid #333;
 				}
@@ -61,7 +61,7 @@ header.navbar {
 						color: #fff;
 					}
 					> .fa {
-						color: #fc6842;
+						color: $gradame-color-orange;
 						font-size: 0.8em;
 						margin-right: 3px;
 						vertical-align: middle;
